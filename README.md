@@ -7,6 +7,7 @@ It is a project developed by students from the International Hellenic University
 We have chosen the following technologies in order to make a project that is scalable with big data
 | Part | Technologies |
 |--|--|
+| Project Managment | Jira |
 | UX/UI | Figma |
 | Front-end | React js |
 | Back-end | ASP .NET |
