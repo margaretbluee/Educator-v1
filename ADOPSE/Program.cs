@@ -1,5 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
@@ -16,6 +17,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+
+string allowedOrigin = Environment.GetEnvironmentVariable("ALLOWED_ORIGIN") ?? "https://localhost:44442";
+Console.Write(allowedOrigin + " Allowed Origin \n");
+
+app.UseCors(builder =>
+    builder.WithOrigins(allowedOrigin)
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+);
 
 
 app.MapControllerRoute(
