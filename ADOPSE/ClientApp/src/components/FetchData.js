@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { GetApiUrl } from '../apiurl';
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -52,7 +53,11 @@ export class FetchData extends Component {
   }
 
   async populateWeatherData() {
-    const response = await fetch('weatherforecast');
+    console.log(GetApiUrl())
+
+    const apiUrl = GetApiUrl()
+    
+    const response = await fetch(apiUrl + 'weatherforecast');
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
   }
