@@ -53,7 +53,6 @@ export class FetchData extends Component {
   }
 
   async populateWeatherData() {
-    console.log(GetApiUrl())
 
     const apiUrl = GetApiUrl()
     
