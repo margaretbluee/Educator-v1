@@ -4,7 +4,9 @@
 It is a project developed by students from the International Hellenic University department of Information Technology and Electronic Systems Engineering, as part of a semester project on the subject Development of Integrated Information Systems. The application is about a system that allows students to enroll in subjects and track the events related to those subjects.
 
 ## Technologies
-We have chosen the following technologies in order to make a project that is scalable with big data
+
+Our team has carefully evaluated and selected a range of cutting-edge technologies that are optimized to handle large-scale data, in order to ensure that our project is designed with scalability in mind. By leveraging these technologies, we can confidently build a system that can effectively manage and analyze complex data sets, enabling us to provide superior performance and maintain optimal efficiency as our data needs grow over time.
+
 | Part | Technologies |
 |--|--|
 | Project Managment | Jira |
