@@ -1,7 +1,15 @@
+using ADOPSE.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.Services.AddDbContext<MyDbContext>(options =>
+    options.UseMySql(connectionString,Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.35-mysql")));
+//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 
 builder.Services.AddControllersWithViews();
 
