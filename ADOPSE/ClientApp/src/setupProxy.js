@@ -6,7 +6,7 @@ const target = 'https://localhost:7014';
 //   env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'http://localhost:27774';
 
 const context = [
-  "/weatherforecast",
+  "/api",
 ];
 
 const onError = (err, req, resp, target) => {
@@ -20,6 +20,9 @@ module.exports = function (app) {
     // the ASP NET Core webserver is unavailable
     onError: onError,
     secure: false,
+    pathRewrite: {
+      '^/api': ''
+    },
     // Uncomment this line to add support for proxying websockets
     //ws: true, 
     headers: {
