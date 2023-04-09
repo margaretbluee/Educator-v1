@@ -1,3 +1,4 @@
+using System.Data.Common;
 using ADOPSE.Data;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -26,12 +27,6 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 
 Console.Write(connectionString + " Connection String \n"); 
 
-// var options = new DbContextOptionsBuilder<MyDbContext>()
-//     .UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.35-mysql"))
-//     .Options;
-
-
-
 
 builder.Services.AddControllersWithViews();
 
@@ -42,7 +37,14 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
-    Console.WriteLine(dbContext.Database.CanConnect() ? "Database connected successfully" : "Failed to connect to database");
+    try{
+        dbContext.Database.CanConnect();
+        Console.WriteLine("Database connected successfully");    
+    }
+    catch (DbException ex){
+        Console.WriteLine("Failed to connect to database");
+        Console.WriteLine(ex.Message);
+    }
 }
 
 // Configure the HTTP request pipeline.
