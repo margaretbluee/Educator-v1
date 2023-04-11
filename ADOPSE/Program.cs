@@ -1,7 +1,13 @@
 using ADOPSE.Data;
+using ADOPSE.Repositories;
+using ADOPSE.Repositories.IRepositories;
+using ADOPSE.Services;
+using ADOPSE.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<ILecturerService, LecturerService>();
+builder.Services.AddScoped<ILecturerRepository, LecturerRepository>();
 
 
 // Add services to the container.
