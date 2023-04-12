@@ -46,7 +46,7 @@ jobs:
       - name: Deploy with rsync
         run: rsync -avz --delete -e "ssh -p 1313" --exclude 'sqlData' buildTool/build/* educator@${{ secrets.SERVER_HOST }}:/home/educator/Dockerize/deployment
         
-      - name: Change Group and restart docker stracks
+      - name: Change Group and restart docker stracks 
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.SERVER_HOST }}
