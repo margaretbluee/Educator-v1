@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
-// import './paginator.css';
 
 
 
@@ -18,7 +16,7 @@ export function Paginator({ itemsPerPage, setCurrentItems, items }) {
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = items.slice(itemOffset, endOffset);
     setCurrentItems(currentItems);
-  }, [itemOffset, itemsPerPage, setCurrentItems]);
+  }, [itemOffset, itemsPerPage, setCurrentItems, items]);
 
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
