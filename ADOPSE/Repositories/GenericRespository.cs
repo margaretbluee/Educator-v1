@@ -1,4 +1,6 @@
-﻿using ADOPSE.Data;
+﻿#nullable disable
+
+using ADOPSE.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using ADOPSE.Repositories.IRepositories;
