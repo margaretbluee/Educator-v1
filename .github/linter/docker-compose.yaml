@@ -1,3 +1,4 @@
+---
 version: "3.8"
 services:
   linter:
@@ -13,4 +14,4 @@ services:
       VALIDATE_NATURAL_LANGUAGE: false
     working_dir: /tmp/lint
     volumes:
-      - D:\OneDrive\Documents\git\Educator:/tmp/lint
+      - ../..:/tmp/lint

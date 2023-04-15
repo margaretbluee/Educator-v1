@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import "./NavMenu.css";
 
-export class NavMenu extends Component {
+export default class NavMenu extends Component {
   static displayName = NavMenu.name;
 
   constructor(props) {
@@ -33,33 +33,43 @@ export class NavMenu extends Component {
       <header>
         <Navbar
           className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-          container
           light
         >
-          <NavbarBrand tag={Link} to="/">
-            ADOPSE
+          <NavbarBrand className="ms-3" tag={Link} to="/">
+            Educator
           </NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
+          <NavbarToggler onClick={this.toggleNavbar} className="me-2" />
           <Collapse
-            className="d-sm-inline-flex flex-sm-row-reverse"
+            className="d-sm-inline-flex flex-sm-row-reverse me-2"
             isOpen={!this.state.collapsed}
             navbar
           >
             <ul className="navbar-nav flex-grow">
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/">
-                  Home
+                  Dashboard
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/counter">
-                  Counter
+                  Modules
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/fetch-data">
-                  Fetch data
+                  My Learning
                 </NavLink>
+              </NavItem>
+              <NavItem className="login-register">
+                <div>
+                  <NavLink tag={Link} to="/login" className="text-dark">
+                    Login
+                  </NavLink>
+                  <span className="text-dark"> / </span>
+                  <NavLink tag={Link} to="/register" className="text-dark">
+                    Register
+                  </NavLink>
+                </div>
               </NavItem>
             </ul>
           </Collapse>
