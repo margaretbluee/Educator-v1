@@ -1,9 +1,21 @@
 ﻿/* stylelint-disable media-feature-range-notation */
+
+
 a.navbar-brand {
+  font-weight: bold;
+  font-size: 25px;
+  color: #FF7420;
+}
+
+/* .custom-brand {
+  margin-left: 20px !important;
+} */
+
+/* a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
-}
+} */
 
 html {
   font-size: 14px;
@@ -19,3 +31,17 @@ html {
   box-shadow: 0 0.25rem 0.75rem;
   color: rgb(0 0 0 / 5%);
 }
+
+.login-register {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.login-register a {
+  display: inline-block;
+}
+
+.login-register span {
+  display: inline-block;
+}
+
