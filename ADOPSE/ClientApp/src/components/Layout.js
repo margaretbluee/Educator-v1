@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from "react";
+import React, { useRef, useState, useLayoutEffect } from "react";
 import { Container } from "reactstrap";
 import NavMenu from "./NavMenu";
 import Footer from "./footer";
