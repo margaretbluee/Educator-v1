@@ -16,18 +16,18 @@ public class LecturerController : ControllerBase
         _logger = logger;
         _lecturerService = lecturerService;
     }
-    
+
     [HttpGet]
     public IEnumerable<Lecturer> Get()
     {
         return Enumerable.Range(1, 5).Select(index => new Lecturer
-            {
-               Id = 5,
-               Name = "Eimai mia katigoria",
-               Bio = "hellooooo",
-               Email = "aaa@gmail.com",
-               Website = "www.kati.gr"
-            })
+        {
+            Id = 5,
+            Name = "Eimai mia katigoria",
+            Bio = "hellooooo",
+            Email = "aaa@gmail.com",
+            Website = "www.kati.gr"
+        })
             .ToArray();
     }
 }

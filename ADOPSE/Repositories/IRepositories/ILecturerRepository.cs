@@ -4,5 +4,5 @@ namespace ADOPSE.Repositories.IRepositories;
 
 public interface ILecturerRepository : IGenericRepository<Lecturer>
 {
-    
+
 }

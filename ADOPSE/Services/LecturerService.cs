@@ -8,7 +8,7 @@ namespace ADOPSE.Services;
 public class LecturerService : ILecturerService
 {
     private readonly ILecturerRepository _lecturerRepository;
-    
+
     public LecturerService(ILecturerRepository lecturerRepository)
     {
         _lecturerRepository = lecturerRepository;
