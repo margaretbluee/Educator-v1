@@ -16,14 +16,14 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2.5.2
         with:
-          node-version: '18'
+          node-version: "18"
       - name: Install ADOPSE dependencies
         working-directory: ADOPSE/ClientApp
         run: npm install
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3.0.3
         with:
-          dotnet-version: '7.0'
+          dotnet-version: "7.0"
       - name: dotnet Depantancies
         working-directory: ADOPSE
         run: |
