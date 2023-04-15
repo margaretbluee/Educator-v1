@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate';
-
-
+import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 
 export function Paginator({ itemsPerPage, setCurrentItems, items }) {
   // Here we use item offsets; we could also use page offsets
@@ -27,40 +25,38 @@ export function Paginator({ itemsPerPage, setCurrentItems, items }) {
     setItemOffset(newOffset);
   };
 
-
   return (
     <>
       <nav aria-label="Page navigation comments" className="mt-4">
-          <ReactPaginate
-            previousLabel="previous"
-            nextLabel="next"
-            breakLabel="..."
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            pageCount={4}
-            pageRangeDisplayed={4}
-            marginPagesDisplayed={2}
-            onPageChange={handlePageClick}
-            
-            containerClassName="pagination justify-content-center"
-            pageClassName="page-class"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            activeClassName="active"
-            eslint-disable-next-line no-unused-vars
-            hrefBuilder={(page, pageCount, selected) =>
-              page >= 1 && page <= pageCount ? `/page/${page}` : '#'
-            }
-            hrefAllControls
-            onClick={(clickEvent) => {
-              console.log('onClick', clickEvent);
-
-            }}
-          />
-        </nav>
+        <ReactPaginate
+          previousLabel="previous"
+          nextLabel="next"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          pageCount={4}
+          pageRangeDisplayed={4}
+          marginPagesDisplayed={2}
+          onPageChange={handlePageClick}
+          containerClassName="pagination justify-content-center"
+          pageClassName="page-class"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          activeClassName="active"
+          eslint-disable-next-line
+          no-unused-vars
+          hrefBuilder={(page, pageCount, selected) =>
+            page >= 1 && page <= pageCount ? `/page/${page}` : "#"
+          }
+          hrefAllControls
+          onClick={(clickEvent) => {
+            console.log("onClick", clickEvent);
+          }}
+        />
+      </nav>
     </>
   );
 }
