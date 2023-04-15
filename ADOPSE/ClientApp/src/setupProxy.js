@@ -1,17 +1,15 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const { env } = require('process');
+const { createProxyMiddleware } = require("http-proxy-middleware");
+const { env } = require("process");
 
-const target = 'https://localhost:7014'; 
+const target = "https://localhost:7014";
 // const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
 //   env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'http://localhost:27774';
 
-const context = [
-  "/api",
-];
+const context = ["/api"];
 
 const onError = (err, req, resp, target) => {
-    console.error(`${err.message}`);
-}
+  console.error(`${err.message}`);
+};
 
 module.exports = function (app) {
   const appProxy = createProxyMiddleware(context, {
@@ -21,13 +19,13 @@ module.exports = function (app) {
     onError: onError,
     secure: false,
     pathRewrite: {
-      '^/api': ''
+      "^/api": "",
     },
     // Uncomment this line to add support for proxying websockets
-    //ws: true, 
+    //ws: true,
     headers: {
-      Connection: 'Keep-Alive'
-    }
+      Connection: "Keep-Alive",
+    },
   });
 
   app.use(appProxy);

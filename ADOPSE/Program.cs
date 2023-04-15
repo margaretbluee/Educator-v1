@@ -1,8 +1,14 @@
 using System.Data.Common;
 using ADOPSE.Data;
+using ADOPSE.Repositories;
+using ADOPSE.Repositories.IRepositories;
+using ADOPSE.Services;
+using ADOPSE.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<ILecturerService, LecturerService>();
+builder.Services.AddScoped<ILecturerRepository, LecturerRepository>();
 
 
 
@@ -22,9 +28,9 @@ connectionString = connectionString.Replace("${DB_HOST}", Environment.GetEnviron
 // Add services to the container.
 
 builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseMySql(connectionString,Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.35-mysql")));
+    options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.35-mysql")));
 
-Console.Write(connectionString + " Connection String \n"); 
+Console.Write(connectionString + " Connection String \n");
 
 
 builder.Services.AddControllersWithViews();
@@ -36,11 +42,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
-    try{
+    try
+    {
         dbContext.Database.CanConnect();
-        Console.WriteLine("Database connected successfully");    
+        Console.WriteLine("Database connected successfully");
     }
-    catch (DbException ex){
+    catch (DbException ex)
+    {
         Console.WriteLine("Failed to connect to database");
         Console.WriteLine(ex.Message);
     }
