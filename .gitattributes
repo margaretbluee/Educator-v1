@@ -1,1 +1,2 @@
 .github/workflows/* text eol=lf
+.github/linter/* text eol=lf
