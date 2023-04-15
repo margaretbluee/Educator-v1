@@ -1,10 +1,9 @@
 ﻿/* stylelint-disable media-feature-range-notation */
 
-
 a.navbar-brand {
   font-weight: bold;
   font-size: 25px;
-  color: #FF7420;
+  color: #ff7420;
 }
 
 /* .custom-brand {
@@ -44,4 +43,3 @@ html {
 .login-register span {
   display: inline-block;
 }
-

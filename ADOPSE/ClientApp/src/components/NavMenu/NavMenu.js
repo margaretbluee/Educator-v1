@@ -55,7 +55,7 @@ export default class NavMenu extends Component {
                   Modules
                 </NavLink>
               </NavItem>
-              <NavItem >
+              <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/fetch-data">
                   My Learning
                 </NavLink>
@@ -65,14 +65,12 @@ export default class NavMenu extends Component {
                   <NavLink tag={Link} to="/login" className="text-dark">
                     Login
                   </NavLink>
-                  <span> / </span>
+                  <span className="text-dark"> / </span>
                   <NavLink tag={Link} to="/register" className="text-dark">
                     Register
                   </NavLink>
                 </div>
               </NavItem>
-
-
             </ul>
           </Collapse>
         </Navbar>
