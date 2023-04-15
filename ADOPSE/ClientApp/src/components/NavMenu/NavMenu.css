@@ -31,9 +31,11 @@ html {
   color: rgb(0 0 0 / 5%);
 }
 
-.login-register {
-  display: inline-block;
-  margin-left: 20px;
+@media (min-width: 768px) {
+  .login-register {
+    display: inline-block;
+    margin-left: 20px;
+  }
 }
 
 .login-register a {
@@ -43,3 +45,11 @@ html {
 .login-register span {
   display: inline-block;
 }
+
+/* .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+} */
