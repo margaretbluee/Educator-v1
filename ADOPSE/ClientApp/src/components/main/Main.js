@@ -1,19 +1,19 @@
-import React from 'react';
-import styles from'./MainPage.module.css';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import React from "react";
+import styles from "./MainPage.module.css";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = momentLocalizer(moment);
 
 const events = [
   {
-    title: 'Meeting 1',
+    title: "Meeting 1",
     start: new Date(2023, 3, 5, 10, 0),
     end: new Date(2023, 3, 5, 11, 0),
   },
   {
-    title: 'Meeting 2',
+    title: "Meeting 2",
     start: new Date(2023, 3, 6, 14, 0),
     end: new Date(2023, 3, 6, 15, 0),
   },
@@ -28,7 +28,7 @@ const MainPage = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '100vh' }}
+        style={{ height: "100vh" }}
       />
       {/* <main className="App-main">
           <div className="left-section">

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -24,23 +24,27 @@ export class FetchData extends Component {
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
+          {forecasts.map((forecast) => (
             <tr key={forecast.date}>
               <td>{forecast.date}</td>
               <td>{forecast.temperatureC}</td>
               <td>{forecast.temperatureF}</td>
               <td>{forecast.summary}</td>
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     );
   }
 
   render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+    let contents = this.state.loading ? (
+      <p>
+        <em>Loading...</em>
+      </p>
+    ) : (
+      FetchData.renderForecastsTable(this.state.forecasts)
+    );
 
     return (
       <div>
@@ -52,7 +56,7 @@ export class FetchData extends Component {
   }
 
   async populateWeatherData() {
-    const response = await fetch('api/weatherforecast');
+    const response = await fetch("api/weatherforecast");
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
   }
