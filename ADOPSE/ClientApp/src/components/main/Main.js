@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./MainPage.module.css";
+import "./MainPage.scss";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -21,8 +21,8 @@ const events = [
 
 const MainPage = () => {
   return (
-    <div className={styles.mainPage}>
-      <h1 className={styles.heading}>Welcome to Educator!</h1>
+    <div className="main-page">
+      <h1 className="heading">Welcome to Educator!</h1>
       <Calendar
         localizer={localizer}
         events={events}
