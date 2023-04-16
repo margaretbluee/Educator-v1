@@ -8,7 +8,7 @@ import {
   NavLink,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import "./NavMenu.css";
+import "./NavMenu.scss";
 
 function NavMenu({ navbarRef }) {
   const [collapsed, setCollapsed] = useState(true);
