@@ -15,7 +15,7 @@ function NavMenu({ navbarRef }) {
   const toggleNavbar = () => setCollapsed(!collapsed);
 
   return (
-    <header ref={navbarRef} className="fixed-top">
+    <header ref={navbarRef} className="fixed-top navMenu">
       <Navbar
         className="navbar-expand-sm bg-white navbar-toggleable-sm ng-white border-bottom box-shadow"
         light

@@ -2,65 +2,65 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* set the height of the container to full viewport height */
-}
 
-.calendar {
-  flex-grow: 1; /* make the calendar take up remaining vertical space */
-  background-color: #fff;
+  .calendar {
+    flex-grow: 1; /* make the calendar take up remaining vertical space */
+    background-color: #fff;
 
-  /* Add your styles for the calendar here */
-}
+    /* Add your styles for the calendar here */
+  }
 
-.heading {
-  margin: 0;
-  color: #ff7420;
-  margin-top: 4%;
-  margin-bottom: 4%;
-}
+  .heading {
+    margin: 0;
+    color: #ff7420;
+    margin-top: 4%;
+    margin-bottom: 4%;
+  }
 
-.text {
-  margin-top: 20px;
-}
+  .text {
+    margin-top: 20px;
+  }
 
-/* Main - Second */
+  /* Main - Second */
 
-.app-main {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-}
+  .app-main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
 
-.left-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-}
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+  }
 
-.left-text {
-  font-size: 1.5rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
+  .left-text {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
 
-.orange-button {
-  background-color: orange;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  transition: background-color 0.3s ease;
-}
+  .orange-button {
+    background-color: orange;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+  }
 
-.orange-button:hover {
-  background-color: #ff8c00;
-}
+  .orange-button:hover {
+    background-color: #ff8c00;
+  }
 
-.right-section {
-  width: 50%;
+  .right-section {
+    width: 50%;
+  }
 }
