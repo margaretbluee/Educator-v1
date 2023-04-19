@@ -11,14 +11,14 @@ function Module(props) {
         <p className="event-school">{props.school}</p>
         <p className="event-subject">{props.subject}</p>
         <p className="event-subtype">{props.subject_type}</p>
-        <img src={graph} alt="" className="vectorIcon"></img>
+        <img src={graph} alt="" className="vector-icon"></img>
         <p className="event-difficulty">{props.difficulty}</p>
-        <img src={ratingStar} alt="" className="ratingIcon" />
+        <img src={ratingStar} alt="" className="rating-icon" />
         <p className="event-rating">{props.rating}</p>
-        <img src={users} alt="" className="enrolledIcon" />
+        <img src={users} alt="" className="enrolled-icon" />
         <p className="event-enrolled">{props.enrolled}</p>
         {/* <button className="enrolledButton" onClick={enrollStudents}> */}
-        <button className="enrolledButton">Enroll</button>
+        <button className="enrolled-button">Enroll</button>
       </div>
     </div>
   );

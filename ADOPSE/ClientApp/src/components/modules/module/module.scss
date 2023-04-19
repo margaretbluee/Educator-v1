@@ -1,4 +1,4 @@
-/*Testing*/
+/* Testing */
 .module {
   .box {
     height: 80%;
@@ -7,99 +7,106 @@
 
   margin: 30px;
   border-radius: 10px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  background-color: #ffffff;
+  box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
+  background-color: #fff;
   height: 293.75px; /* 235px * 1.25 = 293.75px */
   width: 387.5px; /* 310px * 1.25 = 387.5px */
-
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .eventHeader {
+  .event-header {
     position: absolute;
     bottom: 305px;
     left: 50px;
     font-size: 23px;
     font-weight: bold;
   }
-  /*style for the boxes at the bottom of the page*/
-  .eventsStyle {
+
+  /* style for the boxes at the bottom of the page */
+  .events-style {
     position: absolute;
     bottom: 35px;
     left: 9%;
-
     display: flex;
   }
-  /*style for every school*/
+
+  /* style for every school */
 
   .event-school {
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 2px;
   }
-  /*style for every subject*/
+
+  /* style for every subject */
   .event-subject {
     font-weight: bold;
     font-size: 17px;
     margin-bottom: 2px;
     color: darkorange;
   }
-  /*style for the type of the subject*/
+
+  /* style for the type of the subject */
   .event-subtype {
     font-weight: bold;
     font-size: 15px;
     margin-left: 20px;
   }
-  /*style and position for the small vector icon*/
-  .vectorIcon {
+
+  /* style and position for the small vector icon */
+  .vector-icon {
     width: 19px;
     height: 19px;
     margin-left: 10px;
     margin-top: 20px;
   }
-  /*style for the difficulty*/
+
+  /* style for the difficulty */
   .event-difficulty {
     font-weight: bold;
     font-size: 13px;
     margin-left: 30px;
     margin-top: -20px;
   }
-  /*style for the rating icon*/
-  .ratingIcon {
+
+  /* style for the rating icon */
+  .rating-icon {
     width: 19px;
     height: 19px;
     margin-left: 55%;
     margin-top: -80px;
   }
-  /*style for the rating*/
+
+  /* style for the rating */
   .event-rating {
     font-weight: bold;
     font-size: 13px;
     margin-left: 65%;
     margin-top: -60px;
   }
-  /*style for the enrolled in a subject icon*/
-  .enrolledIcon {
+
+  /* style for the enrolled in a subject icon */
+  .enrolled-icon {
     width: 19px;
     height: 19px;
     margin-left: 10px;
     margin-top: 20px;
   }
-  /*style for the enrolled info*/
+
+  /* style for the enrolled info */
   .event-enrolled {
     font-weight: bold;
     font-size: 13px;
     margin-left: 30px;
     margin-top: -20px;
   }
-  /*style for the enroll button*/
-  .enrolledButton {
+
+  /* style for the enroll button */
+  .enrolled-button {
     position: relative;
     background-color: darkorange;
     color: white;
-    font-size: 16px;
-    border: none;
     left: 70%;
     top: -50px;
     border-radius: 8px;

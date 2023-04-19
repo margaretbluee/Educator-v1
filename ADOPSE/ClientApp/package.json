@@ -61,7 +61,11 @@
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "lint": "eslint ./src/",
+    "lint:scss": "stylelint ./src/**/*.scss",
+    "lint:scss:fix": "stylelint --fix ./src/**/*.scss",
+    "lint:prettier": "prettier --check ./src/**/*.{js,jsx,ts,tsx,scss}",
+    "lint:prettier:fix": "prettier --write ./src/**/*.{js,jsx,ts,tsx,scss}"
   },
   "eslintConfig": {
     "extends": [
