@@ -20,14 +20,6 @@ public class LecturerController : ControllerBase
     [HttpGet]
     public IEnumerable<Lecturer> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new Lecturer
-        {
-            Id = 5,
-            Name = "Eimai mia katigoria",
-            Bio = "hellooooo",
-            Email = "aaa@gmail.com",
-            Website = "www.kati.gr"
-        })
-            .ToArray();
+        return _lecturerService.GetLecturers();
     }
 }
