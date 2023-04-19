@@ -42,10 +42,13 @@ jobs:
           known_hosts: "just-a-placeholder-so-we-dont-get-errors"
 
       - name: Set Known Hosts
-        run: ssh-keyscan -p 1313 -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+        run: >
+          ssh-keyscan -p 1313 -H ${{ secrets.SERVER_HOST }} 
+          >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz --delete -e "ssh -p 1313" --exclude 'sqlData' buildTool/build/* educator@${{ secrets.SERVER_HOST }}:/home/educator/Dockerize/deployment
+        run: rsync -avz --delete -e "ssh -p 1313" --exclude 'sqlData' \
+            buildTool/build/* educator@${{ secrets.SERVER_HOST }}:/home/educator/Dockerize/deployment
 
       - name: Change Group and restart docker stracks
         uses: appleboy/ssh-action@v0.1.9
