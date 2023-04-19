@@ -25,6 +25,6 @@ public class ModuleRepository : IModuleRepository
 
     public IEnumerable<Module> GetModuleStacks(int stackPointer)
     {
-        return _aspNetCoreNTierDbContext.Module.Skip(stackPointer * 10 - 10).Take(10); 
+        return _aspNetCoreNTierDbContext.Module.Skip(stackPointer * 10 - 10).Take(10);
     }
 }

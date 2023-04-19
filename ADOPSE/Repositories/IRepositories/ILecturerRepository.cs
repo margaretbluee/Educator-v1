@@ -9,6 +9,6 @@ public interface ILecturerRepository
     Lecturer GetLecturerById(int id);
 
     void UpdateLecturer(Lecturer lecturer);
-    
+
     void AddLecturer(Lecturer lecturer);
 }

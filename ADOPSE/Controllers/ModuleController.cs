@@ -16,15 +16,15 @@ public class ModuleController : ControllerBase
         _logger = logger;
         _moduleService = moduleService;
     }
-    
+
     [HttpGet]
     public IEnumerable<Module> Get()
     {
         return _moduleService.GetModules();
     }
-    
+
     [HttpGet("{id}")]
-    public ActionResult<Module>  GetModule(int id)
+    public ActionResult<Module> GetModule(int id)
     {
         Module module = _moduleService.GetModuleById(id);
         if (module == null)
