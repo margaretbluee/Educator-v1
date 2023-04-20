@@ -61,4 +61,7 @@
             </ResolvedFileToPublish>
         </ItemGroup> -->
     </Target>
+    <Target Name="Dev" AfterTargets="Run">
+        <Exec Command="dotnet run --environment=Development" EnvironmentVariables="DB_HOST=192.168.1.17;DB_PORT=3333;DB_NAME=ADOPSE" />
+    </Target>
 </Project>
