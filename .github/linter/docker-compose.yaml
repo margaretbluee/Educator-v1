@@ -17,6 +17,7 @@ services:
       # VALIDATE_JSON: false
       VALIDATE_MARKDOWN: false
       VALIDATE_NATURAL_LANGUAGE: false
+      VALIDATE_SQL: false
       VALIDATE_SQLFLUFF: false
     working_dir: /tmp/lint
     volumes:
