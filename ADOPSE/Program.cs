@@ -6,6 +6,7 @@ using ADOPSE.Services;
 using ADOPSE.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ILecturerService, LecturerService>();
 builder.Services.AddScoped<ILecturerRepository, LecturerRepository>();
@@ -14,13 +15,15 @@ builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 
 // string connectionString;
 
+bool hasDbEnvironment = Environment.GetEnvironmentVariables().Keys.Cast<string>().Any(key => key.StartsWith("DB"));
+
 string connectionString = builder.Configuration.GetConnectionString(
-                        !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DB_NAME")) ? "TestConnection" : "DefaultConnection")
+                        hasDbEnvironment ? "TestConnection" : "DefaultConnection")
                         ?? throw new InvalidOperationException("Connection string not found.");
 
 connectionString = connectionString.Replace("${DB_HOST}", Environment.GetEnvironmentVariable("DB_HOST") ?? "127.0.0.1")
                                      .Replace("${DB_PORT}", Environment.GetEnvironmentVariable("DB_PORT") ?? "3306")
-                                     .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "MyDB")
+                                     .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "mysql")
                                      .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "root")
                                      .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "root");
 

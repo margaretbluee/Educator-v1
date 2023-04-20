@@ -51,7 +51,7 @@ function Modules(props) {
   const eventsToShow = events.slice(0, 0 + 10);
 
   return (
-    <div className="container">
+    <div className="modules">
       {eventsToShow.map((event, index) => (
         <Module
           key={index}
