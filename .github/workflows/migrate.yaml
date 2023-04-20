@@ -43,4 +43,4 @@
           - name: Test MySQL connection
             run: |
               mysql -h 127.0.0.1 -P 3306 -u root -proot ADOPSE -e "show tables;"
-              flyway -url=jdbc:mysql://localhost:3306/ADOPSE -user=root -password=root migrate
+              flyway -cleanDisabled="false" -url=jdbc:mysql://localhost:3306/ADOPSE -user=root -password=root clean migrate
