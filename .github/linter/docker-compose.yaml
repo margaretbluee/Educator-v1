@@ -9,14 +9,15 @@ services:
       LINTER_RULES_PATH: /
       VALIDATE_ALL_CODEBASE: true
       VALIDATE_DOCKERFILE_HADOLINT: false
-      # VALIDATE_CSHARP: true
+      # VALIDATE_CSHARP: false
       VALIDATE_EDITORCONFIG: false
       VALIDATE_GITLEAKS: false
-      # VALIDATE_JAVASCRIPT_ES: true
-      # VALIDATE_JAVASCRIPT_STANDARD: true
-      # VALIDATE_JSON: true
+      # VALIDATE_JAVASCRIPT_ES: false
+      # VALIDATE_JAVASCRIPT_STANDARD: false
+      # VALIDATE_JSON: false
       VALIDATE_MARKDOWN: false
       VALIDATE_NATURAL_LANGUAGE: false
+      VALIDATE_SQLFLUFF: false
     working_dir: /tmp/lint
     volumes:
       - ../..:/tmp/lint

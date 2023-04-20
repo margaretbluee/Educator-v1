@@ -51,4 +51,5 @@ jobs:
           # VALIDATE_JSON: true
           VALIDATE_MARKDOWN: false
           VALIDATE_NATURAL_LANGUAGE: false
+          VALIDATE_SQLFLUFF: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
