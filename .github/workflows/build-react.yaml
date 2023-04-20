@@ -42,10 +42,14 @@ jobs:
           known_hosts: "just-a-placeholder-so-we-dont-get-errors"
 
       - name: Set Known Hosts
-        run: ssh-keyscan -p 1313 -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+        run: >
+          ssh-keyscan -p 1313 -H ${{ secrets.SERVER_HOST }} 
+          >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avz --delete -e "ssh -p 1313" --exclude 'sqlData' buildTool/build/* educator@${{ secrets.SERVER_HOST }}:/home/educator/Dockerize/deployment
+        run: |
+          rsync -avz --delete -e "ssh -p 1313" --exclude 'sqlData' \
+          buildTool/build/* educator@${{ secrets.SERVER_HOST }}:/home/educator/Dockerize/deployment
 
       - name: Change Group and restart docker stracks
         uses: appleboy/ssh-action@v0.1.9
@@ -58,3 +62,40 @@ jobs:
             chgrp -R Educator /home/educator/Dockerize/deployment/wwwroot
             chgrp -R Educator /home/educator/Dockerize/deployment/server
             bash -ic 'adopse restart'
+  migrate:
+    needs: build_and_deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SERVER_KEY }}
+          known_hosts: "just-a-placeholder-so-we-dont-get-errors"
+      - name: Print SSH directory contents
+        run: ls -al ~/.ssh
+
+
+      - name: Set Known Hosts
+        run: >
+          ssh-keyscan -p 1313 -H ${{ secrets.SERVER_HOST }} 
+          >> ~/.ssh/known_hosts
+          
+      - name: Set up SSH tunnel
+        run: ssh -fNL 3306:localhost:3306 educator@${{ secrets.SERVER_HOST }}  -p 1313 -i ~/.ssh/id_rsa
+        
+      - name: Install Flyway
+        run: |
+          wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.0.1/flyway-commandline-8.0.1-linux-x64.tar.gz | tar xvz
+          sudo ln -s "$(pwd)"/flyway-8.0.1/flyway /usr/local/bin/flyway
+          
+      - name: Copy migration scripts
+        run: |
+          cp -r sql/* .
+
+      - name: Test MySQL connection
+        run: |
+          mysql -h 127.0.0.1 -P 3306 -u root -proot ADOPSE -e "show tables;"
+          flyway -cleanDisabled="false" -url=jdbc:mysql://localhost:3306/ADOPSE -user=root -password=root clean migrate

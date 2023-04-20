@@ -8,14 +8,14 @@ import {
   NavLink,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import "./NavMenu.css";
+import "./NavMenu.scss";
 
 function NavMenu({ navbarRef }) {
   const [collapsed, setCollapsed] = useState(true);
   const toggleNavbar = () => setCollapsed(!collapsed);
 
   return (
-    <header ref={navbarRef} className="fixed-top">
+    <header ref={navbarRef} className="fixed-top nav-menu">
       <Navbar
         className="navbar-expand-sm bg-white navbar-toggleable-sm ng-white border-bottom box-shadow"
         light

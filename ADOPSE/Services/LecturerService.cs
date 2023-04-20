@@ -1,5 +1,4 @@
-﻿using ADOPSE.DTOs;
-using ADOPSE.Models;
+﻿using ADOPSE.Models;
 using ADOPSE.Repositories.IRepositories;
 using ADOPSE.Services.IServices;
 
@@ -14,30 +13,28 @@ public class LecturerService : ILecturerService
         _lecturerRepository = lecturerRepository;
     }
 
-    public async Task<List<LecturerDTO>> GetLecturers()
+
+    public IEnumerable<Lecturer> GetLecturers()
     {
-        // var usersToReturn = await _lecturerRepository.GetList();
-        //
-        // return usersToReturn;
-        throw new NotImplementedException();
+        return _lecturerRepository.GetAllLecturers();
     }
 
-    public Task<LecturerDTO> GetLecturer(int lecturerId)
+    public Lecturer GetLecturer(int lecturerId)
     {
         throw new NotImplementedException();
     }
 
-    public Task<LecturerDTO> AddLecturer(LecturerToAddDTO lecturerToAddDTO)
+    public void AddLecturer(Lecturer lecturerToAdd)
     {
         throw new NotImplementedException();
     }
 
-    public Task<LecturerDTO> UpdateLecturer(LecturerDTO lecturerToUpdateDTO)
+    public void UpdateLecturer(Lecturer lecturerToUpdate)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteLecturer(int lecturerId)
+    public void DeleteLecturer(int lecturerId)
     {
         throw new NotImplementedException();
     }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Modules from "./modules";
 
 export class Counter extends Component {
   static displayName = Counter.name;
@@ -17,19 +18,20 @@ export class Counter extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Counter</h1>
+      <Modules />
+      // <div>
+      //   <h1>Counter</h1>
 
-        <p>This is a small weird 2 up example of a React component.</p>
+      //   <p>This is a small weird 2 up example of a React component.</p>
 
-        <p aria-live="polite">
-          Current count: <strong>{this.state.currentCount}</strong>
-        </p>
+      //   <p aria-live="polite">
+      //     Current count: <strong>{this.state.currentCount}</strong>
+      //   </p>
 
-        <button className="btn btn-primary" onClick={this.incrementCounter}>
-          Increment
-        </button>
-      </div>
+      //   <button className="btn btn-primary" onClick={this.incrementCounter}>
+      //     Increment
+      //   </button>
+      // </div>
     );
   }
 }

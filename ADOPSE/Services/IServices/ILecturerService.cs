@@ -1,12 +1,12 @@
-﻿using ADOPSE.DTOs;
+﻿using ADOPSE.Models;
 
 namespace ADOPSE.Services.IServices;
 
 public interface ILecturerService
 {
-    Task<List<LecturerDTO>> GetLecturers();
-    Task<LecturerDTO> GetLecturer(int lecturerId);
-    Task<LecturerDTO> AddLecturer(LecturerToAddDTO lecturerToAddDTO);
-    Task<LecturerDTO> UpdateLecturer(LecturerDTO lecturerToUpdateDTO);
-    Task DeleteLecturer(int lecturerId);
+    IEnumerable<Lecturer> GetLecturers();
+    Lecturer GetLecturer(int lecturerId);
+    void AddLecturer(Lecturer lecturerToAdd);
+    void UpdateLecturer(Lecturer lecturerToUpdate);
+    void DeleteLecturer(int lecturerId);
 }

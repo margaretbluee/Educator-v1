@@ -40,10 +40,17 @@ jobs:
         env:
           DEFAULT_BRANCH: dev
           JAVASCRIPT_DEFAULT_STYLE: prettier
+          LINTER_RULES_PATH: /
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_DOCKERFILE_HADOLINT: false
+          # VALIDATE_CSHARP: true
           VALIDATE_EDITORCONFIG: false
           VALIDATE_GITLEAKS: false
+          # VALIDATE_JAVASCRIPT_ES: true
+          # VALIDATE_JAVASCRIPT_STANDARD: true
+          # VALIDATE_JSON: true
           VALIDATE_MARKDOWN: false
           VALIDATE_NATURAL_LANGUAGE: false
+          VALIDATE_SQL: false
+          VALIDATE_SQLFLUFF: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
