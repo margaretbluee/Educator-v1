@@ -45,11 +45,15 @@ function Modules(props) {
         console.error(error);
       }
     }
+    fetchModules();
+  }, [limit, offset]);
+
+
+  useEffect(() => {
     setLimit(10);
     setOffset((activeIndex - 1) * limit);
     navigate(`?page=${activeIndex}`, { replace: true });
-    fetchModules();
-  }, [activeIndex, limit, offset, navigate]);
+  }, [activeIndex, limit, navigate]);
 
   return (
     <>
