@@ -1,6 +1,7 @@
 import React from "react";
 import "./modules.scss";
 import Module from "./module";
+import ModuleFilter from "../ModuleFilter/ModuleFilter";
 
 const events = [
   {
@@ -43,6 +44,55 @@ const events = [
     rating: "5(10 ratings)",
     enrolled: "311",
   },
+  {
+    school: "ΜΗΧ. ΠΛΗΡΟΦΟΡΙΚΗΣ & ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ",
+    subject: "Ευφυή Συστήματα",
+    subject_type: "ΘΕΩΡΙΑ",
+    difficulty: "HARD",
+    rating: "5(10 ratings)",
+    enrolled: "311",
+  },
+  {
+    school: "ΜΗΧ. ΠΛΗΡΟΦΟΡΙΚΗΣ & ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ",
+    subject: "Ευφυή Συστήματα",
+    subject_type: "ΘΕΩΡΙΑ",
+    difficulty: "HARD",
+    rating: "5(10 ratings)",
+    enrolled: "311",
+  },
+  {
+    school: "ΜΗΧ. ΠΛΗΡΟΦΟΡΙΚΗΣ & ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ",
+    subject: "Ευφυή Συστήματα",
+    subject_type: "ΘΕΩΡΙΑ",
+    difficulty: "HARD",
+    rating: "5(10 ratings)",
+    enrolled: "311",
+  },
+  {
+    school: "ΜΗΧ. ΠΛΗΡΟΦΟΡΙΚΗΣ & ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ",
+    subject: "Ευφυή Συστήματα",
+    subject_type: "ΘΕΩΡΙΑ",
+    difficulty: "HARD",
+    rating: "5(10 ratings)",
+    enrolled: "311",
+  },
+  {
+    school: "ΜΗΧ. ΠΛΗΡΟΦΟΡΙΚΗΣ & ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ",
+    subject: "Ευφυή Συστήματα",
+    subject_type: "ΘΕΩΡΙΑ",
+    difficulty: "HARD",
+    rating: "5(10 ratings)",
+    enrolled: "311",
+  },
+  {
+    school: "ΜΗΧ. ΠΛΗΡΟΦΟΡΙΚΗΣ & ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ",
+    subject: "Ευφυή Συστήματα",
+    subject_type: "ΘΕΩΡΙΑ",
+    difficulty: "HARD",
+    rating: "5(10 ratings)",
+    enrolled: "311",
+  },
+    
   // Add more events as needed
 ];
 
@@ -51,19 +101,27 @@ function Modules(props) {
   const eventsToShow = events.slice(0, 0 + 10);
 
   return (
-    <div className="modules">
-      {eventsToShow.map((event, index) => (
-        <Module
-          key={index}
-          school={event.school}
-          subject={event.subject}
-          subject_type={event.subject_type}
-          difficulty={event.difficulty}
-          rating={event.rating}
-          enrolled={event.enrolled}
-        />
-      ))}
-    </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <ModuleFilter />
+        </div>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <div className="modules">
+            {eventsToShow.map((event, index) => (
+                <Module
+                    key={index}
+                    school={event.school}
+                    subject={event.subject}
+                    subject_type={event.subject_type}
+                    difficulty={event.difficulty}
+                    rating={event.rating}
+                    enrolled={event.enrolled}
+                />
+            ))}
+          </div>
+        </div>
+      </div>
+
   );
 }
 
