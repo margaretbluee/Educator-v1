@@ -1,4 +1,5 @@
 ﻿using ADOPSE.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ADOPSE.Services.IServices;
 
@@ -8,7 +9,6 @@ public interface IModuleService
 
     Module GetModuleById(int id);
 
-    IEnumerable<Module> GetModuleStacks(int stackPointer);
-
+    IActionResult GetModuleStacks(int limit, int offset);
 
 }

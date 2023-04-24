@@ -11,8 +11,6 @@ const Layout = (props) => {
   const [footerHeight, setFooterHeight] = useState(0);
 
   const handleSize = () => {
-    console.log(headerRef?.current?.clientHeight ?? 0);
-    console.log(footerRef?.current?.clientHeight ?? 0);
     setHeaderHeight(headerRef?.current?.clientHeight ?? 0);
     setFooterHeight(footerRef?.current?.clientHeight ?? 0);
   };

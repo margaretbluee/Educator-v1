@@ -33,9 +33,9 @@ public class ModuleController : ControllerBase
         return _moduleService.GetModuleById(id);
     }
 
-    [HttpGet("stack/{stackPointer}")]
-    public IEnumerable<Module> GetStack(int stackPointer)
+    [HttpGet("stack/{limit}/{offset}")]
+    public IActionResult GetStack(int limit, int offset)
     {
-        return _moduleService.GetModuleStacks(stackPointer);
+        return _moduleService.GetModuleStacks(limit, offset);
     }
 }
