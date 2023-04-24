@@ -36,7 +36,7 @@ function NavMenu({ navbarRef }) {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} className="text-dark" to="/counter">
+              <NavLink tag={Link} className="text-dark" to="/modules">
                 Modules
               </NavLink>
             </NavItem>
