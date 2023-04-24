@@ -1,2 +1,2 @@
-import Modules from "./modules";
-export default Modules;
+import modulePage from "./modulePage";
+export default modulePage;

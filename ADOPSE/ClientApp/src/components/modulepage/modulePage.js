@@ -1,10 +1,12 @@
 import React from "react";
-import Modules from "./components/modules/";
+import Modules from "./modules/";
 
-export function ModulesPage() {
+function ModulesPage() {
   return (
     <div>
       <Modules />
     </div>
   );
 }
+
+export default ModulesPage;
