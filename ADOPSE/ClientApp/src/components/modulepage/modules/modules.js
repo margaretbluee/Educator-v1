@@ -48,7 +48,6 @@ function Modules(props) {
     fetchModules();
   }, [limit, offset]);
 
-
   useEffect(() => {
     setLimit(10);
     setOffset((activeIndex - 1) * limit);
