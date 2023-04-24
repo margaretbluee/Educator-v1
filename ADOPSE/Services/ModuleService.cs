@@ -2,6 +2,8 @@
 using ADOPSE.Models;
 using ADOPSE.Repositories.IRepositories;
 using ADOPSE.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ADOPSE.Services;
 
@@ -24,8 +26,11 @@ public class ModuleService : IModuleService
         return _moduleRepository.GetModuleById(id);
     }
 
-    public IEnumerable<Module> GetModuleStacks(int stackPointer)
+    public IActionResult GetModuleStacks(int limit, int offset)
     {
-        return _moduleRepository.GetModuleStacks(stackPointer);
+        var modules = _moduleRepository.GetModuleStacks(limit, offset);
+        var count = _moduleRepository.GetModuleCount();
+        var response = new { count, modules };
+        return new JsonResult(response);
     }
 }

@@ -5,7 +5,6 @@ import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
 
 function Module(props) {
-  console.log(props.moduleKey);
   return (
     <div className="module">
       <div className="box">

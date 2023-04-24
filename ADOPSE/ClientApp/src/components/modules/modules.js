@@ -47,18 +47,28 @@ import Module from "./module";
 // ];
 
 function Modules(props) {
-  const [activeIndex, setActiveIndex] = useState(20);
-
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
   const [modules, setModules] = useState([]);
-  // const eventsToShow = events.slice(0, 0 + 10);
+  const [pages, setPages] = useState(null);
 
   useEffect(() => {
-    setActiveIndex(20);
-    fetch(`/api/module/stack/${activeIndex}`)
+    setActiveIndex(1);
+    setLimit(10);
+    fetch(`/api/module/stack/${limit}/${offset}`)
       .then((response) => response.json())
-      .then((data) => setModules(data))
+      .then((data) => {
+        setModules(data.modules);
+        setPages(Math.ceil(data.count / limit));
+      })
       .catch((error) => console.error(error));
-  }, [activeIndex]);
+  }, [offset, limit]);
+
+  useEffect(() => {
+    setOffset((activeIndex - 1) * limit);
+    pages !== null && console.log(pages);
+  }, [activeIndex, limit, pages]);
 
   return (
     <div className="modules">

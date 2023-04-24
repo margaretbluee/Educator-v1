@@ -8,7 +8,8 @@ public interface IModuleRepository
 
     Module GetModuleById(int id);
 
-    IEnumerable<Module> GetModuleStacks(int stackPointer);
+    IEnumerable<Module> GetModuleStacks(int limit, int offset);
 
+    int GetModuleCount();
 
 }

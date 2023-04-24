@@ -23,8 +23,13 @@ public class ModuleRepository : IModuleRepository
         return _aspNetCoreNTierDbContext.Module.Where(x => x.Id == id).FirstOrDefault();
     }
 
-    public IEnumerable<Module> GetModuleStacks(int stackPointer)
+    public int GetModuleCount()
     {
-        return _aspNetCoreNTierDbContext.Module.Skip(stackPointer * 10 - 10).Take(10);
+        return _aspNetCoreNTierDbContext.Module.Count();
+    }
+
+    public IEnumerable<Module> GetModuleStacks(int limit, int offset)
+    {
+        return _aspNetCoreNTierDbContext.Module.Skip(offset).Take(limit);
     }
 }
