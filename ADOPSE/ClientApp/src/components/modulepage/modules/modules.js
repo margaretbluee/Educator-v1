@@ -22,7 +22,7 @@ function Modules(props) {
   const [activeIndex, setActiveIndex] = useState(
     parseInt(new URLSearchParams(location.search).get("page")) || 1
   );
-  const [limit, setLimit] = useState(10);
+  const [limit] = useState(12);
   const [offset, setOffset] = useState(0);
   const [modules, setModules] = useState([]);
   const [pages, setPages] = useState(null);
@@ -69,13 +69,12 @@ function Modules(props) {
   }, [limit, offset]);
 
   useEffect(() => {
-    setLimit(10);
     setOffset((activeIndex - 1) * limit);
     navigate(`?page=${activeIndex}`, { replace: true });
   }, [activeIndex, limit, navigate]);
 
   return (
-    <>
+    <div>
       {isLoading ? ( // check if loading is true
         failedToLoad ? (
           <div>Failed to load modules. Please try again later.</div>
@@ -107,7 +106,7 @@ function Modules(props) {
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
 export default Modules;

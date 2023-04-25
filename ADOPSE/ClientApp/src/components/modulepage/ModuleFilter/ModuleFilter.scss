@@ -1,0 +1,31 @@
+.module-filter {
+  .filter-group {
+    margin-bottom: 16px;
+  }
+
+  .input-group {
+    display: inline-block;
+  }
+
+  .filter-group label {
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  .filter-group input[type="checkbox"] {
+    margin-right: 8px;
+    margin-top: 4px;
+  }
+
+  .filter-group input[type="text"] {
+    width: 65px; /* αλλάξτε το πλάτος όπως επιθυμείτε */
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+
+  ul {
+    list-style: none;
+  }
+  
+}
