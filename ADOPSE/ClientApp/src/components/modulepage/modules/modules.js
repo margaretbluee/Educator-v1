@@ -27,6 +27,7 @@ function Modules(props) {
   const [modules, setModules] = useState([]);
   const [pages, setPages] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [failedToLoad, setFailedToLoad] = useState(false);
 
   useEffect(() => {
     if (pages === null) return;
@@ -37,27 +38,34 @@ function Modules(props) {
 
   useEffect(() => {
     setIsLoading(true);
+    let retryCount = 0;
+    const maxRetries = 3;
+
     async function fetchModules() {
       try {
-        const response = await fetch(`/api/module/stack/${limit}/${offset}`);
+        const response = await Promise.race([
+          fetch(`/api/module/stack/${limit}/${offset}`),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 5000)
+          ),
+        ]);
         const data = await response.json();
         setModules(data.modules);
         setPages(Math.ceil(data.count / limit));
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
-      } finally {
-        setIsLoading(false); // set loading to false when fetch is complete
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying fetch... Attempt ${retryCount}`);
+          fetchModules();
+        } else {
+          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
+          setFailedToLoad(true);
+        }
       }
     }
     fetchModules();
-    // const timeoutId = setTimeout(() => {
-    //   fetchModules();
-    // }, 2000);
-
-    // // Clear the timeout if the component unmounts
-    // return () => {
-    //   clearTimeout(timeoutId);
-    // };
   }, [limit, offset]);
 
   useEffect(() => {
@@ -69,7 +77,11 @@ function Modules(props) {
   return (
     <>
       {isLoading ? ( // check if loading is true
-        <div>Loading...</div>
+        failedToLoad ? (
+          <div>Failed to load modules. Please try again later.</div>
+        ) : (
+          <div>Loading...</div>
+        )
       ) : (
         <>
           <div className="modules">
