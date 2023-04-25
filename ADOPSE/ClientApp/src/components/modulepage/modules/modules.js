@@ -26,6 +26,7 @@ function Modules(props) {
   const [offset, setOffset] = useState(0);
   const [modules, setModules] = useState([]);
   const [pages, setPages] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (pages === null) return;
@@ -35,6 +36,7 @@ function Modules(props) {
   }, [pages, activeIndex]);
 
   useEffect(() => {
+    setIsLoading(true);
     async function fetchModules() {
       try {
         const response = await fetch(`/api/module/stack/${limit}/${offset}`);
@@ -43,9 +45,19 @@ function Modules(props) {
         setPages(Math.ceil(data.count / limit));
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false); // set loading to false when fetch is complete
       }
     }
     fetchModules();
+    // const timeoutId = setTimeout(() => {
+    //   fetchModules();
+    // }, 2000);
+
+    // // Clear the timeout if the component unmounts
+    // return () => {
+    //   clearTimeout(timeoutId);
+    // };
   }, [limit, offset]);
 
   useEffect(() => {
@@ -56,20 +68,26 @@ function Modules(props) {
 
   return (
     <>
-      <div className="modules">
-        {modules.map((module, index) => (
-          <Module
-            key={module.id}
-            index={index}
-            school={module.name}
-            subject={module.name}
-            subject_type={module.moduleType}
-            difficulty={module.difficulty}
-            rating={module.rating}
-            enrolled={module.price}
-          />
-        ))}
-      </div>
+      {isLoading ? ( // check if loading is true
+        <div>Loading...</div>
+      ) : (
+        <>
+          <div className="modules">
+            {modules.map((module, index) => (
+              <Module
+                key={module.id}
+                index={index}
+                school={module.name}
+                subject={module.name}
+                subject_type={module.moduleType}
+                difficulty={module.difficulty}
+                rating={module.rating}
+                enrolled={module.price}
+              />
+            ))}
+          </div>
+        </>
+      )}
       {pages > 0 && (
         <Paginator
           pageCount={pages}
