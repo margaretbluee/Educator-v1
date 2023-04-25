@@ -98,14 +98,14 @@ function Modules(props) {
               />
             ))}
           </div>
+          {pages > 0 && (
+            <Paginator
+              pageCount={pages}
+              setActiveIndex={setActiveIndex}
+              activeIndex={activeIndex}
+            />
+          )}
         </>
-      )}
-      {pages > 0 && (
-        <Paginator
-          pageCount={pages}
-          setActiveIndex={setActiveIndex}
-          activeIndex={activeIndex}
-        />
       )}
     </>
   );
