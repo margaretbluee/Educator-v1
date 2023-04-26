@@ -1,3 +1,5 @@
+$module-width: 320px * 1.2;
+
 .module-filter {
   .filter-group {
     margin-bottom: 16px;
@@ -18,7 +20,7 @@
   }
 
   .filter-group input[type="text"] {
-    width: 65px; /* αλλάξτε το πλάτος όπως επιθυμείτε */
+    width: 60px; /* αλλάξτε το πλάτος όπως επιθυμείτε */
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ddd;
@@ -27,5 +29,8 @@
   ul {
     list-style: none;
   }
-  
+
+  .overlay {
+    width: 150px;
+  }
 }

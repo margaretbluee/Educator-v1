@@ -74,7 +74,7 @@ function Modules(props) {
   }, [activeIndex, limit, navigate]);
 
   return (
-    <div>
+    <div className="modules">
       {isLoading ? ( // check if loading is true
         failedToLoad ? (
           <div>Failed to load modules. Please try again later.</div>
@@ -83,8 +83,8 @@ function Modules(props) {
         )
       ) : (
         <>
-          <div className="modules">
-            {modules.map((module, index) => (
+          <div className="modules-main">
+            {modules.slice(0, modules.length - 1).map((module, index) => (
               <Module
                 key={module.id}
                 index={index}

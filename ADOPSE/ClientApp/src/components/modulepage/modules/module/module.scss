@@ -1,114 +1,156 @@
 /* Testing */
+$module-height: 235px * 1.2;
+$module-width: 320px * 1.2;
+
 .module {
+  position: relative;
+
   .box {
+    position: absolute;
     height: 80%;
     width: 80%;
   }
 
-  margin: 30px;
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
   background-color: #fff;
-  height: 235px; /* 235px * 1.25 = 293.75px */
-  width: 310px; /* 310px * 1.25 = 387.5px */
+  height: $module-height; /* 235px * 1.25 = 293.75px */
+  width: $module-width; /* 310px * 1.25 = 387.5px */
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .event-header {
-    position: absolute;
-    bottom: 305px;
-    left: 50px;
-    font-size: 23px;
-    font-weight: bold;
-  }
-
-  /* style for the boxes at the bottom of the page */
-  .events-style {
-    position: absolute;
-    bottom: 35px;
-    left: 9%;
-    display: flex;
-  }
-
   /* style for every school */
 
-  .event-school {
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 2px;
+  .title {
+    position: absolute;
+    border-bottom: 10px solid rgb(255 255 255);
+    background-color: rgb(255 255 255);
+
+    .school {
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .school:hover {
+      max-height: none;
+      background-color: rgb(255 255 255);
+      -webkit-line-clamp: 6; /* number of lines to show */
+    }
+
+    /* style for every subject */
+    .subject {
+      display: flex;
+
+      .subject-text {
+        font-weight: bold;
+        font-size: 17px;
+        color: darkorange;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .subject-text:hover {
+        max-height: none;
+        -webkit-line-clamp: 6; /* number of lines to show */
+        border-bottom: 1px solid rgb(255 255 255);
+      }
+    }
+
+    .subject:hover {
+      z-index: 1;
+    }
   }
 
-  /* style for every subject */
-  .event-subject {
-    font-weight: bold;
-    font-size: 17px;
-    margin-bottom: 2px;
-    color: darkorange;
+  .title:hover {
+    z-index: 1;
   }
 
   /* style for the type of the subject */
-  .event-subtype {
+  .subtype {
+    position: absolute;
     font-weight: bold;
     font-size: 15px;
-    margin-left: 20px;
+    bottom: 20%;
+    left: 30%;
   }
 
   /* style and position for the small vector icon */
-  .vector-icon {
-    width: 19px;
-    height: 19px;
-    margin-left: 10px;
-    margin-top: 20px;
-  }
 
-  /* style for the difficulty */
-  .event-difficulty {
-    font-weight: bold;
-    font-size: 13px;
-    margin-left: 30px;
-    margin-top: -20px;
+  .difficulty {
+    position: absolute;
+    bottom: 20%;
+    left: 0%;
+    display: flex;
+
+    .icon {
+      width: 19px;
+      height: 19px;
+    }
+
+    /* style for the difficulty */
+    .difficulty-value {
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 10px;
+    }
   }
 
   /* style for the rating icon */
-  .rating-icon {
-    width: 19px;
-    height: 19px;
-    margin-left: 55%;
-    margin-top: -80px;
-  }
+  .rating {
+    position: absolute;
+    bottom: 20%;
+    right: 0%;
+    display: flex;
 
-  /* style for the rating */
-  .event-rating {
-    font-weight: bold;
-    font-size: 13px;
-    margin-left: 65%;
-    margin-top: -60px;
+    .icon {
+      width: 19px;
+      height: 19px;
+    }
+
+    .number {
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 10px;
+    }
   }
 
   /* style for the enrolled in a subject icon */
-  .enrolled-icon {
-    width: 19px;
-    height: 19px;
-    margin-left: 10px;
-    margin-top: 20px;
-  }
+  .enrolled {
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    display: flex;
 
-  /* style for the enrolled info */
-  .event-enrolled {
-    font-weight: bold;
-    font-size: 13px;
-    margin-left: 30px;
-    margin-top: -20px;
+    .icon {
+      width: 19px;
+      height: 19px;
+    }
+
+    /* style for the enrolled info */
+    .number {
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 10px;
+    }
   }
 
   /* style for the enroll button */
   .enrolled-button {
-    position: relative;
+    position: absolute;
     background-color: darkorange;
     color: white;
-    left: 70%;
-    top: -50px;
+
+    // top: -50px;
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
@@ -117,5 +159,7 @@
     font-family: inherit;
     cursor: pointer;
     transition: border-color 0.25s;
+    bottom: 0%;
+    right: 0%;
   }
 }

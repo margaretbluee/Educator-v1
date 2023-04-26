@@ -1,5 +1,4 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
-import { Container } from "reactstrap";
 import NavMenu from "./NavMenu";
 import Footer from "./footer";
 
@@ -28,15 +27,19 @@ const Layout = (props) => {
   const containerStyle = {
     minHeight: `calc(100vh - ${headerHeight ?? 0}px - ${footerHeight ?? 0}px)`,
     paddingTop: "20px",
+    paddingLeft: "20px",
+    paddingRight: "20px",
+    height: "100%",
+    width: "100%",
   };
 
   return (
     <div>
       <NavMenu navbarRef={headerRef} />
       <div style={divStyle}>
-        <Container style={containerStyle} tag="main">
+        <div style={containerStyle} tag="main">
           {props.children}
-        </Container>
+        </div>
         <Footer footerRef={footerRef} />
       </div>
     </div>

@@ -1,8 +1,13 @@
 .modules {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  align-items: left;
+  width: 100%;
 
-  // justify-content: space-between;
+  .modules-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 320 * 1.2px);
+    grid-auto-rows: auto;
+    grid-auto-columns: 100%;
+    grid-gap: 30px;
+    align-items: center;
+    justify-content: center;
+  }
 }

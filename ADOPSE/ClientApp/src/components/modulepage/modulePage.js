@@ -1,16 +1,13 @@
 import React from "react";
 import Modules from "./modules/";
 import ModuleFilter from "./ModuleFilter";
+import "./modulepage.scss";
 
 function ModulesPage() {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>
-        <ModuleFilter />
-      </div>
-      <div style={{ display: "flex", gap: "10px" }}>
-        <Modules />
-      </div>
+    <div className="module-page">
+      <ModuleFilter />
+      <Modules />
     </div>
   );
 }
