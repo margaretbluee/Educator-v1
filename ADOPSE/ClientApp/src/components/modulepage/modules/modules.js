@@ -84,7 +84,7 @@ function Modules(props) {
       ) : (
         <>
           <div className="modules-main">
-            {modules.slice(0, modules.length - 1).map((module, index) => (
+            {modules.map((module, index) => (
               <Module
                 key={module.id}
                 index={index}
