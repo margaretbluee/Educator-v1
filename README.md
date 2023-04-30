@@ -1,7 +1,7 @@
 # Educator
 
 ## Project managment
-Excel link https://docs.google.com/spreadsheets/d/1cCJC3qaWkDWVEPkwp7py6i9lskQBGhpG/edit#gid=1079032614
+Excel link https://docs.google.com/spreadsheets/d/e/2PACX-1vT93u852ph-7iqtC3c3egdPGrvPUobJ9-Rr1zH8v_ZALWYN4kc3QLAd7xXMSJIrRt58jdQpHfaL7md2/pubhtml
 
 ## About
 
