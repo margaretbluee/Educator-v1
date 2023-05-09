@@ -41,8 +41,8 @@ public class AuthenticationController : ControllerBase
         if (identity != null)
         {
             var userClaims = identity.Claims;
-            var Username = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            return _aspNetCoreNTierDbContext.Student.Where(x => x.Username == Username).FirstOrDefault();
+            var Id = Int32.Parse(userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            return _aspNetCoreNTierDbContext.Student.Where(x => x.Id == Id).FirstOrDefault();
         }
         return null;
     }
@@ -75,7 +75,7 @@ public class AuthenticationController : ControllerBase
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier,user.Username),
+            new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
             // new Claim(ClaimTypes.Role,user.Role)
         };
         var token = new JwtSecurityToken(_config["Jwt:Issuer"],

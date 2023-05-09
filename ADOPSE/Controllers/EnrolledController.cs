@@ -1,5 +1,7 @@
-﻿using ADOPSE.Models;
+﻿using System.Security.Claims;
+using ADOPSE.Models;
 using ADOPSE.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADOPSE.Controllers;
@@ -17,9 +19,23 @@ public class EnrolledController : ControllerBase
         _enrolledService = enrolledService;
     }
 
+    [Authorize]
     [HttpGet]
     public IEnumerable<Module> Get()
     {
-        return _enrolledService.GetEnrolmentsById(300);
+        int studentId = GetClaimedStudentId();
+        return _enrolledService.GetEnrolmentsById(studentId);
+    }
+    
+    private int GetClaimedStudentId()
+    {
+        var identity = HttpContext.User.Identity as ClaimsIdentity;
+        if (identity != null)
+        {
+            var userClaims = identity.Claims;
+            var Id = Int32.Parse(userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            return Id;
+        }
+        return -1;
     }
 }
