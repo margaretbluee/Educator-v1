@@ -7,9 +7,9 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavMenu.scss";
-import {hasJWT,removeJWT} from "../authentication/authentication";
+import { hasJWT, removeJWT } from "../authentication/authentication";
 function NavMenu({ navbarRef }) {
   const [collapsed, setCollapsed] = useState(true);
   const toggleNavbar = () => setCollapsed(!collapsed);
@@ -48,26 +48,29 @@ function NavMenu({ navbarRef }) {
               </NavLink>
             </NavItem>
             <NavItem className="login-register">
-              {
-                hasJWT() ? 
-                    <div>
-                      <button  className="text-dark" onClick={() => {
-                        removeJWT();
-                        navigate('/login')
-                      }}>
-                        Logout
-                      </button>
-                    </div> : 
-                    <div>
-                      <NavLink tag={Link} to="/login" className="text-dark">
-                        Login
-                      </NavLink>
-                      <span className="text-dark"> / </span>
-                      <NavLink tag={Link} to="/register" className="text-dark">
-                        Register
-                      </NavLink>
-                    </div>
-              }
+              {hasJWT() ? (
+                <div>
+                  <button
+                    className="text-dark"
+                    onClick={() => {
+                      removeJWT();
+                      navigate("/login");
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <NavLink tag={Link} to="/login" className="text-dark">
+                    Login
+                  </NavLink>
+                  <span className="text-dark"> / </span>
+                  <NavLink tag={Link} to="/register" className="text-dark">
+                    Register
+                  </NavLink>
+                </div>
+              )}
             </NavItem>
           </ul>
         </Collapse>

@@ -1,45 +1,44 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./Login.scss";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
+// import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login(props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
-    event.preventDefault(); 
-    
-    console.log("Start Login")
+    event.preventDefault();
+
+    console.log("Start Login");
     try {
-      const response = await fetch('/api/authentication/login', {
-        method: 'POST',
+      const response = await fetch("/api/authentication/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept' : '*/*',
-          'Accept-Encoding' : 'gzip, deflate, br',
-          'Connection' : 'keep-alive'
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          "Accept-Encoding": "gzip, deflate, br",
+          Connection: "keep-alive",
         },
-        body: `{"username": "${username}","password": "${password}","email": "x@x.x"}`
+        body: `{"username": "${username}","password": "${password}","email": "x@x.x"}`,
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Login response")
-        console.log(data)
-        localStorage.setItem('token', data.token);
-        navigate('/')
+        console.log("Login response");
+        console.log(data);
+        localStorage.setItem("token", data.token);
+        navigate("/");
         // Redirect to dashboard or home page
       } else {
-        throw new Error('Login failed');
+        throw new Error("Login failed");
       }
     } catch (error) {
       console.error(error);
     }
   };
-  
-  
+
   return (
     <div className="page-login">
       <h2 className="login-title">Educator</h2>
@@ -71,7 +70,7 @@ function Login(props) {
               Forgot your password?
             </a>
           </div>
-          <button type="submit" className="login-btn"  onClick={handleLogin}>
+          <button type="submit" className="login-btn" onClick={handleLogin}>
             Login
           </button>
         </form>

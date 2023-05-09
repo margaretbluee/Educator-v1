@@ -18,8 +18,10 @@ builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IEnrolledRepository, EnrolledRepository>();
 builder.Services.AddScoped<IEnrolledService, EnrolledService>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
-    options.TokenValidationParameters = new TokenValidationParameters {
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,

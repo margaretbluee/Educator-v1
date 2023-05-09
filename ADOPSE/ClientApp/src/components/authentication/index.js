@@ -1,2 +1,2 @@
-﻿import {hasJWT} from "./authentication";
-import {removeJWT} from "./authentication";
+﻿import { hasJWT } from "./authentication";
+import { removeJWT } from "./authentication";

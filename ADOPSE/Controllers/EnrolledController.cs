@@ -26,7 +26,7 @@ public class EnrolledController : ControllerBase
         int studentId = GetClaimedStudentId();
         return _enrolledService.GetEnrolmentsById(studentId);
     }
-    
+
     private int GetClaimedStudentId()
     {
         var identity = HttpContext.User.Identity as ClaimsIdentity;

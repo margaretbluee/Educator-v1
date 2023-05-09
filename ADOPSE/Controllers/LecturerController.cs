@@ -36,14 +36,14 @@ public class LecturerController : ControllerBase
     {
         string ApiKey = "AIzaSyChezRdUkRUJ39V-HxmBgj9qhNZCC6CEXw";
         string calendarId = "6a1646dbcd734091a136e1ba65003858676eeb98ab176c4e5eb7116b98d1c733@group.calendar.google.com";
-        
+
 
         var service = new CalendarService(new BaseClientService.Initializer()
         {
             ApiKey = ApiKey,
             ApplicationName = "ADOPSE",
         });
-        
+
         // Then, use the EventsResource.List method to get all events from the default calendar:
         EventsResource.ListRequest request = service.Events.List(calendarId);
         request.TimeMin = DateTime.Now;
@@ -54,7 +54,7 @@ public class LecturerController : ControllerBase
         Events events = await request.ExecuteAsync();
         IList<Event> items = events.Items;
 
-// Finally, you can loop through the list of events and print out some details:
+        // Finally, you can loop through the list of events and print out some details:
         if (items != null && items.Count > 0)
         {
             foreach (var eventItem in items)
@@ -81,7 +81,7 @@ public class LecturerController : ControllerBase
         // {
         //     _logger.LogInformation($"Holiday : {item.Summary}, {item.Start}, {item.End}");
         // }
-        
+
         return new Lecturer
         {
             Name = "aaa"

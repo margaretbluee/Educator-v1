@@ -1,2 +1,2 @@
-﻿import MyLearning from "./MyLearning";
+import MyLearning from "./MyLearning";
 export default MyLearning;

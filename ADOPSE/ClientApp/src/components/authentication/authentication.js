@@ -1,13 +1,12 @@
-﻿export function hasJWT() {
-    let flag = false;
+export function hasJWT() {
+  let flag = false;
 
-    //check user has JWT token
-    localStorage.getItem("token") ? flag=true : flag=false
+  //check user has JWT token
+  localStorage.getItem("token") ? (flag = true) : (flag = false);
 
-    return flag
+  return flag;
 }
 
-export function removeJWT()
-{
-    localStorage.removeItem("token");
+export function removeJWT() {
+  localStorage.removeItem("token");
 }

@@ -51,7 +51,7 @@ public class AuthenticationController : ControllerBase
     [HttpGet]
     public IEnumerable<Student> GetAllStudents()
     {
-       return _aspNetCoreNTierDbContext.Student.ToList();
+        return _aspNetCoreNTierDbContext.Student.ToList();
     }
 
     [AllowAnonymous]
@@ -68,7 +68,7 @@ public class AuthenticationController : ControllerBase
 
         return NotFound("user not found");
     }
-    
+
     // To generate token
     private string GenerateToken(Student user)
     {
