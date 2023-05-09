@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "./Login.scss";
+import axios from "axios";
 
 function Login(props) {
   const [username, setUsername] = useState('');
@@ -13,15 +14,12 @@ function Login(props) {
       const response = await fetch('/api/authentication/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept' : '*/*',
+          'Accept-Encoding' : 'gzip, deflate, br',
+          'Connection' : 'keep-alive'
         },
-        body: JSON.stringify(
-            {
-              "username" : username,
-              "password" : password,
-              "email" : "x@x.gr"
-            }
-        )
+        body: `{"username": "${username}","password": "${password}","email": "x@x.x"}`
       });
 
       if (response.ok) {
@@ -37,8 +35,8 @@ function Login(props) {
       console.error(error);
     }
   };
-
-
+  
+  
   return (
     <div className="page-login">
       <h2 className="login-title">Educator</h2>

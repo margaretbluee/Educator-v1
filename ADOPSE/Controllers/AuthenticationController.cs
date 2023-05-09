@@ -62,7 +62,8 @@ public class AuthenticationController : ControllerBase
         if (user != null)
         {
             var token = GenerateToken(user);
-            return Ok(token);
+            var json = new JsonResult(new { token });
+            return json;
         }
 
         return NotFound("user not found");
