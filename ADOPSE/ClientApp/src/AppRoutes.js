@@ -3,6 +3,7 @@ import { Home } from "./components/Home";
 import Login from "./components/login";
 import Register from "./components/register";
 import ModulePage from "./components/modulepage/";
+import MyLearning from "./components/myLearning";
 
 const AppRoutes = [
   {
@@ -15,7 +16,7 @@ const AppRoutes = [
   },
   {
     path: "/fetch-data",
-    element: <FetchData />,
+    element: <MyLearning />,
   },
   {
     path: "/login",

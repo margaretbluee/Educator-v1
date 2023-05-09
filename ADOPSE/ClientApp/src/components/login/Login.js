@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import "./Login.scss";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
 
   const handleLogin = async (event) => {
     event.preventDefault(); 
@@ -27,6 +29,7 @@ function Login(props) {
         console.log("Login response")
         console.log(data)
         localStorage.setItem('token', data.token);
+        navigate('/')
         // Redirect to dashboard or home page
       } else {
         throw new Error('Login failed');
