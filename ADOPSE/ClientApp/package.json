@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^1.4.0",
     "bootstrap": "^5.2.0",
     "caniuse-lite": "^1.0.30001476",
     "http-proxy-middleware": "^2.0.6",

@@ -1,7 +1,44 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Login.scss";
 
 function Login(props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async (event) => {
+    event.preventDefault(); 
+    
+    console.log("Start Login")
+    try {
+      const response = await fetch('/api/authentication/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+              "username" : username,
+              "password" : password,
+              "email" : "x@x.gr"
+            }
+        )
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login response")
+        console.log(data)
+        localStorage.setItem('token', data.token);
+        // Redirect to dashboard or home page
+      } else {
+        throw new Error('Login failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   return (
     <div className="page-login">
       <h2 className="login-title">Educator</h2>
@@ -13,6 +50,7 @@ function Login(props) {
             id="username"
             name="username"
             className="login-input"
+            onChange={(e) => setUsername(e.target.value)}
           />
           <br />
           <label htmlFor="password">Password:</label>
@@ -21,6 +59,7 @@ function Login(props) {
             id="password"
             name="password"
             className="login-input"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <br />
           <div className="login-options">
@@ -31,7 +70,7 @@ function Login(props) {
               Forgot your password?
             </a>
           </div>
-          <button type="submit" className="login-btn">
+          <button type="submit" className="login-btn"  onClick={handleLogin}>
             Login
           </button>
         </form>
