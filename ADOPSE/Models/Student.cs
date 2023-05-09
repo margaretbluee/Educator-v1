@@ -11,4 +11,9 @@ public class Student
     public string Password { get; set; }
     [EmailAddress]
     public string Email { get; set; }
+
+    public override string ToString()
+    {
+        return $"{nameof(Id)}: {Id}, {nameof(Username)}: {Username}, {nameof(Password)}: {Password}, {nameof(Email)}: {Email}";
+    }
 }
