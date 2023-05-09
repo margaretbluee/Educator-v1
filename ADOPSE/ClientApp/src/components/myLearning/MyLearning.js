@@ -32,7 +32,13 @@ function MyLearning() {
             {
                 hasJWT() ? 
                     <div>
-                        You are auth
+                        <ul>
+                            {
+                                modules.map((module) => (
+                                    <li>{module.name}</li>
+                                ))
+                            }
+                        </ul>
                     </div> :
                     <div>
                         No auth
