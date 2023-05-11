@@ -69,6 +69,21 @@ public class AuthenticationController : ControllerBase
         return NotFound("user not found");
     }
 
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public IActionResult Register([FromBody] Student newStudent)
+    {
+        var user = ExistsAlreadyStudent(newStudent);
+        if (user == null)
+        {
+            _aspNetCoreNTierDbContext.Student.Add(newStudent);
+            _aspNetCoreNTierDbContext.SaveChanges();
+            var createdStudent = $"Student {newStudent} created successfully";
+            return new JsonResult(new { createdStudent });
+        }
+        return BadRequest("aaaaaaaaaaaaaaaaaaaaa");
+    }
+
     // To generate token
     private string GenerateToken(Student user)
     {
@@ -88,6 +103,17 @@ public class AuthenticationController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
 
+    }
+
+    private Student ExistsAlreadyStudent(Student studentToCheck)
+    {
+        var currentUser = _aspNetCoreNTierDbContext.Student.FirstOrDefault(x => x.Username.ToLower() ==
+            studentToCheck.Username.ToLower() || x.Email == studentToCheck.Email);
+        if (currentUser != null)
+        {
+            return currentUser;
+        }
+        return null;
     }
 
     //To authenticate user
