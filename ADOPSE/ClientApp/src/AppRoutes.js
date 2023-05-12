@@ -4,6 +4,7 @@ import Login from "./components/login";
 import Register from "./components/register";
 import ModulePage from "./components/modulepage/";
 import MyLearning from "./components/myLearning";
+import GoogleCalendar from "./components/googleCalendar";
 
 const AppRoutes = [
   {
@@ -25,6 +26,10 @@ const AppRoutes = [
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/googleCalendar",
+    element: <GoogleCalendar />,
   },
 ];
 

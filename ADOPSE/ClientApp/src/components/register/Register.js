@@ -9,12 +9,14 @@ function Register(props) {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const key = 'updatable';
 
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
     messageApi.open({
-      type: 'success',
-      content: 'This is a success message',
+      key,
+      type: 'loading',
+      content: 'creation...',
       style: {
         marginTop: '60px',
       },
@@ -42,6 +44,12 @@ function Register(props) {
         const data = await response.json();
         console.log(data);
         success();
+        messageApi.open({
+          key,
+          type: 'success',
+          content: 'Loaded!',
+          duration: 2,
+        });
         // navigate("/login");
       } else {
         throw new Error("Register failed");
