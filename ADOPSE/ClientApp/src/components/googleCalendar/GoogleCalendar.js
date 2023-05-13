@@ -23,9 +23,10 @@ function GoogleCalendar(props) {
         await supabase.auth.signOut();
     }
     
-    async function retrieveData()
+    async function retrieveEventsFromCalendar(calendarId)
     {
-        await fetch("https://www.googleapis.com/calendar/v3/calendars/f7330b12b3c55cba4e3ef9ad8de3dc0bbf583a4d4f9d9ca7821f56b8fbc67647%40group.calendar.google.com/events", {
+        let toReturn;
+        await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`, {
             method: "GET",
             headers: {
                 'Authorization':'Bearer ' + session.provider_token // Access token for google
@@ -33,9 +34,41 @@ function GoogleCalendar(props) {
         }).then((data) => {
             return data.json();
         }).then((data) => {
-            console.log(data);
-            alert("Event created, check your Google Calendar!");
+            console.log(data.items);
+            toReturn = data.items;
+            // return data.items;
+            // alert("Event created, check your Google Calendar!");
         });
+        
+        return toReturn;
+    }
+    
+    async function retrieveAllEvents()
+    {
+        var calendarsId = []
+        var events = []
+        await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList",{
+            method: "GET",
+            headers: {
+                'Authorization':'Bearer ' + session.provider_token // Access token for google
+            }
+        }).then((data) => {
+            return data.json();
+        }).then((data) => {
+            // console.log(data.items);
+            
+            data.items.forEach((calendar) => calendarsId.push(calendar.id));
+            // console.log(calendarsId);
+            alert("Calendar List retrieved");
+        });
+        
+        console.log("finish");
+
+        for (let i = 1; i < calendarsId.length; i++)
+        {
+               events.push(await retrieveEventsFromCalendar(calendarsId[i]));
+        }
+        console.log(events);
     }
 
     
@@ -46,7 +79,7 @@ function GoogleCalendar(props) {
                     <>
                         <h2>Hey there {session.user.email}</h2>
                         <button onClick={() => signOut()}>Sign Out</button>
-                        <button onClick={() => retrieveData()}>Retrieve</button>  
+                        <button onClick={() => retrieveAllEvents()}>Retrieve</button>  
                     </>
                     :
                     <>
