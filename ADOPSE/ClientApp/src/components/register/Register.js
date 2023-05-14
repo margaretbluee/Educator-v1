@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Register.scss";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
 function Register(props) {
