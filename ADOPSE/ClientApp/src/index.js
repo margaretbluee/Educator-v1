@@ -6,14 +6,13 @@ import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 
-import { createClient } from '@supabase/supabase-js';
-import { SessionContextProvider } from '@supabase/auth-helpers-react';
+import { createClient } from "@supabase/supabase-js";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
 
 const supabase = createClient(
-    "https://wlwsdjixkmgmspevjwej.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsd3Nkaml4a21nbXNwZXZqd2VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODM4MjI3ODcsImV4cCI6MTk5OTM5ODc4N30.7vYodtc7_88yNSHVUq8hlHH3QEpm7OuiJ-0dFOCM0ec"
+  "https://wlwsdjixkmgmspevjwej.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsd3Nkaml4a21nbXNwZXZqd2VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODM4MjI3ODcsImV4cCI6MTk5OTM5ODc4N30.7vYodtc7_88yNSHVUq8hlHH3QEpm7OuiJ-0dFOCM0ec"
 );
-
 
 const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");
 const rootElement = document.getElementById("root");
@@ -21,9 +20,9 @@ const root = createRoot(rootElement);
 
 root.render(
   <BrowserRouter basename={baseUrl}>
-      <SessionContextProvider supabaseClient={supabase}>
-        <App />
-      </SessionContextProvider>
+    <SessionContextProvider supabaseClient={supabase}>
+      <App />
+    </SessionContextProvider>
   </BrowserRouter>
 );
 

@@ -4,6 +4,7 @@ import { Button } from "reactstrap";
 
 function ModuleFilter() {
   const [showOverlay, setShowOverlay] = useState(true);
+  const [toggled, setToggled] = useState(true);
   // const [minPrice, setMinPrice] = useState('');
   // const [maxPrice, setMaxPrice] = useState('');
   // const [workshop, setWorkshop] = useState(false);
@@ -19,11 +20,25 @@ function ModuleFilter() {
 
   const toggleOverlay = () => {
     setShowOverlay(!showOverlay);
+    setToggled(!toggled);
   };
 
   return (
     <div className="module-filter">
-      <button onClick={toggleOverlay}>Filter</button>
+      <div className="filter-button">
+        <div className="filter-box">
+          <svg
+            className={`filter-burger ${toggled ? "toggled" : ""} bi bi-filter`}
+            onClick={toggleOverlay}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+          </svg>
+        </div>
+      </div>
+      {/* <button >Filter</button> */}
       {showOverlay && (
         <div className="overlay">
           <div className="filter-container">

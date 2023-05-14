@@ -1,32 +1,33 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./Register.scss";
-import {useNavigate} from "react-router-dom";
-import {message} from "antd";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function Register(props) {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const key = 'updatable';
+  const key = "updatable";
 
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
     messageApi.open({
       key,
-      type: 'loading',
-      content: 'creation...',
+      type: "loading",
+      content: "creation...",
       style: {
-        marginTop: '60px',
+        marginTop: "60px",
       },
     });
   };
-  
+
   const handleRegister = async (event) => {
     event.preventDefault();
-    
-    console.log(`{"username": "${username}","password": "${password}","email": "${email}"}`)
+
+    console.log(
+      `{"username": "${username}","password": "${password}","email": "${email}"}`
+    );
 
     try {
       const response = await fetch("/api/authentication/register", {
@@ -46,8 +47,8 @@ function Register(props) {
         success();
         messageApi.open({
           key,
-          type: 'success',
-          content: 'Loaded!',
+          type: "success",
+          content: "Loaded!",
           duration: 2,
         });
         // navigate("/login");
@@ -57,8 +58,8 @@ function Register(props) {
     } catch (error) {
       console.error(error);
     }
-  }
-  
+  };
+
   return (
     <div className="register-screen">
       {contextHolder}
@@ -66,13 +67,28 @@ function Register(props) {
       <div className="register-box">
         <form>
           <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" onChange={(e) => setUsername(e.target.value)}/>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <br />
           <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" onChange={(e) => setEmail(e.target.value)}/>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <br />
           <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" onChange={(e) => setPassword(e.target.value)} />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <br />
           <div className="register-options">
             <label>
@@ -80,7 +96,9 @@ function Register(props) {
               Service
             </label>
           </div>
-          <button type="submit" onClick={handleRegister}>Register</button>
+          <button type="submit" onClick={handleRegister}>
+            Register
+          </button>
         </form>
         <p className="login-link">
           Already a member? <a href="/login">Login</a>

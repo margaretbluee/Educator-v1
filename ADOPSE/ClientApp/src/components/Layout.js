@@ -26,10 +26,10 @@ const Layout = (props) => {
 
   const containerStyle = {
     minHeight: `calc(100vh - ${headerHeight ?? 0}px - ${footerHeight ?? 0}px)`,
-    paddingTop: "20px",
-    paddingBottom: "20px",
-    paddingLeft: "20px",
-    paddingRight: "20px",
+    // paddingTop: "20px",
+    // paddingBottom: "20px",
+    // paddingLeft: "20px",
+    // paddingRight: "20px",
     height: "100%",
     width: "100%",
   };

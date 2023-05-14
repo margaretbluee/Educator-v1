@@ -1,2 +1,2 @@
-﻿import GoogleCalendar from "./GoogleCalendar";
+import GoogleCalendar from "./GoogleCalendar";
 export default GoogleCalendar;
