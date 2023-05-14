@@ -7,7 +7,7 @@ function Register(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const key = "updatable";
 
   const [messageApi, contextHolder] = message.useMessage();
