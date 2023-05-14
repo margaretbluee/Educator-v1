@@ -4,18 +4,6 @@ import Module from "./module";
 import Paginator from "./paginator";
 import { useNavigate, useLocation } from "react-router-dom";
 
-// const events = [
-//   {
-//     school: "ΜΗΧ. ΠΛΗΡΟΦΟΡΙΚΗΣ & ΗΛΕΚΤΡΟΝΙΚΩΝ ΣΥΣΤΗΜΑΤΩΝ",
-//     subject: "Γλώσσες & Τεχν. Ιστού",
-//     subject_type: "ΕΡΓΑΣΤΗΡΙΟ & ΘΕΩΡΙΑ",
-//     difficulty: "MEDIUM",
-//     rating: "5(10 ratings)",
-//     enrolled: "500",
-//   }
-//   // Add more events as needed
-// ];
-
 function Modules(props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,6 +17,12 @@ function Modules(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
 
+  // useEffect(() => {
+  //   if (typeof props.stars !== 'undefined') {
+  //     console.log(props.stars);
+  //   }
+  // }, [props.stars]);
+
   useEffect(() => {
     if (pages === null) return;
     if (activeIndex > pages) {
@@ -40,6 +34,8 @@ function Modules(props) {
     setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
+    console.log("Stars: ", props.stars);
+    console.log("Price Range: ", props.priceRange);
 
     async function fetchModules() {
       try {
@@ -66,7 +62,7 @@ function Modules(props) {
       }
     }
     fetchModules();
-  }, [limit, offset]);
+  }, [limit, offset, props.stars, props.priceRange]);
 
   useEffect(() => {
     setOffset((activeIndex - 1) * limit);
@@ -75,6 +71,26 @@ function Modules(props) {
 
   return (
     <div className="modules">
+      <div className="search-bar">
+        <input
+          className="search-query-input"
+          type="text"
+          name="searchQueryInput"
+          placeholder="Search"
+        />
+        <button
+          className="search-query-submit"
+          type="submit"
+          name="searchQuerySubmit"
+        >
+          <svg viewBox="0 0 24 24">
+            <path
+              fill="#666666"
+              d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+            />
+          </svg>
+        </button>
+      </div>
       {isLoading ? ( // check if loading is true
         failedToLoad ? (
           <div>Failed to load modules. Please try again later.</div>
@@ -94,6 +110,7 @@ function Modules(props) {
                 difficulty={module.difficulty}
                 rating={module.rating}
                 enrolled={module.price}
+                price={module.price}
               />
             ))}
           </div>

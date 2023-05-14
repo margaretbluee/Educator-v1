@@ -2,7 +2,8 @@ $module-width: 320px * 1.2;
 
 .module-filter {
   padding: 10px;
-  background-color: darkorange;
+  border-right: 1px solid #ddd;
+  background-color: #fbf7f7;
 
   .filter-group {
     margin-bottom: 16px;
@@ -18,22 +19,18 @@ $module-width: 320px * 1.2;
     align-items: center;
   }
 
-  .filter-box.toggled {
-    background-color: darkorange;
-    color: #ddd;
-  }
-
   .filter-burger {
     width: 45px;
     height: 45px;
     text-align: center;
-  }
 
-  .filter-burger.toggled {
-    color: #ddd;
+    .toggled {
+      color: #ddd;
+    }
   }
 
   .input-group {
+    width: 100%;
     display: inline-block;
   }
 
@@ -59,6 +56,24 @@ $module-width: 320px * 1.2;
   }
 
   .overlay {
-    width: 150px;
+    width: 200px;
+    display: none;
+  }
+
+  .overlay.visible {
+    display: block;
+  }
+
+  .slider-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slider {
+    color: darkorange !important;
+    width: 70% !important;
+    margin: auto !important;
   }
 }
