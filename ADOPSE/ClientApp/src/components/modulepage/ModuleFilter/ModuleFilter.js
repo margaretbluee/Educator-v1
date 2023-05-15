@@ -9,9 +9,11 @@ function ModuleFilter(props) {
 
   const [showOverlay, setShowOverlay] = useState(true);
 
-  const priceRangeLimit = props.priceRangeLimit;
-  const priceRange = props.priceRange;
-  const setPriceRange = props.setPriceRange;
+  const priceRangeLimit = props;
+
+  const { priceRange, setPriceRange } = props;
+  const { type, setType } = props;
+  const { difficulty, setDifficulty } = props;
 
   const [priceRangeTemp, setPriceRangeTemp] = useState(priceRange);
 
@@ -50,26 +52,19 @@ function ModuleFilter(props) {
     }
   };
 
+  const handleTypeChange = (event) => {
+    const selectedType = parseInt(event.target.value, 10);
+    setType(selectedType);
+  };
+
+  const handleDifficultyChange = (event) => {
+    const selectedDifficulty = parseInt(event.target.value, 10);
+    setDifficulty(selectedDifficulty);
+  };
+
   const handleStarChange = (selectedRatings) => {
     props.setStars(selectedRatings);
   };
-
-  // useEffect(() => {
-  //   console.log("price range: ", priceRange)
-  // }, [priceRange]);
-
-  // const [minPrice, setMinPrice] = useState('');
-  // const [maxPrice, setMaxPrice] = useState('');
-  // const [workshop, setWorkshop] = useState(false);
-  // const [theory, setTheory] = useState(false);
-  // const [beginner, setBeginner] = useState(false);
-  // const [intermediate, setIntermediate] = useState(false);
-  // const [advanced, setAdvanced] = useState(false);
-  // const [oneStar, setOneStar] = useState(false);
-  // const [twoStars, setTwoStars] = useState(false);
-  // const [threeStars, setThreeStars] = useState(false);
-  // const [fourStars, setFourStars] = useState(false);
-  // const [fiveStars, setFiveStars] = useState(false);
 
   const toggleOverlay = () => {
     setShowOverlay(!showOverlay);
@@ -132,43 +127,85 @@ function ModuleFilter(props) {
             </div>
             <div className="filter-group">
               <label>Type</label>
-              <ul>
-                <li>
-                  <label>
-                    <input type="checkbox" />
-                    Εργαστήριο
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input type="checkbox" />
-                    Θεωρία
-                  </label>
-                </li>
-              </ul>
+              <div className="radio-buttons">
+                <label>
+                  <input
+                    type="radio"
+                    value="1"
+                    name="type"
+                    checked={type === 1}
+                    onChange={handleTypeChange}
+                  />
+                  <span>ALL</span>
+                </label>
+
+                <label>
+                  <input
+                    type="radio"
+                    value="2"
+                    name="type"
+                    checked={type === 2}
+                    onChange={handleTypeChange}
+                  />
+                  <span>Εργαστήριο</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="3"
+                    name="type"
+                    checked={type === 3}
+                    onChange={handleTypeChange}
+                  />
+                  <span>Θεωρία</span>
+                </label>
+              </div>
             </div>
             <div className="filter-group">
-              <label>Hard Level</label>
-              <ul>
-                <li>
-                  <label>
-                    <input type="checkbox" />
-                    Εύκολο
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input type="checkbox" />
-                    Μέτριο
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input type="checkbox" />
-                    Δύσκολο
-                  </label>
-                </li>
-              </ul>
+              <label>Difficulty</label>
+              <div className="radio-buttons">
+                <label>
+                  <input
+                    type="radio"
+                    value="1"
+                    name="Difficulty"
+                    checked={difficulty === 1}
+                    onChange={handleDifficultyChange}
+                  />
+                  <span>ALL</span>
+                </label>
+
+                <label>
+                  <input
+                    type="radio"
+                    value="2"
+                    name="Difficulty"
+                    checked={difficulty === 2}
+                    onChange={handleDifficultyChange}
+                  />
+                  <span>Easy</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="3"
+                    name="Difficulty"
+                    checked={difficulty === 3}
+                    onChange={handleDifficultyChange}
+                  />
+                  <span>Medium</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="4"
+                    name="Difficulty"
+                    checked={difficulty === 4}
+                    onChange={handleDifficultyChange}
+                  />
+                  <span>Hard</span>
+                </label>
+              </div>
             </div>
             <div className="filter-group">
               <RatingsFilter

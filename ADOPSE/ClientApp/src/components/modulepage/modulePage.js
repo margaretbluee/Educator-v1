@@ -5,18 +5,30 @@ import "./modulepage.scss";
 
 function ModulesPage() {
   const [priceRangeLimit] = useState([0, 100]);
+
   const [priceRange, setPriceRange] = useState(priceRangeLimit);
   const [stars, setStars] = useState([0, 5]);
+  const [type, setType] = useState(1);
+  const [difficulty, setDifficulty] = useState(1);
 
   return (
     <div className="module-page">
       <ModuleFilter
-        setStars={setStars}
-        priceRange={priceRange}
         priceRangeLimit={priceRangeLimit}
+        priceRange={priceRange}
         setPriceRange={setPriceRange}
+        type={type}
+        setType={setType}
+        difficulty={difficulty}
+        setDifficulty={setDifficulty}
+        setStars={setStars}
       />
-      <Modules stars={stars} priceRange={priceRange} />
+      <Modules
+        priceRange={priceRange}
+        type={type}
+        difficulty={difficulty}
+        stars={stars}
+      />
     </div>
   );
 }

@@ -34,8 +34,10 @@ function Modules(props) {
     setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
-    console.log("Stars: ", props.stars);
     console.log("Price Range: ", props.priceRange);
+    console.log("Type: ", props.type);
+    console.log("Difficulty: ", props.difficulty);
+    console.log("Stars: ", props.stars);
 
     async function fetchModules() {
       try {
@@ -62,7 +64,14 @@ function Modules(props) {
       }
     }
     fetchModules();
-  }, [limit, offset, props.stars, props.priceRange]);
+  }, [
+    limit,
+    offset,
+    props.stars,
+    props.priceRange,
+    props.type,
+    props.difficulty,
+  ]);
 
   useEffect(() => {
     setOffset((activeIndex - 1) * limit);
