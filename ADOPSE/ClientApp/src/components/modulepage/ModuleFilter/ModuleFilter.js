@@ -14,6 +14,7 @@ function ModuleFilter(props) {
   const { priceRange, setPriceRange } = props;
   const { type, setType } = props;
   const { difficulty, setDifficulty } = props;
+  const { setStars } = props;
 
   const [priceRangeTemp, setPriceRangeTemp] = useState(priceRange);
 
@@ -63,7 +64,8 @@ function ModuleFilter(props) {
   };
 
   const handleStarChange = (selectedRatings) => {
-    props.setStars(selectedRatings);
+    if (!selectedRatings) return;
+    setStars(selectedRatings);
   };
 
   const toggleOverlay = () => {
