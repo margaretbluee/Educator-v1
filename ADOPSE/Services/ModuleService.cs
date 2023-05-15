@@ -3,7 +3,7 @@ using ADOPSE.Models;
 using ADOPSE.Repositories.IRepositories;
 using ADOPSE.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq; 
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace ADOPSE.Services;
@@ -41,14 +41,14 @@ public class ModuleService : IModuleService
     {
         List<FormattableString> myLista = new List<FormattableString>();
 
-        foreach(KeyValuePair<string, string> ele1 in dic)
+        foreach (KeyValuePair<string, string> ele1 in dic)
         {
             myLista.Add($"{ele1.Key} = {ele1.Value}");
         }
         FormattableString joinedString = myLista.Aggregate((current, next) => $"{current} and {next}");
 
         FormattableString query = $"select * from Module where {joinedString}";
-        
+
         IEnumerable<Module> toReturn = _moduleRepository.GetFilteredModules(query);
         return toReturn;
     }

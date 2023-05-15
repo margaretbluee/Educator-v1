@@ -46,14 +46,14 @@ public class ModuleController : ControllerBase
         _logger.LogInformation(ModuleTypeId);
         _logger.LogInformation(DifficultyId);
         _logger.LogInformation(Rating);
-        
+
         Dictionary<string, string> myDict1 = new Dictionary<string, string>();
-        
-        if(ModuleTypeId != null)
+
+        if (ModuleTypeId != null)
             myDict1.Add("ModuleTypeId", ModuleTypeId);
-        if(DifficultyId != null)
+        if (DifficultyId != null)
             myDict1.Add("DifficultyId", DifficultyId);
-        if(Rating != null)
+        if (Rating != null)
             myDict1.Add("Rating", Rating);
 
         IEnumerable<Module> modules = _moduleService.GetFilteredModules(myDict1);

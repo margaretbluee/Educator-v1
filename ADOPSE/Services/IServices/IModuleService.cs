@@ -12,7 +12,7 @@ public interface IModuleService
     IActionResult GetModuleStacks(int limit, int offset);
 
     IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic);
-    
+
     Module GetModuleByCalendarId(string id);
 
 }

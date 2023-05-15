@@ -17,11 +17,11 @@ function Modules(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
 
-  // useEffect(() => {
-  //   if (typeof props.stars !== 'undefined') {
-  //     console.log(props.stars);
-  //   }
-  // }, [props.stars]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   useEffect(() => {
     if (pages === null) return;
@@ -38,6 +38,7 @@ function Modules(props) {
     console.log("Type: ", props.type);
     console.log("Difficulty: ", props.difficulty);
     console.log("Stars: ", props.stars);
+    console.log("Search Query: ", searchQuery);
 
     async function fetchModules() {
       try {
@@ -71,6 +72,7 @@ function Modules(props) {
     props.priceRange,
     props.type,
     props.difficulty,
+    searchQuery,
   ]);
 
   useEffect(() => {
@@ -86,6 +88,8 @@ function Modules(props) {
           type="text"
           name="searchQueryInput"
           placeholder="Search"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
         <button
           className="search-query-submit"
