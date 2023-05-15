@@ -12,4 +12,9 @@ public interface IModuleRepository
 
     int GetModuleCount();
 
+    IEnumerable<Module> GetFilteredModules(FormattableString query);
+
+    Module GetModuleByCalendarId(string id);
+
+
 }

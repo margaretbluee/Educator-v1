@@ -16,7 +16,34 @@ function Register(props) {
     messageApi.open({
       key,
       type: 'loading',
-      content: 'creation...',
+      content: 'Creating user ...',
+      style: {
+        marginTop: '60px',
+      },
+    });
+  };
+  
+  const close = () => {
+    messageApi.open({
+      key,
+      type: 'success',
+      content: 'Created!',
+      duration: 1,
+      style: {
+        marginTop: '60px',
+      },
+      onClose : () => {
+        navigate("/login");
+      }
+    });
+  }
+
+  const errorM = () => {
+    messageApi.open({
+      key,
+      type: 'error',
+      content: 'Error on user creation',
+      duration: 1,
       style: {
         marginTop: '60px',
       },
@@ -25,6 +52,8 @@ function Register(props) {
   
   const handleRegister = async (event) => {
     event.preventDefault();
+
+    success();
     
     console.log(`{"username": "${username}","password": "${password}","email": "${email}"}`)
 
@@ -43,18 +72,14 @@ function Register(props) {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        success();
-        messageApi.open({
-          key,
-          type: 'success',
-          content: 'Loaded!',
-          duration: 2,
-        });
-        // navigate("/login");
+        
+        close();
       } else {
+        errorM();
         throw new Error("Register failed");
       }
     } catch (error) {
+      errorM();
       console.error(error);
     }
   }
