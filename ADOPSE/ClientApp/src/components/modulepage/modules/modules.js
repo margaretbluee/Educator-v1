@@ -34,6 +34,7 @@ function Modules(props) {
     setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
+    console.log("--Filter Values--")
     console.log("Price Range: ", props.priceRange);
     console.log("Type: ", props.type);
     console.log("Difficulty: ", props.difficulty);

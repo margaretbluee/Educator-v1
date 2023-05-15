@@ -221,10 +221,10 @@ function ModuleFilter(props) {
                   { start: 2, end: 5, label: ">2" },
                   { start: 1, end: 5, label: "All" },
                 ]}
-                defaultValue={{
-                  start: 1,
-                  end: 5,
-                }}
+                // defaultValue={{
+                //   start: 1,
+                //   end: 5,
+                // }}
                 URLParams={false}
                 onValueChange={handleStarChange}
               />
