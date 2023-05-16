@@ -37,7 +37,7 @@ public class ModuleService : IModuleService
         return new JsonResult(response);
     }
 
-    public IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic)
+    public IActionResult GetFilteredModules(Dictionary<string, string> dic,int limit, int offset)
     {
         List<FormattableString> myLista = new List<FormattableString>();
 
@@ -49,8 +49,10 @@ public class ModuleService : IModuleService
 
         FormattableString query = $"select * from Module where {joinedString}";
         
-        IEnumerable<Module> toReturn = _moduleRepository.GetFilteredModules(query);
-        return toReturn;
+        IEnumerable<Module> modulees = _moduleRepository.GetFilteredModules(query,limit,offset);
+        var count = modulees.Count();
+        var response = new { count, modules = modulees };
+        return new JsonResult(response);
     }
 
     public Module GetModuleByCalendarId(string id)

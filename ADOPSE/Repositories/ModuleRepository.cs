@@ -31,10 +31,10 @@ public class ModuleRepository : IModuleRepository
         return _aspNetCoreNTierDbContext.Module.Count();
     }
 
-    public IEnumerable<Module> GetFilteredModules(FormattableString query)
+    public IEnumerable<Module> GetFilteredModules(FormattableString query,int limit, int offset)
     {
         _logger.LogInformation(query.ToString());
-        var toReturn = _aspNetCoreNTierDbContext.Module.FromSqlRaw(query.ToString()).ToList();
+        var toReturn = _aspNetCoreNTierDbContext.Module.FromSqlRaw(query.ToString()).Skip(offset).Take(limit).ToList();
         toReturn.ForEach((module => _logger.LogInformation(module.Name)));
         return toReturn;
     }
