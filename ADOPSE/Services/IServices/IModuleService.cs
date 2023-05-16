@@ -11,8 +11,8 @@ public interface IModuleService
 
     IActionResult GetModuleStacks(int limit, int offset);
 
-    IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic);
-
+    IActionResult GetFilteredModules(Dictionary<string, string> dic,int limit, int offset);
+    
     Module GetModuleByCalendarId(string id);
 
 }

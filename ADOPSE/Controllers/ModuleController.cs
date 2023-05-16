@@ -39,9 +39,9 @@ public class ModuleController : ControllerBase
         return _moduleService.GetModuleStacks(limit, offset);
     }
 
-    [HttpGet("filtered")]
-    public IEnumerable<Module> GetFilteresModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
-        [FromQuery] string? Rating)
+    [HttpGet("filtered/{limit}/{offset}")]
+    public IActionResult GetFilteresModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
+        [FromQuery] string? Rating,int limit, int offset)
     {
         _logger.LogInformation(ModuleTypeId);
         _logger.LogInformation(DifficultyId);
@@ -56,7 +56,7 @@ public class ModuleController : ControllerBase
         if (Rating != null)
             myDict1.Add("Rating", Rating);
 
-        IEnumerable<Module> modules = _moduleService.GetFilteredModules(myDict1);
+        var modules = _moduleService.GetFilteredModules(myDict1,limit,offset);
         return modules;
     }
 }
