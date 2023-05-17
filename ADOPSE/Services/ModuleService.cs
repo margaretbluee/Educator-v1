@@ -37,7 +37,7 @@ public class ModuleService : IModuleService
         return new JsonResult(response);
     }
 
-    public IActionResult GetFilteredModules(Dictionary<string, string> dic,int limit, int offset)
+    public IActionResult GetFilteredModules(Dictionary<string, string> dic, int limit, int offset)
     {
         // List<FormattableString> myLista = new List<FormattableString>();
 
@@ -48,8 +48,8 @@ public class ModuleService : IModuleService
         // FormattableString joinedString = myLista.Aggregate((current, next) => $"{current} and {next}");
 
         // FormattableString query = $"select * from Module where {joinedString}";
-        
-        IEnumerable<Module> modules = _moduleRepository.GetFilteredModules(dic,limit,offset);
+
+        IEnumerable<Module> modules = _moduleRepository.GetFilteredModules(dic, limit, offset);
         var count = _moduleRepository.GetModuleCountFiltered(dic);
         var response = new { count, modules };
         return new JsonResult(response);

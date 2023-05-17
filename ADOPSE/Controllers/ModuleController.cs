@@ -55,10 +55,10 @@ public class ModuleController : ControllerBase
             myDict1.Add("DifficultyId", DifficultyId);
         if (Rating != null)
             myDict1.Add("Rating", Rating);
-        if (Price!= null)
+        if (Price != null)
             myDict1.Add("Price", Price);
 
-        var modules = _moduleService.GetFilteredModules(myDict1,limit,offset);
+        var modules = _moduleService.GetFilteredModules(myDict1, limit, offset);
         return modules;
     }
 }

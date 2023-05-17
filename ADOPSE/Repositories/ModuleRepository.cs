@@ -31,13 +31,14 @@ public class ModuleRepository : IModuleRepository
         return _aspNetCoreNTierDbContext.Module.Count();
     }
 
-    public IQueryable<Module> QueryFiltered(Dictionary<string, string> dic){
+    public IQueryable<Module> QueryFiltered(Dictionary<string, string> dic)
+    {
         var query = _aspNetCoreNTierDbContext.Module.AsQueryable();
-                
+
         if (dic.ContainsKey("ModuleTypeId"))
         {
             int moduleTypeId;
-            if (int.TryParse(dic["ModuleTypeId"], out moduleTypeId))
+            if (int.TryParse(dic["ModuleTypeId"], out moduleTypeId) && moduleTypeId != 0)
             {
                 query = query.Where(module => module.ModuleTypeId == moduleTypeId);
             }
@@ -46,7 +47,7 @@ public class ModuleRepository : IModuleRepository
         if (dic.ContainsKey("DifficultyId"))
         {
             int difficultyId;
-            if (int.TryParse(dic["DifficultyId"], out difficultyId))
+            if (int.TryParse(dic["DifficultyId"], out difficultyId) && difficultyId != 0)
             {
                 query = query.Where(module => module.DifficultyId == difficultyId);
             }
@@ -66,8 +67,10 @@ public class ModuleRepository : IModuleRepository
             if (dic.TryGetValue("Rating", out var ratingValue))
             {
                 var ratings = ratingValue.Split(',');
-                var ratingList = ratings.Select(int.Parse).ToList();
-                query = query.Where(module => ratingList.Contains(module.Rating));
+                if (ratings.Length == 2 && int.TryParse(ratings[0], out int minRating) && int.TryParse(ratings[1], out int maxRating))
+                {
+                    query = query.Where(module => module.Rating >= minRating && module.Rating <= maxRating);
+                }
             }
         }
 
@@ -76,8 +79,10 @@ public class ModuleRepository : IModuleRepository
             if (dic.TryGetValue("Price", out var priceValue))
             {
                 var prices = priceValue.Split(',');
-                var priceList = prices.Select(int.Parse).ToList();
-                query = query.Where(module => priceList.Contains(module.Price));
+                if (prices.Length == 2 && int.TryParse(prices[0], out int minPrice) && int.TryParse(prices[1], out int maxPrice))
+                {
+                    query = query.Where(module => module.Price >= minPrice && module.Price <= maxPrice);
+                }
             }
         }
 
@@ -91,7 +96,7 @@ public class ModuleRepository : IModuleRepository
         return toReturn;
     }
 
-    public IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic,int limit, int offset)
+    public IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic, int limit, int offset)
     {
         // _logger.LogInformation(query.ToString());
         var toReturn = QueryFiltered(dic).Skip(offset).Take(limit).ToList();
