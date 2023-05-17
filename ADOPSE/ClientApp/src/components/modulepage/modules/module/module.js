@@ -7,6 +7,9 @@ import ratingStar from "./icons/rating-star.png";
 function Module(props) {
   return (
     <div className="module">
+      <div className="price-box">
+        <p className="number">{props.price !== 0 ? props.price : "Free"}</p>
+      </div>
       <div className="box">
         <div className="title">
           <p className="school">{props.school}</p>
@@ -15,6 +18,7 @@ function Module(props) {
             <p className="subject-text">{props.subject}</p>
           </div>
         </div>
+
         {/* <p className="event-subtype">{props.subject_type}</p> */}
         <p className="subtype">SUBJECT TYPE</p>
         <div className="difficulty">

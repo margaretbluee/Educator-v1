@@ -26,6 +26,7 @@ $module-width: 320px * 1.2;
     position: absolute;
     border-bottom: 10px solid rgb(255 255 255);
     background-color: rgb(255 255 255);
+    width: 92%;
 
     .school {
       font-weight: bold;
@@ -73,6 +74,29 @@ $module-width: 320px * 1.2;
 
   .title:hover {
     z-index: 1;
+  }
+
+  .price-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px 0 0 7px;
+    background-color: darkorange;
+    width: 63px;
+    height: 40px;
+    position: absolute;
+    font-weight: bold;
+    font-size: 15px;
+    top: 5%;
+    right: 0%;
+
+    // text-align: center; /* Add this property */
+    .number {
+      color: white;
+      margin: auto;
+      text-align: center;
+    }
   }
 
   /* style for the type of the subject */
