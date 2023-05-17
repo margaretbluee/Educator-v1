@@ -33,7 +33,7 @@ public class ModuleRepository : IModuleRepository
 
     public IQueryable<Module> QueryFiltered(Dictionary<string, string> dic)
     {
-        var query = _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).AsQueryable();
+        var query = _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).Include(m => m.ModuleType).AsQueryable();
 
         // var query = _aspNetCoreNTierDbContext.Module.AsQueryable();
 

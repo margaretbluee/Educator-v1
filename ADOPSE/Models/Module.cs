@@ -20,18 +20,31 @@ public class Module
     [ForeignKey("leaderId ")]
     [JsonIgnore]
     public virtual Lecturer Lecturer { get; set; }
+
+    [NotMapped]
+    public string? LecturerName
+    {
+        get { return Lecturer?.Name; }
+        set { } // Empty setter to satisfy the entity framework
+    }
+
     public string GoogleCalendarID { get; set; }
     public int Price { get; set; }
     public int Rating { get; set; }
     public int SubCategoryId { get; set; }
     public int DifficultyId { get; set; }
+    public string? DifficultyName { get; set; }
 
     public int ModuleTypeId { get; set; }
 
-    [NotMapped] // Not mapped to the database
-    public string? LecturerName
+    [ForeignKey("ModuleTypeId")]
+    [JsonIgnore]
+    public virtual ModuleType ModuleType { get; set; }
+
+    [NotMapped]
+    public string? ModuleTypeName
     {
-        get { return Lecturer?.Name; }
+        get { return ModuleType?.Name; }
         set { } // Empty setter to satisfy the entity framework
     }
 

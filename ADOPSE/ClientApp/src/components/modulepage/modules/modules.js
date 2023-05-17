@@ -44,7 +44,9 @@ function Modules(props) {
     async function fetchModules() {
       try {
         const response = await Promise.race([
-          fetch(`/api/module/stack/${limit}/${offset}`),
+          fetch(
+            `/api/module/filtered/${limit}/${offset}/?ModuleTypeId=${props.type}&DifficultyId=${props.difficulty}&price=${props.priceRange[0]},${props.priceRange[1]}&Rating=${props.stars[0]},${props.stars[1]}&SearchQuery=${searchQuery}`
+          ),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Timeout")), 5000)
           ),
@@ -120,8 +122,8 @@ function Modules(props) {
                 index={index}
                 school={module.name}
                 subject={module.name}
-                subject_type={module.moduleType}
-                difficulty={module.difficulty}
+                subject_type={module.moduleTypeName}
+                difficulty={module.difficultyName}
                 rating={module.rating}
                 enrolled={module.price}
                 price={module.price}

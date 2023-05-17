@@ -133,9 +133,9 @@ function ModuleFilter(props) {
                 <label>
                   <input
                     type="radio"
-                    value="1"
+                    value="0"
                     name="type"
-                    checked={type === 1}
+                    checked={type === 0}
                     onChange={handleTypeChange}
                   />
                   <span>ALL</span>
@@ -144,12 +144,22 @@ function ModuleFilter(props) {
                 <label>
                   <input
                     type="radio"
+                    value="1"
+                    name="type"
+                    checked={type === 1}
+                    onChange={handleTypeChange}
+                  />
+                  <span>Εργαστήριο</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
                     value="2"
                     name="type"
                     checked={type === 2}
                     onChange={handleTypeChange}
                   />
-                  <span>Εργαστήριο</span>
+                  <span>Θεωρία</span>
                 </label>
                 <label>
                   <input
@@ -159,7 +169,7 @@ function ModuleFilter(props) {
                     checked={type === 3}
                     onChange={handleTypeChange}
                   />
-                  <span>Θεωρία</span>
+                  <span>Mix</span>
                 </label>
               </div>
             </div>
@@ -169,9 +179,9 @@ function ModuleFilter(props) {
                 <label>
                   <input
                     type="radio"
-                    value="1"
+                    value="0"
                     name="Difficulty"
-                    checked={difficulty === 1}
+                    checked={difficulty === 0}
                     onChange={handleDifficultyChange}
                   />
                   <span>ALL</span>
@@ -180,9 +190,9 @@ function ModuleFilter(props) {
                 <label>
                   <input
                     type="radio"
-                    value="2"
+                    value="1"
                     name="Difficulty"
-                    checked={difficulty === 2}
+                    checked={difficulty === 1}
                     onChange={handleDifficultyChange}
                   />
                   <span>Easy</span>
@@ -190,9 +200,9 @@ function ModuleFilter(props) {
                 <label>
                   <input
                     type="radio"
-                    value="3"
+                    value="2"
                     name="Difficulty"
-                    checked={difficulty === 3}
+                    checked={difficulty === 2}
                     onChange={handleDifficultyChange}
                   />
                   <span>Medium</span>
@@ -200,9 +210,9 @@ function ModuleFilter(props) {
                 <label>
                   <input
                     type="radio"
-                    value="4"
+                    value="3"
                     name="Difficulty"
-                    checked={difficulty === 4}
+                    checked={difficulty === 3}
                     onChange={handleDifficultyChange}
                   />
                   <span>Hard</span>

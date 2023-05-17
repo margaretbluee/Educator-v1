@@ -9,7 +9,7 @@ function ModulesPage() {
   const [priceRange, setPriceRange] = useState(priceRangeLimit);
   const [stars, setStars] = useState([1, 5]);
   const [type, setType] = useState(1);
-  const [difficulty, setDifficulty] = useState(1);
+  const [difficulty, setDifficulty] = useState(0);
 
   return (
     <div className="module-page">
