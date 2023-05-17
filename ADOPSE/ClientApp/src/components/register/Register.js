@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import "./Register.scss";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
 function Register(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const key = "updatable";
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -15,7 +15,34 @@ function Register(props) {
     messageApi.open({
       key,
       type: "loading",
-      content: "creation...",
+      content: "Creating user ...",
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
+
+  const close = () => {
+    messageApi.open({
+      key,
+      type: "success",
+      content: "Created!",
+      duration: 1,
+      style: {
+        marginTop: "60px",
+      },
+      onClose: () => {
+        navigate("/login");
+      },
+    });
+  };
+
+  const errorM = () => {
+    messageApi.open({
+      key,
+      type: "error",
+      content: "Error on user creation",
+      duration: 1,
       style: {
         marginTop: "60px",
       },
@@ -24,6 +51,8 @@ function Register(props) {
 
   const handleRegister = async (event) => {
     event.preventDefault();
+
+    success();
 
     console.log(
       `{"username": "${username}","password": "${password}","email": "${email}"}`
@@ -44,18 +73,14 @@ function Register(props) {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        success();
-        messageApi.open({
-          key,
-          type: "success",
-          content: "Loaded!",
-          duration: 2,
-        });
-        // navigate("/login");
+
+        close();
       } else {
+        errorM();
         throw new Error("Register failed");
       }
     } catch (error) {
+      errorM();
       console.error(error);
     }
   };

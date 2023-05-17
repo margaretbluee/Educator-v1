@@ -17,11 +17,11 @@ function Modules(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
 
-  // useEffect(() => {
-  //   if (typeof props.stars !== 'undefined') {
-  //     console.log(props.stars);
-  //   }
-  // }, [props.stars]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
   useEffect(() => {
     if (pages === null) return;
@@ -34,13 +34,19 @@ function Modules(props) {
     setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
-    console.log("Stars: ", props.stars);
+    console.log("--Filter Values--");
     console.log("Price Range: ", props.priceRange);
+    console.log("Type: ", props.type);
+    console.log("Difficulty: ", props.difficulty);
+    console.log("Stars: ", props.stars);
+    console.log("Search Query: ", searchQuery);
 
     async function fetchModules() {
       try {
         const response = await Promise.race([
-          fetch(`/api/module/stack/${limit}/${offset}`),
+          fetch(
+            `/api/module/filtered/${limit}/${offset}/?ModuleTypeId=${props.type}&DifficultyId=${props.difficulty}&price=${props.priceRange[0]},${props.priceRange[1]}&Rating=${props.stars[0]},${props.stars[1]}&SearchQuery=${searchQuery}`
+          ),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Timeout")), 5000)
           ),
@@ -62,7 +68,15 @@ function Modules(props) {
       }
     }
     fetchModules();
-  }, [limit, offset, props.stars, props.priceRange]);
+  }, [
+    limit,
+    offset,
+    props.stars,
+    props.priceRange,
+    props.type,
+    props.difficulty,
+    searchQuery,
+  ]);
 
   useEffect(() => {
     setOffset((activeIndex - 1) * limit);
@@ -77,6 +91,8 @@ function Modules(props) {
           type="text"
           name="searchQueryInput"
           placeholder="Search"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
         <button
           className="search-query-submit"
@@ -106,8 +122,8 @@ function Modules(props) {
                 index={index}
                 school={module.name}
                 subject={module.name}
-                subject_type={module.moduleType}
-                difficulty={module.difficulty}
+                subject_type={module.moduleTypeName}
+                difficulty={module.difficultyName}
                 rating={module.rating}
                 enrolled={module.price}
                 price={module.price}

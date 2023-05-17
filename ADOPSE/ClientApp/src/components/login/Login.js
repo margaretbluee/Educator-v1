@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import "./Login.scss";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {message} from "antd";
+import { message } from "antd";
 
 function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const key = 'updatable';
+  const key = "updatable";
 
   const [messageApi, contextHolder] = message.useMessage();
 
   const success = () => {
     messageApi.open({
       key,
-      type: 'loading',
-      content: 'Loading ...',
+      type: "loading",
+      content: "Loading ...",
       style: {
-        marginTop: '60px',
+        marginTop: "60px",
       },
     });
   };
@@ -27,26 +27,26 @@ function Login(props) {
   const close = () => {
     messageApi.open({
       key,
-      type: 'success',
-      content: 'Logged in!',
+      type: "success",
+      content: "Logged in!",
       duration: 0.5,
       style: {
-        marginTop: '60px',
+        marginTop: "60px",
       },
-      onClose : () => {
+      onClose: () => {
         navigate("/");
-      }
+      },
     });
-  }
+  };
 
   const errorM = () => {
     messageApi.open({
       key,
-      type: 'error',
-      content: 'Wrong credentials',
+      type: "error",
+      content: "Wrong credentials",
       duration: 1,
       style: {
-        marginTop: '60px',
+        marginTop: "60px",
       },
     });
   };

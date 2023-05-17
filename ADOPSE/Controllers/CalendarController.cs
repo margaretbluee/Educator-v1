@@ -22,7 +22,7 @@ public class CalendarController : ControllerBase
     {
         //Module module = _moduleService.GetModuleByCalendarId()
         lista.ForEach(item => _logger.LogInformation(item));
-        
+
         return Ok();
     }
 }

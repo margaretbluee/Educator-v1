@@ -76,4 +76,37 @@ $module-width: 320px * 1.2;
     width: 70% !important;
     margin: auto !important;
   }
+
+  .radio-buttons {
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+
+    input {
+      appearance: none;
+      outline: none;
+      margin: 0;
+    }
+
+    input::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      margin-right: 8px;
+      background-color: white;
+    }
+
+    input:checked::before {
+      /* Styles for the checked state */
+      background-color: darkorange;
+      border-color: darkorange;
+    }
+
+    span {
+      margin-left: 10px;
+    }
+  }
 }

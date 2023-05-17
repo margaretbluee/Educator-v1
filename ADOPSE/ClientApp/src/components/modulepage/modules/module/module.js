@@ -20,11 +20,11 @@ function Module(props) {
         </div>
 
         {/* <p className="event-subtype">{props.subject_type}</p> */}
-        <p className="subtype">SUBJECT TYPE</p>
+        <p className="subtype">{props.subject_type}</p>
         <div className="difficulty">
           <img src={graph} alt="" className="icon"></img>
           {/* <p className="event-difficulty">{props.difficulty}</p> */}
-          <p className="difficulty-value">Hard</p>
+          <p className="difficulty-value">{props.difficulty}</p>
         </div>
         <div className="rating">
           <img src={ratingStar} alt="" className="icon" />

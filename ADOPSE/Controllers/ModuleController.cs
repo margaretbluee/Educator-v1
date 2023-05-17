@@ -41,22 +41,24 @@ public class ModuleController : ControllerBase
 
     [HttpGet("filtered/{limit}/{offset}")]
     public IActionResult GetFilteresModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
-        [FromQuery] string? Rating,int limit, int offset)
+        [FromQuery] string? Rating, [FromQuery] string? Price, int limit, int offset)
     {
         _logger.LogInformation(ModuleTypeId);
         _logger.LogInformation(DifficultyId);
         _logger.LogInformation(Rating);
-        
-        Dictionary<string, string> myDict1 = new Dictionary<string, string>();
-        
-        if(ModuleTypeId != null)
-            myDict1.Add("ModuleTypeId", ModuleTypeId);
-        if(DifficultyId != null)
-            myDict1.Add("DifficultyId", DifficultyId);
-        if(Rating != null)
-            myDict1.Add("Rating", Rating);
 
-        var modules = _moduleService.GetFilteredModules(myDict1,limit,offset);
+        Dictionary<string, string> myDict1 = new Dictionary<string, string>();
+
+        if (ModuleTypeId != null)
+            myDict1.Add("ModuleTypeId", ModuleTypeId);
+        if (DifficultyId != null)
+            myDict1.Add("DifficultyId", DifficultyId);
+        if (Rating != null)
+            myDict1.Add("Rating", Rating);
+        if (Price != null)
+            myDict1.Add("Price", Price);
+
+        var modules = _moduleService.GetFilteredModules(myDict1, limit, offset);
         return modules;
     }
 }

@@ -48,22 +48,19 @@ function NavMenu({ navbarRef }) {
               </NavLink>
             </NavItem>
             <NavItem>
-              {
-                hasJWT() ? (
-                    <NavLink tag={Link} className="text-dark" to="/googleCalendar">
-                      GoogleCalendar
-                    </NavLink>
-                ) : (
-                    <div></div>
-                )
-              }
-              
+              {hasJWT() ? (
+                <NavLink tag={Link} className="text-dark" to="/googleCalendar">
+                  GoogleCalendar
+                </NavLink>
+              ) : (
+                <div></div>
+              )}
             </NavItem>
             <NavItem className="login-register">
               {hasJWT() ? (
-                <div>
+                <div className="logout-div">
                   <button
-                    className="text-dark"
+                    className="logout-button"
                     onClick={() => {
                       removeJWT();
                       navigate("/login");

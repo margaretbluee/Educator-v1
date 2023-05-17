@@ -35,4 +35,26 @@
   .login-register span {
     display: inline-block;
   }
+
+  .logout-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .logout-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff7420;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+  }
 }
