@@ -30,6 +30,7 @@ public class CalendarService : ICalendarService
             string googleCalendarId = current_event[0];
             if (_moduleService.GetModuleByCalendarId(googleCalendarId) != null)
             {
+                current_event.Add($"{_moduleService.GetModuleByCalendarId(current_event[0]).Id}");
                 _eventService.AddEvent(current_event);
             }
         });

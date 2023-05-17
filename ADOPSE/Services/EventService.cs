@@ -8,10 +8,13 @@ namespace ADOPSE.Services;
 public class EventService : IEventService
 {
     private readonly MyDbContext _aspNetCoreNTierDbContext;
+    private readonly ILogger<EventService> _logger;
 
-    public EventService(MyDbContext aspNetCoreNTierDbContext)
+
+    public EventService(MyDbContext aspNetCoreNTierDbContext, ILogger<EventService> logger)
     {
         _aspNetCoreNTierDbContext = aspNetCoreNTierDbContext;
+        _logger = logger;
     }
 
     private void DeleteEvent(string eventGoogleCalendarId)
@@ -30,6 +33,19 @@ public class EventService : IEventService
 
     public void AddEvent(List<string> eventAttributes)
     {
+        DateTimeOffset offsetStartDateTime = DateTimeOffset.Parse(eventAttributes[3]);
+        DateTimeOffset offsetEndDateTime = DateTimeOffset.Parse(eventAttributes[4]);
+        DateTime convertedStartDateTime = offsetStartDateTime.DateTime;
+        DateTime convertedEndDateTime = offsetEndDateTime.DateTime;
+        string StartDateTime = convertedStartDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffffff");
+        string EndDateTime = convertedEndDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffffff");
+        
+        
+        _aspNetCoreNTierDbContext.Event.FromSqlRaw(
+            "INSERT INTO Event(GoogleCalendarID, ModuleId, Name, Details, Starts, Ends) " +
+            $"VALUES ('{eventAttributes[0]}', '{eventAttributes[5]}', '{eventAttributes[1]}', '{eventAttributes[2]}','{StartDateTime}', '{EndDateTime}'  ); ';");
+        
+        
         throw new NotImplementedException(); //Ta start kai end theloun string refactoring
     }
 }
