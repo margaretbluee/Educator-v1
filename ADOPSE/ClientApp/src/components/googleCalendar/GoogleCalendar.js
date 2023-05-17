@@ -40,13 +40,34 @@ function GoogleCalendar(props) {
         return data.json();
       })
       .then((data) => {
-        console.log(data.items);
+        //console.log(data.items);
         toReturn = data.items;
         // return data.items;
         // alert("Event created, check your Google Calendar!");
       });
 
     return toReturn;
+  }
+  
+  async function sendEvents(events) {
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization",`Bearer ${localStorage.getItem("token")}`)
+
+    var raw = JSON.stringify(events);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("https://localhost:44442/api/calendar/addModules", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
   }
 
   async function retrieveAllEvents() {
@@ -72,12 +93,29 @@ function GoogleCalendar(props) {
         alert("Calendar List retrieved");
       });
 
-    console.log("finish");
+    //console.log("finish");
 
     for (let i = 1; i < calendarsId.length; i++) {
       events.push(await retrieveEventsFromCalendar(calendarsId[i]));
     }
+    
     console.log(events);
+    
+    let array2d = [];
+    events.forEach((calendar) => {
+      calendar.forEach((event) => {
+        //console.log(event.organizer.email);
+        let eventArray = [event.organizer.email,event.summary,event.description || "",event.start.dateTime,event.end.dateTime];
+        array2d.push(eventArray);
+      })
+    });
+    
+    console.log(array2d);
+    
+    await sendEvents(array2d);
+    
+    alert("send");
+    
   }
 
   return (

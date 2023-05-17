@@ -18,10 +18,12 @@ public class CalendarController : ControllerBase
     }
 
     [HttpPost("addModules")]
-    public IActionResult Add([FromBody] List<string> lista)
+    public IActionResult Add([FromBody] List<List<string>> lista)
     {
         //Module module = _moduleService.GetModuleByCalendarId()
-        lista.ForEach(item => _logger.LogInformation(item));
+        lista.ForEach(item => item.ForEach(
+            item => _logger.LogInformation(item)
+            ));
 
         return Ok();
     }
