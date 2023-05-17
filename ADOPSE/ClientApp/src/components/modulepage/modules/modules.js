@@ -119,6 +119,7 @@ function Modules(props) {
             {modules.map((module, index) => (
               <Module
                 key={module.id}
+                id={module.id}
                 index={index}
                 school={module.name}
                 subject={module.name}

@@ -3,10 +3,22 @@ import "./module.scss";
 import graph from "./icons/graph.png";
 import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
+import { useNavigate } from "react-router-dom";
 
 function Module(props) {
+  const navigate = useNavigate();
+
+  const handleGoToModule = () => {
+    navigate(`/module?id=${props.id}`);
+  };
+
+  const handleEnrollClick = (event) => {
+    event.stopPropagation(); // Stop event propagation to parent
+    // Perform enroll logic...
+  };
+
   return (
-    <div className="module">
+    <div className="module" onClick={handleGoToModule}>
       <div className="price-box">
         <p className="number">{props.price !== 0 ? props.price : "Free"}</p>
       </div>
@@ -35,7 +47,9 @@ function Module(props) {
           <p className="number">{props.enrolled}</p>
         </div>
         {/* <button className="enrolledButton" onClick={enrollStudents}> */}
-        <button className="enrolled-button">Enroll</button>
+        <button onClick={handleEnrollClick} className="enrolled-button">
+          Enroll
+        </button>
       </div>
     </div>
   );

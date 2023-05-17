@@ -5,6 +5,7 @@ import Register from "./components/register";
 import ModulePage from "./components/modulepage/";
 import MyLearning from "./components/myLearning";
 import GoogleCalendar from "./components/googleCalendar";
+import ModuleInfo from "./components/moduleInfo";
 
 const AppRoutes = [
   {
@@ -18,6 +19,10 @@ const AppRoutes = [
   {
     path: "/fetch-data",
     element: <MyLearning />,
+  },
+  {
+    path: "/module",
+    element: <ModuleInfo />,
   },
   {
     path: "/login",

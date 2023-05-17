@@ -21,11 +21,11 @@ public class CalendarService : ICalendarService
         {
             googleCalendarIds.Add(current_event[0]);
         });
-        
+
         _eventService.DeleteAllEvents(googleCalendarIds);
-        
-        
-        events.ForEach( current_event =>
+
+
+        events.ForEach(current_event =>
         {
             string googleCalendarId = current_event[0];
             if (_moduleService.GetModuleByCalendarId(googleCalendarId) != null)

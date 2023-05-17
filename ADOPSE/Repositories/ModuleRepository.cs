@@ -23,7 +23,7 @@ public class ModuleRepository : IModuleRepository
 
     public Module GetModuleById(int id)
     {
-        return _aspNetCoreNTierDbContext.Module.Where(x => x.Id == id).FirstOrDefault();
+        return _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).Include(m => m.ModuleType).Where(x => x.Id == id).FirstOrDefault();
     }
 
     public int GetModuleCount()
