@@ -2,34 +2,24 @@
 using ADOPSE.Data;
 using ADOPSE.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace ADOPSE.Models;
 
 public class Module
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    private readonly MyDbContext _aspNetCoreNTierDbContext;
 
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime Created { get; set; }
     public DateTime Completed { get; set; }
-
     public int leaderId { get; set; }
 
-    // public Lecturer Leader { get; set; }
-
-    public string? LeaderName
-    {
-        get
-        {
-            var lecturer = _aspNetCoreNTierDbContext.Lecturer.Find(leaderId);
-            return lecturer?.Name;
-        }
-    }
-
-
+    [ForeignKey("leaderId ")]
+    [JsonIgnore]
+    public virtual Lecturer Lecturer { get; set; }
     public string GoogleCalendarID { get; set; }
     public int Price { get; set; }
     public int Rating { get; set; }
@@ -38,8 +28,11 @@ public class Module
 
     public int ModuleTypeId { get; set; }
 
-    // public ModuleType ModuleType { get; set; }
-
-
+    [NotMapped] // Not mapped to the database
+    public string? LecturerName
+    {
+        get { return Lecturer?.Name; }
+        set { } // Empty setter to satisfy the entity framework
+    }
 
 }
