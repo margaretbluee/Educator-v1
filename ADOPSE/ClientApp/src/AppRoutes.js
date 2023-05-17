@@ -6,6 +6,7 @@ import ModulePage from "./components/modulepage/";
 import MyLearning from "./components/myLearning";
 import GoogleCalendar from "./components/googleCalendar";
 import ModuleInfo from "./components/moduleInfo";
+import Lecturer from "./components/Lecturer";
 
 const AppRoutes = [
   {
@@ -23,6 +24,10 @@ const AppRoutes = [
   {
     path: "/module",
     element: <ModuleInfo />,
+  },
+  {
+    path: "/lecturer",
+    element: <Lecturer />,
   },
   {
     path: "/login",

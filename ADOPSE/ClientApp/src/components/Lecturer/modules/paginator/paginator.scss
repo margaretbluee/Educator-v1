@@ -1,0 +1,24 @@
+.lecturer-paginator {
+  .hidden{
+    display: none;
+  }
+  .pagination {
+    li a,
+    li span {
+      color: #333;
+    }
+
+    li.active a,
+    li.active span {
+      background-color: darkorange;
+      color: #fff;
+      border-color: darkorange;
+    }
+
+    li.disabled a,
+    li.disabled span {
+      color: #aaa;
+      pointer-events: none;
+    }
+  }
+}

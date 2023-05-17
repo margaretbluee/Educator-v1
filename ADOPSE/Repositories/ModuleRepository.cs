@@ -101,7 +101,7 @@ public class ModuleRepository : IModuleRepository
     public IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic, int limit, int offset)
     {
         // _logger.LogInformation(query.ToString());
-        var toReturn = QueryFiltered(dic).Skip(offset).Take(limit).ToList();
+        var toReturn = QueryFiltered(dic).Skip(offset).Take(limit).OrderBy(m => m.Id).ToList();
         // var toReturn = _aspNetCoreNTierDbContext.Module.FromSqlRaw(query.ToString()).Skip(offset).Take(limit).ToList();
         toReturn.ForEach((module => _logger.LogInformation(module.Name)));
         return toReturn;
@@ -114,6 +114,6 @@ public class ModuleRepository : IModuleRepository
 
     public IEnumerable<Module> GetModuleStacks(int limit, int offset)
     {
-        return _aspNetCoreNTierDbContext.Module.Skip(offset).Take(limit);
+        return _aspNetCoreNTierDbContext.Module.Skip(offset).Take(limit).OrderBy(m => m.Id);
     }
 }
