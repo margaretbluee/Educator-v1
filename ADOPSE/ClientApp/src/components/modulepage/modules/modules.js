@@ -34,7 +34,6 @@ function Modules(props) {
     setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
-    console.log(modules.length);
     console.log("--Filter Values--");
     console.log("Price Range: ", props.priceRange);
     console.log("Type: ", props.type);
@@ -83,7 +82,7 @@ function Modules(props) {
     if (pages === 0) return;
     setOffset((activeIndex - 1) * limit);
     navigate(`?page=${activeIndex}`, { replace: true });
-  }, [activeIndex, limit, navigate]);
+  }, [activeIndex, limit, navigate, pages]);
 
   return (
     <div className="modules">
