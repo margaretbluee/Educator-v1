@@ -11,8 +11,10 @@ public interface IModuleRepository
     IEnumerable<Module> GetModuleStacks(int limit, int offset);
 
     int GetModuleCount();
+    
+    int GetModuleCountFiltered(Dictionary<string, string> dic);
 
-    IEnumerable<Module> GetFilteredModules(FormattableString query,int limit, int offset);
+    IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic,int limit, int offset);
 
     Module GetModuleByCalendarId(string id);
 

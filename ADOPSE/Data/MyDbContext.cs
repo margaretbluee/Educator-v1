@@ -18,4 +18,5 @@ public class MyDbContext : DbContext
     public DbSet<Lecturer> Lecturer { get; set; }
     public DbSet<Module> Module { get; set; }
     public DbSet<Student> Student { get; set; }
+    public DbSet<ModuleType> ModuleType { get; set; }
 }
