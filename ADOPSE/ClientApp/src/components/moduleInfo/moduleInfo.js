@@ -13,19 +13,20 @@ function ModuleInfo() {
   // Array of events data
   const events = [
     {
+      key: 1,
       date: "April 10, 2023",
       subject: "Mathematics",
       time: "10:00 AM - 12:00 PM",
     },
-    { date: "April 15, 2023", subject: "Chemistry", time: "2:00 PM - 4:00 PM" },
-    { date: "April 20, 2023", subject: "Physics", time: "3:30 PM - 5:30 PM" },
-    { date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
-    { date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
-    { date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
-    { date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
-    { date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
-    { date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
-    { date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
+    { key: 2, date: "April 15, 2023", subject: "Chemistry", time: "2:00 PM - 4:00 PM" },
+    { key: 3, date: "April 20, 2023", subject: "Physics", time: "3:30 PM - 5:30 PM" },
+    { key: 4 ,date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
+    { key: 5,date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
+    { key: 6, date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
+    { key: 7, date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
+    { key: 8, date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
+    { key: 9, date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
+    { key: 10,date: "April 25, 2023", subject: "Biology", time: "9:00 AM - 11:00 AM" },
     // Add more events as needed
   ];
 
