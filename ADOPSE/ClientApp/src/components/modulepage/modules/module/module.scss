@@ -169,6 +169,11 @@ $module-width: 320px * 1.2;
     }
   }
 
+  .enrolled-button:disabled {
+    background-color: rgb(209 207 207);
+    color: white;
+  }
+
   /* style for the enroll button */
   .enrolled-button {
     position: absolute;

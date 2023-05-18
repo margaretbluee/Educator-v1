@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./MainPage.scss";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = momentLocalizer(moment);
-
 
 /*{
   title: "Meeting 1",
@@ -19,8 +18,8 @@ const localizer = momentLocalizer(moment);
 },*/
 
 function convertStringToDate(str) {
-  const dateParts = str.split('T')[0].split('-');
-  const timeParts = str.split('T')[1].split(':');
+  const dateParts = str.split("T")[0].split("-");
+  const timeParts = str.split("T")[1].split(":");
 
   const year = parseInt(dateParts[0]);
   const month = parseInt(dateParts[1]) - 1; // Months are zero-based (0-11)
@@ -32,39 +31,41 @@ function convertStringToDate(str) {
 }
 
 const MainPage = () => {
-  
-  const [events , setEvents] = useState([]);
-  
+  const [events, setEvents] = useState([]);
+
   useEffect(() => {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${localStorage.getItem("token")}`);
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("token")}`
+    );
 
     var requestOptions = {
-      method: 'GET',
+      method: "GET",
       headers: myHeaders,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
     fetch("https://localhost:44442/api/calendar/", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          let listaEvents = []
-          console.log(result);
-          result.forEach((event) => {
-            listaEvents.push({
-              title : event.name,
-              start: convertStringToDate(event.starts),
-              end: convertStringToDate(event.ends),
-            });
+      .then((response) => response.json())
+      .then((result) => {
+        let listaEvents = [];
+        console.log(result);
+        result.forEach((event) => {
+          listaEvents.push({
+            title: event.name,
+            start: convertStringToDate(event.starts),
+            end: convertStringToDate(event.ends),
           });
-          
-          console.log(listaEvents);
-          
-          setEvents(listaEvents);
-        })
-        .catch(error => console.log('error', error));
-  },[]);
-  
+        });
+
+        console.log(listaEvents);
+
+        setEvents(listaEvents);
+      })
+      .catch((error) => console.log("error", error));
+  }, []);
+
   return (
     <div className="main-page">
       <h1 className="heading">Welcome to Educator!</h1>
