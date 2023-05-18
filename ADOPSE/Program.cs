@@ -17,6 +17,8 @@ builder.Services.AddScoped<IModuleService, ModuleService>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IEnrolledRepository, EnrolledRepository>();
 builder.Services.AddScoped<IEnrolledService, EnrolledService>();
+builder.Services.AddScoped<ICalendarService, CalendarService>();
+builder.Services.AddScoped<IEventService, EventService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

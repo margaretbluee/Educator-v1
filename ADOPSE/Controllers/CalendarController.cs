@@ -8,12 +8,12 @@ namespace ADOPSE.Controllers;
 [Route("[controller]")]
 public class CalendarController : ControllerBase
 {
-    private readonly IModuleService _moduleService;
+    private readonly ICalendarService _calendarService;
     private readonly ILogger<CalendarController> _logger;
 
-    public CalendarController(IModuleService moduleService, ILogger<CalendarController> logger)
+    public CalendarController(ICalendarService calendarService, ILogger<CalendarController> logger)
     {
-        _moduleService = moduleService;
+        _calendarService = calendarService;
         _logger = logger;
     }
 
@@ -24,6 +24,9 @@ public class CalendarController : ControllerBase
         lista.ForEach(item => item.ForEach(
             item => _logger.LogInformation(item)
             ));
+        
+        _calendarService.AddEvents(lista);
+        
 
         return Ok();
     }

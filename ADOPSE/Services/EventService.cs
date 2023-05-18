@@ -44,9 +44,6 @@ public class EventService : IEventService
         _aspNetCoreNTierDbContext.Event.FromSqlRaw(
             "INSERT INTO Event(GoogleCalendarID, ModuleId, Name, Details, Starts, Ends) " +
             $"VALUES ('{eventAttributes[0]}', '{eventAttributes[5]}', '{eventAttributes[1]}', '{eventAttributes[2]}','{StartDateTime}', '{EndDateTime}'  ); ';");
-        
-        
-        throw new NotImplementedException(); //Ta start kai end theloun string refactoring
     }
 }
 
