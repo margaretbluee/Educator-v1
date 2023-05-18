@@ -117,7 +117,7 @@ public class ModuleRepository : IModuleRepository
     {
         return _aspNetCoreNTierDbContext.Module.Skip(offset).Take(limit).OrderBy(m => m.Id);
     }
-    
+
     public int GetModuleCountByLecturerId(int id)
     {
         return _aspNetCoreNTierDbContext.Module.Where(x => x.leaderId == id).Count();

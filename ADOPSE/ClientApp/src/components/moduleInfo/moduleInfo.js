@@ -127,7 +127,8 @@ function ModuleInfo() {
       <h1 className="title">{module.name}</h1>
       <div className="subtitle">{module.description}</div>
       <div className="teacher">
-        Teacher: <a href="/">{module.lecturerName}</a>
+        Teacher:{" "}
+        <a href={`/lecturer?id=${module.leaderId}`}>{module.lecturerName}</a>
       </div>
       <div className="course-details">
         <div className="course-first">

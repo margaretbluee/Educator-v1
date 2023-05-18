@@ -6,21 +6,16 @@ import Modules from "./modules";
 import "./lecturer.scss";
 import profile from "./icons/profile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEnvelope,
-  faGlobe,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import DOMPurify from "dompurify";
 
 function convertURLsToLinks(text) {
-  const urlRegex = /((?:https?:\/\/)?(?:[\w-]+\.)+[\w-]+(?:\.\w+)?)/g;
+  const urlRegex = /((?:https?:\/\/)?(?:[\w-]+\.)+[\w-]+\.[\w-]+)/g;
   return text.replace(urlRegex, (url) => {
-    const prefixedURL = url.startsWith('http') ? url : `http://${url}`;
+    const prefixedURL = url.startsWith("http") ? url : `http://${url}`;
     return `<a href="${prefixedURL}" target="_blank" rel="noopener noreferrer">${url}</a>`;
   });
 }
-
-
-
 
 function Lecturer() {
   const location = useLocation();
@@ -74,9 +69,9 @@ function Lecturer() {
     <div className="lecturer">
       <div className="lecturer-whole">
         <div className="medium-container">
-          <div className="prof-block">
-            <h1 className="prof-details">INSTRUCTOR</h1>
-            <h2 className="prof-details">
+          <div>
+            <h1 className="instructor">INSTRUCTOR</h1>
+            <h2 className="subtitle">
               <span style={{ color: "darkorange" }}>{lecturer.name}</span>
             </h2>
             {/* <h3 className="prof-details">
@@ -104,7 +99,11 @@ function Lecturer() {
                 </div>
                 <div className="text">
                   <a
-                    href={lecturer.website.startsWith('http') ? lecturer.website : `http://${lecturer.website}`}
+                    href={
+                      lecturer.website.startsWith("http")
+                        ? lecturer.website
+                        : `http://${lecturer.website}`
+                    }
                   >
                     {lecturer.website}
                   </a>
@@ -121,20 +120,15 @@ function Lecturer() {
         </div>
         <div className="lecturer-bio">
           <p
-            style={{
-              fontWeight: "bold",
-              fontSize: "17px",
-              textAlign: "justify",
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(convertURLsToLinks(lecturer.bio)),
             }}
-          >
-            {convertURLsToLinks(lecturer.bio)}
-          </p>
+          ></p>
         </div>
       </div>
-      <div className="event-header">
+      <div>
         <h1 className="courses-style">
-          Courses By{" "}
-          <span style={{ color: "darkorange" }}>{lecturer.name}</span>
+          Courses By <span className="name">{lecturer.name}</span>
         </h1>
       </div>
       <Modules />

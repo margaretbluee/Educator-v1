@@ -10,7 +10,7 @@
     justify-content: center;
   }
 
-  .modules-scroll{
+  .modules-scroll {
     display: flex;
     overflow-x: auto;
     margin-top: 10px;
@@ -19,6 +19,7 @@
 
   .modules-cards {
     display: flex;
+
     // min-width: 200px;
     // padding: 10px;
     // background-color: darkorange;
@@ -31,11 +32,11 @@
     // // flex-wrap: nowrap;
     // display: flex;
     gap: 20px;
+
     // align-items: center;
     // justify-content: center;
   }
 
-  
   .nav-button {
     background-color: darkorange;
     color: white;
@@ -52,7 +53,7 @@
   }
 
   .nav-button:disabled {
-    background-color: rgb(209, 207, 207);
+    background-color: rgb(209 207 207);
     color: white;
   }
 }

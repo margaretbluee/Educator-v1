@@ -3,9 +3,6 @@ import "./modules.scss";
 import Module from "./module";
 import { useLocation } from "react-router-dom";
 import Paginator from "./paginator";
-import {
-  faEnvelope
-} from "@fortawesome/free-solid-svg-icons";
 
 function Modules(props) {
   // const navigate = useNavigate();
@@ -109,7 +106,6 @@ function Modules(props) {
               >
                 Next
               </button>
-
             </div>
           ) : (
             <div>No modules found for the selected Filters.</div>

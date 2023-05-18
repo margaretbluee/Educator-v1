@@ -80,7 +80,7 @@ function Modules(props) {
 
   useEffect(() => {
     if (pages === 0) return;
-    console.log("Active Index: ", activeIndex)
+    console.log("Active Index: ", activeIndex);
     setOffset((activeIndex - 1) * limit);
     navigate(`?page=${activeIndex}`, { replace: true });
   }, [activeIndex, limit, navigate, pages]);
