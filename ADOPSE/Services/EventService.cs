@@ -38,6 +38,22 @@ public class EventService : IEventService
         }
     }
 
+    public IEnumerable<Event> GetEventsByStudentId(int studentId)
+    {
+        List<Enrolled> enrolled =
+            _aspNetCoreNTierDbContext.Enrolled.Where(x => x.Student.Id == studentId).Include(y => y.Module).ToList();
+        
+        List<int> enrolledModuleIds = new List<int>();
+        
+        enrolled.ForEach(x =>
+        {
+            _logger.LogInformation(x.ToString());
+            enrolledModuleIds.Add(x.Module.Id);
+        });
+
+        return _aspNetCoreNTierDbContext.Event.Where(x => enrolledModuleIds.Contains(x.Module.Id));
+    }
+
     public void AddEvent(List<string> eventAttributes)
     {
         DateTimeOffset offsetStartDateTime = DateTimeOffset.Parse(eventAttributes[3]);

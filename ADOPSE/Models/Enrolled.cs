@@ -8,4 +8,9 @@ public class Enrolled
     public int Id { get; set; }
     public Student Student { get; set; }
     public Module Module { get; set; }
+
+    public override string ToString()
+    {
+        return $"{nameof(Id)}: {Id}, {nameof(Student)}: {Student}, {nameof(Module)}: {Module}";
+    }
 }

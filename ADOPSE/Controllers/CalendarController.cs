@@ -1,5 +1,7 @@
-﻿using ADOPSE.Models;
+﻿using System.Security.Claims;
+using ADOPSE.Models;
 using ADOPSE.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADOPSE.Controllers;
@@ -9,11 +11,13 @@ namespace ADOPSE.Controllers;
 public class CalendarController : ControllerBase
 {
     private readonly ICalendarService _calendarService;
+    private readonly IEventService _eventService;
     private readonly ILogger<CalendarController> _logger;
 
-    public CalendarController(ICalendarService calendarService, ILogger<CalendarController> logger)
+    public CalendarController(ICalendarService calendarService, IEventService eventService, ILogger<CalendarController> logger)
     {
         _calendarService = calendarService;
+        _eventService = eventService;
         _logger = logger;
     }
 
@@ -30,5 +34,25 @@ public class CalendarController : ControllerBase
         
 
         return Ok();
+    }
+
+    [Authorize]
+    [HttpGet]
+    public IEnumerable<Event> GetMyEvents()
+    {
+        int studentId = GetClaimedStudentId();
+        return _eventService.GetEventsByStudentId(studentId);
+    }
+    
+    private int GetClaimedStudentId()
+    {
+        var identity = HttpContext.User.Identity as ClaimsIdentity;
+        if (identity != null)
+        {
+            var userClaims = identity.Claims;
+            var Id = Int32.Parse(userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            return Id;
+        }
+        return -1;
     }
 }
