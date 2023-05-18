@@ -4,9 +4,31 @@ import graph from "./icons/graph.png";
 import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
 import { useNavigate } from "react-router-dom";
+import {message} from "antd";
 
 function Module(props) {
   const navigate = useNavigate();
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const success = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'success enrollment',
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: 'error',
+      content: 'error on enrollment',
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
 
   const handleGoToModule = () => {
     navigate(`/module?id=${props.id}`);
@@ -25,12 +47,25 @@ function Module(props) {
 
     fetch("https://localhost:44442/api/enrolled/" + props.id, requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+        .then(result => {
+          if(result.ok) {
+            console.log(result);
+            success();
+          }
+          else
+          {
+            error();
+          }
+        })
+        .catch(error => {
+          console.log('error', error);
+          error();
+        });
   };
 
   return (
     <div className="module" onClick={handleGoToModule}>
+      {contextHolder}
       <div className="price-box">
         <p className="number">{props.price !== 0 ? props.price + " $" : "Free"}</p>
       </div>

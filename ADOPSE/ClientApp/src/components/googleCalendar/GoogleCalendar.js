@@ -122,7 +122,7 @@ function GoogleCalendar(props) {
 
     await sendEvents(array2d);
 
-    //alert("send");
+    alert("synchronized");
   }
 
   return (
