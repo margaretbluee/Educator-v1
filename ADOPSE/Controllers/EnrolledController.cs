@@ -27,6 +27,16 @@ public class EnrolledController : ControllerBase
         return _enrolledService.GetEnrolmentsById(studentId);
     }
 
+    [Authorize]
+    [HttpPost("{moduleId}")]
+    public IActionResult AddEnrolement(int moduleId)
+    {
+        int studentId = GetClaimedStudentId();
+        _enrolledService.AddEnrolment(studentId,moduleId);
+
+        return Ok("Enrolment done");
+    }
+
     private int GetClaimedStudentId()
     {
         var identity = HttpContext.User.Identity as ClaimsIdentity;

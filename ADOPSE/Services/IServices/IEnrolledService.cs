@@ -5,4 +5,6 @@ namespace ADOPSE.Services.IServices;
 public interface IEnrolledService
 {
     public IEnumerable<Module> GetEnrolmentsById(int studentId);
+
+    public void AddEnrolment(int studentId, int moduleId);
 }

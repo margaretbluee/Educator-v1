@@ -19,8 +19,15 @@ public class EventService : IEventService
 
     private void DeleteEvent(string eventGoogleCalendarId)
     {
-        _aspNetCoreNTierDbContext.Event.FromSqlRaw(
-            $"delete from Event where GoogleCalendarID = '{eventGoogleCalendarId}';");
+        List<Event> eventsToDelete = _aspNetCoreNTierDbContext.Event.Where(x => x.GoogleCalendarID == eventGoogleCalendarId).ToList();
+        eventsToDelete.ForEach(eventToDelete =>
+        {
+            _aspNetCoreNTierDbContext.Remove<Event>(eventToDelete);
+        });
+        
+        _aspNetCoreNTierDbContext.SaveChanges();
+        /*_aspNetCoreNTierDbContext.Event.FromSqlRaw(
+            $"delete from Event where GoogleCalendarID = '{eventGoogleCalendarId}';");*/
     }
 
     public void DeleteAllEvents(HashSet<string> eventsGoogleCalendarIds)
@@ -40,10 +47,24 @@ public class EventService : IEventService
         string StartDateTime = convertedStartDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffffff");
         string EndDateTime = convertedEndDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffffff");
         
+        _logger.LogInformation($"INSERT INTO Event(GoogleCalendarID, ModuleId, Name, Details, Starts, Ends) VALUES ('{eventAttributes[0]}', {eventAttributes[5]}, '{eventAttributes[1]}', '{eventAttributes[2]}','{StartDateTime}', '{EndDateTime}'  );");
+
+
+        _aspNetCoreNTierDbContext.Event.Add(new Event
+            {
+                Details = eventAttributes[2],
+                Ends = DateTime.Parse(EndDateTime),
+                GoogleCalendarID = eventAttributes[0],
+                Starts = DateTime.Parse(StartDateTime),
+                Name = eventAttributes[1],
+                Module = _aspNetCoreNTierDbContext.Module.Where(x => x.Id == Int16.Parse(eventAttributes[5])).First()
+            }
+        );
         
-        _aspNetCoreNTierDbContext.Event.FromSqlRaw(
-            "INSERT INTO Event(GoogleCalendarID, ModuleId, Name, Details, Starts, Ends) " +
-            $"VALUES ('{eventAttributes[0]}', '{eventAttributes[5]}', '{eventAttributes[1]}', '{eventAttributes[2]}','{StartDateTime}', '{EndDateTime}'  ); ';");
+        /*_aspNetCoreNTierDbContext.Event.FromSql(
+            $"INSERT INTO Event(GoogleCalendarID, ModuleId, Name, Details, Starts, Ends) VALUES ('{eventAttributes[0]}', {eventAttributes[5]}, '{eventAttributes[1]}', '{eventAttributes[2]}','{StartDateTime}', '{EndDateTime}');");*/
+
+        _aspNetCoreNTierDbContext.SaveChanges();
     }
 }
 

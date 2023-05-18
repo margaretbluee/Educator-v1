@@ -92,7 +92,7 @@ function GoogleCalendar(props) {
 
         data.items.forEach((calendar) => calendarsId.push(calendar.id));
         // console.log(calendarsId);
-        alert("Calendar List retrieved");
+        //alert("Calendar List retrieved");
       });
 
     //console.log("finish");
@@ -122,7 +122,7 @@ function GoogleCalendar(props) {
 
     await sendEvents(array2d);
 
-    alert("send");
+    //alert("send");
   }
 
   return (

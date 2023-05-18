@@ -17,4 +17,9 @@ public class EnrolledService : IEnrolledService
     {
         return _enrolledRepository.GetEnrolmentsById(studentId);
     }
+
+    public void AddEnrolment(int studentId, int moduleId)
+    {
+        _enrolledRepository.AddEnrolment(studentId,moduleId);
+    }
 }

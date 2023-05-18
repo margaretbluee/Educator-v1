@@ -21,9 +21,10 @@ public class CalendarController : ControllerBase
     public IActionResult Add([FromBody] List<List<string>> lista)
     {
         //Module module = _moduleService.GetModuleByCalendarId()
-        lista.ForEach(item => item.ForEach(
+        /*lista.ForEach(item => item.ForEach(
             item => _logger.LogInformation(item)
             ));
+            */
         
         _calendarService.AddEvents(lista);
         

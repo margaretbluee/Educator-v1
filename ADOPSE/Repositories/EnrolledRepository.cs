@@ -23,4 +23,17 @@ public class EnrolledRepository : IEnrolledRepository
         //return _aspNetCoreNTierDbContext.Module.FromSql($"select * from Module").ToList();
         return _aspNetCoreNTierDbContext.Module.Where(x => enrollments.Contains(x.Id)).ToList();
     }
+
+    public void AddEnrolment(int studentId, int moduleId)
+    {
+        _aspNetCoreNTierDbContext.Enrolled.Add(
+            new Enrolled
+            {
+                Module = _aspNetCoreNTierDbContext.Module.Where(x => x.Id == moduleId).First(),
+                Student = _aspNetCoreNTierDbContext.Student.Where(x => x.Id == studentId).First(),
+            }
+        );
+
+        _aspNetCoreNTierDbContext.SaveChanges();
+    }
 }

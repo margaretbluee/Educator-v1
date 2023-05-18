@@ -14,13 +14,25 @@ function Module(props) {
 
   const handleEnrollClick = (event) => {
     event.stopPropagation(); // Stop event propagation to parent
-    // Perform enroll logic...
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${localStorage.getItem("token")}`);
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    fetch("https://localhost:44442/api/enrolled/" + props.id, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
   };
 
   return (
     <div className="module" onClick={handleGoToModule}>
       <div className="price-box">
-        <p className="number">{props.price !== 0 ? props.price : "Free"}</p>
+        <p className="number">{props.price !== 0 ? props.price + " $" : "Free"}</p>
       </div>
       <div className="box">
         <div className="title">
