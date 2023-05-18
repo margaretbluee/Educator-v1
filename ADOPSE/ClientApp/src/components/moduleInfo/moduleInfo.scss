@@ -21,6 +21,14 @@
   .teacher {
     margin-top: 15px;
     text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+
+    .name {
+      cursor: pointer;
+      color: darkorange;
+      font-size: 25px;
+    }
   }
 
   .course-details {

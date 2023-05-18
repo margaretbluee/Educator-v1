@@ -6,7 +6,7 @@ import {
   faMoneyBillWave,
   faHardHat,
 } from "@fortawesome/free-solid-svg-icons";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./moduleInfo.scss";
 
 function ModuleInfo() {
@@ -76,12 +76,17 @@ function ModuleInfo() {
   ];
 
   const location = useLocation();
+  const navigate = useNavigate();
   const [moduleId] = useState(
     parseInt(new URLSearchParams(location.search).get("id")) || 1
   );
   const [module, setModule] = useState({}); // module info
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
+
+  const handleGoLecturer = () => {
+    navigate(`/lecturer?id=${module.leaderId}`);
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -128,7 +133,9 @@ function ModuleInfo() {
       <div className="subtitle">{module.description}</div>
       <div className="teacher">
         Teacher:{" "}
-        <a href={`/lecturer?id=${module.leaderId}`}>{module.lecturerName}</a>
+        <div onClick={handleGoLecturer} className="name">
+          <p>{module.lecturerName}</p>
+        </div>
       </div>
       <div className="course-details">
         <div className="course-first">
