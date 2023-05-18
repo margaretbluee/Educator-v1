@@ -18,7 +18,7 @@ function Module(props) {
   };
 
   return (
-    <div className="module" onClick={handleGoToModule}>
+    <div className="lecturer-module" onClick={handleGoToModule}>
       <div className="price-box">
         <p className="number">{props.price !== 0 ? props.price : "Free"}</p>
       </div>

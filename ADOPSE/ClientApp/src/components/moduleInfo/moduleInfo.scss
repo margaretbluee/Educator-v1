@@ -1,0 +1,121 @@
+.module-info {
+  margin: 0 auto;
+  padding: 20px;
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-align: left;
+    border-left: 7px solid #ff7420;
+    padding-left: 10px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    margin-top: 5px;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .teacher {
+    margin-top: 15px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+
+    .name {
+      cursor: pointer;
+      color: darkorange;
+      font-size: 25px;
+    }
+  }
+
+  .course-details {
+    display: flex;
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+
+  .course-first {
+    background-color: darkorange;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    border-radius: 20px 0 0 20px;
+  }
+
+  .course-second {
+    margin-left: 5px;
+  }
+
+  .course-info {
+    display: flex;
+    margin-right: 20px;
+    font-weight: bold;
+  }
+
+  .icon {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .buy-now-button {
+    background-color: darkorange;
+    color: #fff;
+    border: none;
+    padding: 10px 25px 10px 20px;
+    border-radius: 0 20px 20px 0;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .upcoming-events {
+    margin-top: 30px;
+  }
+
+  .upcoming-events h2 {
+    color: #000;
+    text-align: left;
+  }
+
+  /* Events */
+
+  .event-slider {
+    display: flex;
+    overflow-x: auto;
+    margin-top: 10px;
+    padding: 10px;
+  }
+
+  .slider-card-container {
+    display: flex;
+  }
+
+  .slider-card {
+    flex: 0 0 auto;
+    min-width: 200px;
+    padding: 10px;
+    background-color: darkorange;
+    margin-right: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100px;
+  }
+
+  .event-date {
+    font-weight: bold;
+  }
+
+  .orange-br {
+    content: "";
+    display: block;
+    height: 2px;
+    background-color: #000;
+    margin-top: 0.5em; /* Customize the margin as needed */
+  }
+}

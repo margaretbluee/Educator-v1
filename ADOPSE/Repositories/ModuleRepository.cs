@@ -23,13 +23,10 @@ public class ModuleRepository : IModuleRepository
 
     public Module GetModuleById(int id)
     {
-        return _aspNetCoreNTierDbContext.Module.Where(x => x.Id == id).FirstOrDefault();
+        return _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).Include(m => m.ModuleType).Where(x => x.Id == id).FirstOrDefault();
     }
 
-    public int GetModuleCount()
-    {
-        return _aspNetCoreNTierDbContext.Module.Count();
-    }
+
 
     public IQueryable<Module> QueryFiltered(Dictionary<string, string> dic)
     {
@@ -101,7 +98,7 @@ public class ModuleRepository : IModuleRepository
     public IEnumerable<Module> GetFilteredModules(Dictionary<string, string> dic, int limit, int offset)
     {
         // _logger.LogInformation(query.ToString());
-        var toReturn = QueryFiltered(dic).Skip(offset).Take(limit).ToList();
+        var toReturn = QueryFiltered(dic).Skip(offset).Take(limit).OrderBy(m => m.Id).ToList();
         // var toReturn = _aspNetCoreNTierDbContext.Module.FromSqlRaw(query.ToString()).Skip(offset).Take(limit).ToList();
         toReturn.ForEach((module => _logger.LogInformation(module.Name)));
         return toReturn;
@@ -112,8 +109,21 @@ public class ModuleRepository : IModuleRepository
         return _aspNetCoreNTierDbContext.Module.Where(module => module.GoogleCalendarID.Equals(id)).FirstOrDefault();
     }
 
+    public int GetModuleCount()
+    {
+        return _aspNetCoreNTierDbContext.Module.Count();
+    }
     public IEnumerable<Module> GetModuleStacks(int limit, int offset)
     {
-        return _aspNetCoreNTierDbContext.Module.Skip(offset).Take(limit);
+        return _aspNetCoreNTierDbContext.Module.Skip(offset).Take(limit).OrderBy(m => m.Id);
+    }
+
+    public int GetModuleCountByLecturerId(int id)
+    {
+        return _aspNetCoreNTierDbContext.Module.Where(x => x.leaderId == id).Count();
+    }
+    public IEnumerable<Module> GetModuleStacksByLecturerId(int limit, int offset, int id)
+    {
+        return _aspNetCoreNTierDbContext.Module.Where(x => x.leaderId == id).Skip(offset).Take(limit).OrderBy(m => m.Id);
     }
 }

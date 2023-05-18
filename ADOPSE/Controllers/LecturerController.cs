@@ -31,6 +31,16 @@ public class LecturerController : ControllerBase
         return _lecturerService.GetLecturers();
     }
 
+    [HttpGet("{id}")]
+    public ActionResult<Lecturer> GetLecturer(int id)
+    {
+        Lecturer Lecturer = _lecturerService.GetLecturerById(id);
+        if (Lecturer == null)
+            return NotFound();
+        // _logger.LogInformation("AAAAAAAAAAAAAAAAAAAAAA -> " + module.Name);
+        return Lecturer;
+    }
+
     [HttpGet("dokimi")]
     public async Task<Lecturer> GetLecturer()
     {

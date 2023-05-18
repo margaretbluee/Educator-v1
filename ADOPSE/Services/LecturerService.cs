@@ -19,6 +19,11 @@ public class LecturerService : ILecturerService
         return _lecturerRepository.GetAllLecturers();
     }
 
+    public Lecturer GetLecturerById(int id)
+    {
+        return _lecturerRepository.GetLecturerById(id);
+    }
+
     public Lecturer GetLecturer(int lecturerId)
     {
         throw new NotImplementedException();

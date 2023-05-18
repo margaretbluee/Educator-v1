@@ -34,12 +34,12 @@ function Modules(props) {
     setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
-    console.log("--Filter Values--");
-    console.log("Price Range: ", props.priceRange);
-    console.log("Type: ", props.type);
-    console.log("Difficulty: ", props.difficulty);
-    console.log("Stars: ", props.stars);
-    console.log("Search Query: ", searchQuery);
+    // console.log("--Filter Values--");
+    // console.log("Price Range: ", props.priceRange);
+    // console.log("Type: ", props.type);
+    // console.log("Difficulty: ", props.difficulty);
+    // console.log("Stars: ", props.stars);
+    // console.log("Search Query: ", searchQuery);
 
     async function fetchModules() {
       try {
@@ -79,9 +79,11 @@ function Modules(props) {
   ]);
 
   useEffect(() => {
+    if (pages === 0) return;
+    console.log("Active Index: ", activeIndex);
     setOffset((activeIndex - 1) * limit);
     navigate(`?page=${activeIndex}`, { replace: true });
-  }, [activeIndex, limit, navigate]);
+  }, [activeIndex, limit, navigate, pages]);
 
   return (
     <div className="modules">
@@ -115,21 +117,26 @@ function Modules(props) {
         )
       ) : (
         <>
-          <div className="modules-main">
-            {modules.map((module, index) => (
-              <Module
-                key={module.id}
-                index={index}
-                school={module.name}
-                subject={module.name}
-                subject_type={module.moduleTypeName}
-                difficulty={module.difficultyName}
-                rating={module.rating}
-                enrolled={module.price}
-                price={module.price}
-              />
-            ))}
-          </div>
+          {pages > 0 ? (
+            <div className="modules-main">
+              {modules.map((module, index) => (
+                <Module
+                  key={module.id}
+                  id={module.id}
+                  index={index}
+                  school={module.name}
+                  subject={module.name}
+                  subject_type={module.moduleTypeName}
+                  difficulty={module.difficultyName}
+                  rating={module.rating}
+                  enrolled={module.price}
+                  price={module.price}
+                />
+              ))}
+            </div>
+          ) : (
+            <div>No modules found for the selected Filters.</div>
+          )}
           {pages > 0 && (
             <Paginator
               pageCount={pages}

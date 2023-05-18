@@ -1,8 +1,8 @@
 /* Testing */
-$module-height: 235px * 1.2;
-$module-width: 320px * 1.2;
+$module-height: 235px * 1;
+$module-width: 320px * 1;
 
-.module {
+.lecturer-module {
   position: relative;
   cursor: pointer;
 
@@ -84,7 +84,7 @@ $module-width: 320px * 1.2;
     align-items: center;
     border-radius: 7px 0 0 7px;
     background-color: darkorange;
-    width: 63px;
+    width: 40px;
     height: 40px;
     position: absolute;
     font-weight: bold;
