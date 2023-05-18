@@ -18,8 +18,14 @@ public class EnrolledService : IEnrolledService
         return _enrolledRepository.GetEnrolmentsById(studentId);
     }
 
+
+    public bool isEnrolled(int studentId, int moduleId)
+    {
+        return _enrolledRepository.isEnrolled(studentId, moduleId);
+    }
+
     public void AddEnrolment(int studentId, int moduleId)
     {
-        _enrolledRepository.AddEnrolment(studentId,moduleId);
+        _enrolledRepository.AddEnrolment(studentId, moduleId);
     }
 }

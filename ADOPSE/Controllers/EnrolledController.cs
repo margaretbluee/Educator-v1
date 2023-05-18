@@ -32,15 +32,33 @@ public class EnrolledController : ControllerBase
     public IActionResult AddEnrolement(int moduleId)
     {
         int studentId = GetClaimedStudentId();
-        _enrolledService.AddEnrolment(studentId,moduleId);
+        _enrolledService.AddEnrolment(studentId, moduleId);
 
         return Ok("Enrolment done");
     }
 
+    [HttpGet("isEnrolled/{moduleId}")]
+    public IActionResult IsEnrolled(int moduleId)
+    {
+        bool IsEnrolled = false;
+        var response = new { IsEnrolled };
+        int studentId = GetClaimedStudentId();
+        if (studentId == -1)
+        {
+
+            return new JsonResult(response);
+        }
+        bool enrolled = _enrolledService.isEnrolled(studentId, moduleId);
+
+        IsEnrolled = enrolled;
+
+        response = new { IsEnrolled };
+        return new JsonResult(response);
+    }
     private int GetClaimedStudentId()
     {
         var identity = HttpContext.User.Identity as ClaimsIdentity;
-        if (identity != null)
+        if (identity != null && identity.IsAuthenticated)
         {
             var userClaims = identity.Claims;
             var Id = Int32.Parse(userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);

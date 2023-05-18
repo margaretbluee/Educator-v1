@@ -24,6 +24,15 @@ public class EnrolledRepository : IEnrolledRepository
         return _aspNetCoreNTierDbContext.Module.Where(x => enrollments.Contains(x.Id)).ToList();
     }
 
+    public bool isEnrolled(int studentId, int moduleId)
+    {
+        var enrollment = _aspNetCoreNTierDbContext.Enrolled
+            .FirstOrDefault(r => r.StudentId == studentId && r.ModuleId == moduleId);
+
+        return enrollment != null;
+    }
+
+
     public void AddEnrolment(int studentId, int moduleId)
     {
         _aspNetCoreNTierDbContext.Enrolled.Add(

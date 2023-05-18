@@ -29,9 +29,9 @@ public class CalendarController : ControllerBase
             item => _logger.LogInformation(item)
             ));
             */
-        
+
         _calendarService.AddEvents(lista);
-        
+
 
         return Ok();
     }
@@ -43,7 +43,7 @@ public class CalendarController : ControllerBase
         int studentId = GetClaimedStudentId();
         return _eventService.GetEventsByStudentId(studentId);
     }
-    
+
     private int GetClaimedStudentId()
     {
         var identity = HttpContext.User.Identity as ClaimsIdentity;

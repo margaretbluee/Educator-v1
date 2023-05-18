@@ -47,7 +47,7 @@ public class Module
         get { return ModuleType?.Name; }
         set { } // Empty setter to satisfy the entity framework
     }
-    
-    
+
+
 
 }
