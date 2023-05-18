@@ -46,14 +46,20 @@ function Module(props) {
     };
 
     fetch("https://localhost:44442/api/enrolled/" + props.id, requestOptions)
-        .then(response => response.text())
+        .then(response => {
+          if(response.ok) {
+            return response.text()
+          }
+          else {
+            return null;
+          }
+        })
         .then(result => {
-          if(result.ok) {
-            console.log(result);
+          console.log(result);
+          if(result) {
             success();
           }
-          else
-          {
+          else {
             error();
           }
         })
