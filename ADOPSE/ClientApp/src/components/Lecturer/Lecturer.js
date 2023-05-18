@@ -3,10 +3,26 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import Modules from "./modules";
-// import "./moduleInfo.scss";
+import "./lecturer.scss";
+import profile from "./icons/profile.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faGlobe,
+} from "@fortawesome/free-solid-svg-icons";
+
+function convertURLsToLinks(text) {
+  const urlRegex = /((?:https?:\/\/)?(?:[\w-]+\.)+[\w-]+(?:\.\w+)?)/g;
+  return text.replace(urlRegex, (url) => {
+    const prefixedURL = url.startsWith('http') ? url : `http://${url}`;
+    return `<a href="${prefixedURL}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+  });
+}
+
+
+
 
 function Lecturer() {
-
   const location = useLocation();
   const [LecturerId] = useState(
     parseInt(new URLSearchParams(location.search).get("id")) || 1
@@ -55,61 +71,72 @@ function Lecturer() {
   ) : lecturer.status === 404 ? (
     <div>Lecturer not found.</div>
   ) : (
-    <div className="medium-container">
-      <div className="prof-block">
-        <h1 className="prof-details">INSTRUCTOR</h1>
-        <h2 className="prof-details">
-          <span style={{ color: "darkorange" }}>{lecturer.name}</span>
-        </h2>
-        <h3 className="prof-details">
-          <span style={{ fontSize: "19px" }}>
-            Head of Web Development in IHU
-          </span>
-        </h3>
-      </div>
-      <div className="prof-image">
-        <img
-          src="public\midPictures\4388-150x150.jpeg"
-          alt="michalis salampasis"
-        ></img>
-      </div>
-      <div className="small-icons">
-        <img
-          src="public\midPictures\pngfind.com-mail-png-479941.png"
-          style={{ width: "17px", height: "17px", marginBottom: "20px" }}
-        ></img>
-        <img
-          src="public\midPictures\pngfind.com-telephone-png-1203170.png"
-          style={{ width: "17px", height: "17px", marginBottom: "20px" }}
-        ></img>
-        <img
-          src="public\midPictures\pngfind.com-users-png-4650781.png"
-          style={{ width: "17px", height: "17px", marginBottom: "20px" }}
-        ></img>
-      </div>
-      <div className="information-details">
-        <p style={{ fontWeight: "bold" }}>salampasis@ihu.gr</p>
-        <p style={{ fontWeight: "bold" }}>+30 3210013061</p>
-        <p style={{ fontWeight: "bold" }}>2.311 Enrolled</p>
-      </div>
-      <div className="paragraph-style">
-        <p
-          style={{
-            fontWeight: "bold",
-            fontSize: "17px",
-            textAlign: "justify",
-          }}
-        >
-          {lecturer.bio}
-        </p>
+    <div className="lecturer">
+      <div className="lecturer-whole">
+        <div className="medium-container">
+          <div className="prof-block">
+            <h1 className="prof-details">INSTRUCTOR</h1>
+            <h2 className="prof-details">
+              <span style={{ color: "darkorange" }}>{lecturer.name}</span>
+            </h2>
+            {/* <h3 className="prof-details">
+            <span style={{ fontSize: "19px" }}>
+              Head of Web Development in IHU
+            </span>
+          </h3> */}
+          </div>
+          <div className="lecturer-details">
+            <div className="prof-image">
+              <img src={profile} alt="profile"></img>
+            </div>
+            <div className="lecturer-info">
+              <div className="item">
+                <div className="icon">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </div>
+                <div className="text">
+                  <a href={`mailto:${lecturer.email}`}>{lecturer.email}</a>
+                </div>
+              </div>
+              <div className="item">
+                <div className="icon">
+                  <FontAwesomeIcon icon={faGlobe} />
+                </div>
+                <div className="text">
+                  <a
+                    href={lecturer.website.startsWith('http') ? lecturer.website : `http://${lecturer.website}`}
+                  >
+                    {lecturer.website}
+                  </a>
+                </div>
+              </div>
+              {/* <div className="item">
+              <div className="icon">
+                <FontAwesomeIcon icon={faGlobe} />
+              </div>
+              <div className="text"></div>
+            </div> */}
+            </div>
+          </div>
+        </div>
+        <div className="lecturer-bio">
+          <p
+            style={{
+              fontWeight: "bold",
+              fontSize: "17px",
+              textAlign: "justify",
+            }}
+          >
+            {convertURLsToLinks(lecturer.bio)}
+          </p>
+        </div>
       </div>
       <div className="event-header">
         <h1 className="courses-style">
           Courses By{" "}
-          <span style={{ color: "darkorange" }}>Μιχάλης Σαλαμπάσης</span>
+          <span style={{ color: "darkorange" }}>{lecturer.name}</span>
         </h1>
       </div>
-
       <Modules />
     </div>
   );

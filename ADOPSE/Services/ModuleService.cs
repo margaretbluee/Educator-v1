@@ -37,6 +37,14 @@ public class ModuleService : IModuleService
         return new JsonResult(response);
     }
 
+    public IActionResult GetModuleStacksByLecturerId(int limit, int offset, int id)
+    {
+        var modules = _moduleRepository.GetModuleStacksByLecturerId(limit, offset, id);
+        var count = _moduleRepository.GetModuleCountByLecturerId(id);
+        var response = new { count, modules };
+        return new JsonResult(response);
+    }
+
     public IActionResult GetFilteredModules(Dictionary<string, string> dic, int limit, int offset)
     {
         // List<FormattableString> myLista = new List<FormattableString>();

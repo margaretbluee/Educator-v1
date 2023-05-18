@@ -39,6 +39,12 @@ public class ModuleController : ControllerBase
         return _moduleService.GetModuleStacks(limit, offset);
     }
 
+    [HttpGet("lecturer/{id}/{limit}/{offset}")]
+    public IActionResult GetStackByLecturerId(int limit, int offset, int id)
+    {
+        return _moduleService.GetModuleStacksByLecturerId(limit, offset, id);
+    }
+
     [HttpGet("filtered/{limit}/{offset}")]
     public IActionResult GetFilteresModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
         [FromQuery] string? Rating, [FromQuery] string? Price, int limit, int offset)

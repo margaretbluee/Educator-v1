@@ -1,34 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./modules.scss";
 import Module from "./module";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Paginator from "./paginator";
+import {
+  faEnvelope
+} from "@fortawesome/free-solid-svg-icons";
 
 function Modules(props) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(1);
-  const [limit, setLimit] = useState(100);
+  const [limit] = useState(100);
   const [offset, setOffset] = useState(0);
   const [modules, setModules] = useState([]);
   const [pages, setPages] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
-
-  const handleScroll = (event) => {
-    const { scrollLeft, clientWidth, scrollWidth } = event.target;
-    const maxScrollLeft = scrollWidth - clientWidth;
-    const scrollPercentage = scrollLeft / maxScrollLeft;
-    const newIndex = Math.ceil(scrollPercentage * pages);
-    setActiveIndex(newIndex);
-  };
-
-  // useEffect(() => {
-  //   if (pages === null) return;
-  //   if (activeIndex > pages) {
-  //     setActiveIndex(pages);
-  //   }
-  // }, [pages, activeIndex]);
+  const [lecturerId] = useState(
+    parseInt(new URLSearchParams(location.search).get("id")) || 1
+  );
 
   const handlePrevClick = () => {
     setActiveIndex(activeIndex - 1);
@@ -46,7 +37,7 @@ function Modules(props) {
     async function fetchModules() {
       try {
         const response = await Promise.race([
-          fetch(`/api/module/stack/${limit}/${offset}/`),
+          fetch(`/api/module/lecturer/${lecturerId}/${limit}/${offset}/`),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Timeout")), 5000)
           ),
@@ -68,16 +59,10 @@ function Modules(props) {
       }
     }
     fetchModules();
-  }, [limit, offset]);
+  }, [limit, offset, lecturerId]);
 
   useEffect(() => {
-    // if (activeIndex <= 0) {
-    //   setActiveIndex(0);
-    //   return;
-    // }
-    // setLimit(getModulesLimit());
     setOffset((activeIndex - 1) * limit);
-    // navigate(`?page=${activeIndex}`, { replace: true });
   }, [activeIndex, limit]);
 
   return (
@@ -100,7 +85,7 @@ function Modules(props) {
                 Prev
               </button>
               <div className="modules-scroll">
-                <div className="modules-cards" onScroll={handleScroll}>
+                <div className="modules-cards">
                   {modules.map((module, index) => (
                     <Module
                       key={module.id}
