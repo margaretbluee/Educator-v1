@@ -19,6 +19,8 @@ function Modules(props) {
 
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [moduleIds, setModuleIds] = useState();
+
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -53,6 +55,7 @@ function Modules(props) {
         ]);
         const data = await response.json();
         setModules(data.modules);
+        setModuleIds(data.modules.map(module => module.id));
         setPages(Math.ceil(data.count / limit));
         setIsLoading(false);
       } catch (error) {
@@ -77,6 +80,54 @@ function Modules(props) {
     props.difficulty,
     searchQuery,
   ]);
+
+  useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 3;
+  
+    async function fetchIsEnrolled() {
+      try {
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        };
+        
+        const requestBody = JSON.stringify({ moduleIds });
+        console.log("Request Body: ", requestBody);
+
+        // const enrollmentStatusPromises = moduleId.map(async (moduleId) => {
+
+        //   return data.isEnrolled;
+        // });
+        const response = await Promise.race([
+          fetch("/api/enrolled/getIsEnrolled", {
+            method: "POST",
+            headers,
+            body: requestBody,
+          }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 5000)
+          ),
+        ]);
+        const data = await response.json();
+        
+      } catch (error) {
+        console.error(error);
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying fetch... Attempt ${retryCount}`);
+          fetchIsEnrolled();
+        } else {
+          console.error(`Failed to fetch enrollment statuses after ${maxRetries} attempts`);
+        }
+      }
+    }
+
+    if (moduleIds){
+      fetchIsEnrolled();
+    }
+  }, [moduleIds]);
+  
 
   useEffect(() => {
     if (pages === 0) return;

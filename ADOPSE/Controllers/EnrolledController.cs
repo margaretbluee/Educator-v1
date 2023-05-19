@@ -4,6 +4,7 @@ using ADOPSE.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace ADOPSE.Controllers;
 
 [ApiController]
@@ -55,6 +56,27 @@ public class EnrolledController : ControllerBase
         response = new { IsEnrolled };
         return new JsonResult(response);
     }
+
+    [HttpPost("getIsEnrolled")]
+    public IActionResult GetIsEnrolled([FromBody] EnrolledRequest request)
+    {
+        int studentId = GetClaimedStudentId();
+        int[] moduleIds = request.ModuleIds;
+        _logger.LogInformation(moduleIds.ToString());
+        if (studentId == -1 || moduleIds == null || moduleIds.Length == 0)
+        {
+            _logger.LogInformation("AAAAAAAAA");
+            var authorized = false;
+            var response = new { authorized };
+            return new JsonResult(response);
+            // return Json(new { authorized = false });
+        }
+        var IsEnrolled = _enrolledService.GetIsEnrolledById(studentId, moduleIds);
+
+        return new JsonResult(IsEnrolled); ;
+    }
+
+
     private int GetClaimedStudentId()
     {
         var identity = HttpContext.User.Identity as ClaimsIdentity;

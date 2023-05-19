@@ -36,38 +36,6 @@ function Module(props) {
     navigate(`/module?id=${props.id}`);
   };
 
-  useEffect(() => {
-    let retryCount = 0;
-    const maxRetries = 3;
-
-    async function fetchIsEnrolled() {
-      try {
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        };
-        const response = await Promise.race([
-          fetch(`/api/enrolled/isEnrolled/${props.id}`, { headers }),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Timeout")), 5000)
-          ),
-        ]);
-        const data = await response.json();
-        setIsEnrolled(data.isEnrolled);
-      } catch (error) {
-        console.error(error);
-        if (retryCount < maxRetries) {
-          retryCount++;
-          console.log(`Retrying fetch... Attempt ${retryCount}`);
-          fetchIsEnrolled();
-        } else {
-          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
-        }
-      }
-    }
-    fetchIsEnrolled();
-  }, [isEnrolled, props.id]);
-
   const handleEnrollClick = (event) => {
     event.stopPropagation(); // Stop event propagation to parent
     var myHeaders = new Headers();

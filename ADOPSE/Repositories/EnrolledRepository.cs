@@ -32,6 +32,24 @@ public class EnrolledRepository : IEnrolledRepository
         return enrollment != null;
     }
 
+    public IEnumerable<object> GetIsEnrolledById(int studentId, int[] moduleIds)
+    {
+        var enrollments = _aspNetCoreNTierDbContext.Enrolled
+            .Where(r => r.StudentId == studentId && moduleIds.Contains(r.ModuleId))
+            .Select(r => new { moduleId = r.ModuleId, isEnrolled = true })
+            .ToList();
+
+        foreach (var moduleId in moduleIds.Except(enrollments.Select(e => e.moduleId)))
+        {
+            enrollments.Add(new { moduleId, isEnrolled = false });
+        }
+
+        return enrollments;
+    }
+
+
+
+
 
     public void AddEnrolment(int studentId, int moduleId)
     {

@@ -9,4 +9,6 @@ public interface IEnrolledRepository
     public void AddEnrolment(int studentId, int moduleId);
 
     public bool isEnrolled(int studentId, int moduleId);
+
+    public IEnumerable<object> GetIsEnrolledById(int studentId, int[] moduleIds);
 }

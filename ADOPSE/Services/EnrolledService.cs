@@ -24,6 +24,11 @@ public class EnrolledService : IEnrolledService
         return _enrolledRepository.isEnrolled(studentId, moduleId);
     }
 
+    public IEnumerable<object> GetIsEnrolledById(int studentId, int[] moduleId)
+    {
+        return _enrolledRepository.GetIsEnrolledById(studentId, moduleId);
+    }
+
     public void AddEnrolment(int studentId, int moduleId)
     {
         _enrolledRepository.AddEnrolment(studentId, moduleId);
