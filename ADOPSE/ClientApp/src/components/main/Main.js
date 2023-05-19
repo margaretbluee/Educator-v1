@@ -46,7 +46,7 @@ const MainPage = () => {
       redirect: "follow",
     };
 
-    fetch("https://localhost:44442/api/calendar/", requestOptions)
+    fetch("/api/calendar/", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         let listaEvents = [];

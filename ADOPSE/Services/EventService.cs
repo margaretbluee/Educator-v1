@@ -82,6 +82,11 @@ public class EventService : IEventService
 
         _aspNetCoreNTierDbContext.SaveChanges();
     }
+    public IEnumerable<Event> GetEventsByModuleId(int id)
+    {
+        return _aspNetCoreNTierDbContext.Event.Where(x => x.ModuleId == id).ToList();
+    }
+
 }
 
 /*

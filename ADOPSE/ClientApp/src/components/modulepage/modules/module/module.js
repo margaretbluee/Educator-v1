@@ -37,7 +37,6 @@ function Module(props) {
   };
 
   useEffect(() => {
-    // setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
 
@@ -54,10 +53,7 @@ function Module(props) {
           ),
         ]);
         const data = await response.json();
-        console.log(props.id, ":", data.isEnrolled);
         setIsEnrolled(data.isEnrolled);
-        // setModules(data.modules);
-        // setIsLoading(false);
       } catch (error) {
         console.error(error);
         if (retryCount < maxRetries) {
@@ -66,7 +62,6 @@ function Module(props) {
           fetchIsEnrolled();
         } else {
           console.error(`Failed to fetch modules after ${maxRetries} attempts`);
-          // setFailedToLoad(true);
         }
       }
     }

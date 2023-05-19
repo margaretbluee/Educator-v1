@@ -9,4 +9,6 @@ public interface IEventService
     public void AddEvent(List<string> eventAttributes);
 
     public IEnumerable<Event> GetEventsByStudentId(int studentId);
+
+    public IEnumerable<Event> GetEventsByModuleId(int id);
 }

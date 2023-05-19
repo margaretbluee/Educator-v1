@@ -72,6 +72,12 @@
     cursor: pointer;
   }
 
+  .buy-now-button:disabled {
+    background-color: rgb(209 207 207);
+    color: white;
+    cursor: default;
+  }
+
   .upcoming-events {
     margin-top: 30px;
   }

@@ -1,24 +1,113 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./module.scss";
 import graph from "./icons/graph.png";
 import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function Module(props) {
   const navigate = useNavigate();
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const [isEnrolled, setIsEnrolled] = useState(true);
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "success enrollment",
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "error on enrollment",
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
 
   const handleGoToModule = () => {
     navigate(`/module?id=${props.id}`);
   };
 
+  useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    async function fetchIsEnrolled() {
+      try {
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        };
+        const response = await Promise.race([
+          fetch(`/api/enrolled/isEnrolled/${props.id}`, { headers }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 5000)
+          ),
+        ]);
+        const data = await response.json();
+        setIsEnrolled(data.isEnrolled);
+      } catch (error) {
+        console.error(error);
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying fetch... Attempt ${retryCount}`);
+          fetchIsEnrolled();
+        } else {
+          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
+        }
+      }
+    }
+    fetchIsEnrolled();
+  }, [isEnrolled, props.id]);
+
   const handleEnrollClick = (event) => {
     event.stopPropagation(); // Stop event propagation to parent
-    // Perform enroll logic...
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("token")}`
+    );
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch("/api/enrolled/" + props.id, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          setIsEnrolled(true);
+          return response.text();
+        } else {
+          return null;
+        }
+      })
+      .then((result) => {
+        console.log(result);
+        if (result) {
+          success();
+        } else {
+          error();
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        error();
+      });
   };
 
   return (
     <div className="lecturer-module" onClick={handleGoToModule}>
+      {contextHolder}
       <div className="price-box">
         <p className="number">{props.price !== 0 ? props.price : "Free"}</p>
       </div>
@@ -47,7 +136,11 @@ function Module(props) {
           <p className="number">{props.enrolled}</p>
         </div>
         {/* <button className="enrolledButton" onClick={enrollStudents}> */}
-        <button onClick={handleEnrollClick} className="enrolled-button">
+        <button
+          onClick={handleEnrollClick}
+          className="enrolled-button"
+          disabled={isEnrolled}
+        >
           Enroll
         </button>
       </div>

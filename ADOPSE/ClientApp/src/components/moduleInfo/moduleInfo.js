@@ -8,75 +8,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./moduleInfo.scss";
+import { message } from "antd";
 
 function ModuleInfo() {
-  // Array of events data
-  const events = [
-    {
-      key: 1,
-      date: "April 10, 2023",
-      subject: "Mathematics",
-      time: "10:00 AM - 12:00 PM",
-    },
-    {
-      key: 2,
-      date: "April 15, 2023",
-      subject: "Chemistry",
-      time: "2:00 PM - 4:00 PM",
-    },
-    {
-      key: 3,
-      date: "April 20, 2023",
-      subject: "Physics",
-      time: "3:30 PM - 5:30 PM",
-    },
-    {
-      key: 4,
-      date: "April 25, 2023",
-      subject: "Biology",
-      time: "9:00 AM - 11:00 AM",
-    },
-    {
-      key: 5,
-      date: "April 25, 2023",
-      subject: "Biology",
-      time: "9:00 AM - 11:00 AM",
-    },
-    {
-      key: 6,
-      date: "April 25, 2023",
-      subject: "Biology",
-      time: "9:00 AM - 11:00 AM",
-    },
-    {
-      key: 7,
-      date: "April 25, 2023",
-      subject: "Biology",
-      time: "9:00 AM - 11:00 AM",
-    },
-    {
-      key: 8,
-      date: "April 25, 2023",
-      subject: "Biology",
-      time: "9:00 AM - 11:00 AM",
-    },
-    {
-      key: 9,
-      date: "April 25, 2023",
-      subject: "Biology",
-      time: "9:00 AM - 11:00 AM",
-    },
-    {
-      key: 10,
-      date: "April 25, 2023",
-      subject: "Biology",
-      time: "9:00 AM - 11:00 AM",
-    },
-    // Add more events as needed
-  ];
-
   const location = useLocation();
   const navigate = useNavigate();
+
   const [moduleId] = useState(
     parseInt(new URLSearchParams(location.search).get("id")) || 1
   );
@@ -84,8 +21,105 @@ function ModuleInfo() {
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
 
+  const [eventsIsLoading, setEventsIsLoading] = useState(true);
+  const [eventsfailedToLoad, setEventsFailedToLoad] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [isEnrolled, setIsEnrolled] = useState(true);
+
   const handleGoLecturer = () => {
     navigate(`/lecturer?id=${module.leaderId}`);
+  };
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "success enrollment",
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "error on enrollment",
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
+
+  useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    async function fetchIsEnrolled() {
+      try {
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        };
+        const response = await Promise.race([
+          fetch(`/api/enrolled/isEnrolled/${moduleId}`, { headers }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 5000)
+          ),
+        ]);
+        const data = await response.json();
+        setIsEnrolled(data.isEnrolled);
+      } catch (error) {
+        console.error(error);
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying fetch... Attempt ${retryCount}`);
+          fetchIsEnrolled();
+        } else {
+          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
+          // setFailedToLoad(true);
+        }
+      }
+    }
+    fetchIsEnrolled();
+  }, [isEnrolled, moduleId]);
+
+  const handleEnrollClick = (event) => {
+    event.stopPropagation(); // Stop event propagation to parent
+    var myHeaders = new Headers();
+    myHeaders.append(
+      "Authorization",
+      `Bearer ${localStorage.getItem("token")}`
+    );
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch("/api/enrolled/" + moduleId, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          setIsEnrolled(true);
+          return response.text();
+        } else {
+          return null;
+        }
+      })
+      .then((result) => {
+        console.log(result);
+        if (result) {
+          success();
+        } else {
+          error();
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        error();
+      });
   };
 
   useEffect(() => {
@@ -119,6 +153,36 @@ function ModuleInfo() {
     fetchModules();
   }, [moduleId]);
 
+  useEffect(() => {
+    setEventsIsLoading(true);
+    let retryCount = 0;
+    const maxRetries = 3;
+    async function fetchEvents() {
+      try {
+        const response = await Promise.race([
+          fetch(`/api/events/${moduleId}`),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 5000)
+          ),
+        ]);
+        const data = await response.json();
+        setEvents(data);
+        setEventsIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying fetch... Attempt ${retryCount}`);
+          fetchEvents();
+        } else {
+          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
+          setEventsFailedToLoad(true);
+        }
+      }
+    }
+    fetchEvents();
+  }, [moduleId]);
+
   return isLoading ? (
     failedToLoad ? (
       <div>Failed to load modules. Please try again later.</div>
@@ -129,6 +193,7 @@ function ModuleInfo() {
     <div>Module not found.</div>
   ) : (
     <div className="module-info">
+      {contextHolder}
       <h1 className="title">{module.name}</h1>
       <div className="subtitle">{module.description}</div>
       <div className="teacher">
@@ -168,26 +233,67 @@ function ModuleInfo() {
           </div>
         </div>
         <div className="course-second">
-          <button className="buy-now-button">Enroll</button>
+          <button
+            className="buy-now-button"
+            onClick={handleEnrollClick}
+            disabled={isEnrolled}
+          >
+            Enroll
+          </button>
         </div>
       </div>
       <div className="upcoming-events">
         <h2>Upcoming Events</h2>
         <br className="orange-br" />
-        <div className="event-slider">
-          <div className="slider-card-container">
-            {events.map((event, index) => (
-              <div key={index} className="slider-card">
-                <div className="event-date">{event.date}</div>
-                <div className="event-subject">{event.subject}</div>
-                <div className="event-time">{event.time}</div>
-              </div>
-            ))}
+
+        {eventsIsLoading ? (
+          eventsfailedToLoad ? (
+            <div>Failed to load Load. Please try again later.</div>
+          ) : (
+            <div>Loading...</div>
+          )
+        ) : module.status === 404 ? (
+          <div>Events Not Fount.</div>
+        ) : (
+          <div className="event-slider">
+            <div className="slider-card-container">
+              {events.map((event, index) => (
+                <div key={index} className="slider-card">
+                  <div className="event-date">{formatDate(event.starts)}</div>
+                  <div className="event-subject">{event.name}</div>
+                  <div className="event-time">
+                    {formatTime(event.starts)} - {formatTime(event.ends)}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
+}
+
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  return formattedDate;
+}
+
+function formatTime(timestamp) {
+  const date = new Date(timestamp);
+
+  const formattedTime = date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  return formattedTime;
 }
 
 export default ModuleInfo;

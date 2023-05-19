@@ -7,6 +7,7 @@ public class Event
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string GoogleCalendarID { get; set; }
+    public int ModuleId { get; set; }
     public Module Module { get; set; }
     public string Name { get; set; }
     public string Details { get; set; }

@@ -187,4 +187,10 @@ $module-width: 320px * 1;
     bottom: 0%;
     right: 0%;
   }
+
+  .enrolled-button:disabled {
+    background-color: rgb(209 207 207);
+    color: white;
+    cursor: default;
+  }
 }
