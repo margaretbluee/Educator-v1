@@ -12,6 +12,11 @@ function Module(props) {
   const [messageApi, contextHolder] = message.useMessage();
   const [isEnrolled, setIsEnrolled] = useState(true);
 
+  useEffect(() => {
+    if (props.isEnrolled === undefined) return;
+    setIsEnrolled(props.isEnrolled);
+  }, [props.isEnrolled]);
+
   const success = () => {
     messageApi.open({
       type: "success",
@@ -35,38 +40,6 @@ function Module(props) {
   const handleGoToModule = () => {
     navigate(`/module?id=${props.id}`);
   };
-
-  useEffect(() => {
-    let retryCount = 0;
-    const maxRetries = 3;
-
-    async function fetchIsEnrolled() {
-      try {
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        };
-        const response = await Promise.race([
-          fetch(`/api/enrolled/isEnrolled/${props.id}`, { headers }),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Timeout")), 5000)
-          ),
-        ]);
-        const data = await response.json();
-        setIsEnrolled(data.isEnrolled);
-      } catch (error) {
-        console.error(error);
-        if (retryCount < maxRetries) {
-          retryCount++;
-          console.log(`Retrying fetch... Attempt ${retryCount}`);
-          fetchIsEnrolled();
-        } else {
-          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
-        }
-      }
-    }
-    fetchIsEnrolled();
-  }, [isEnrolled, props.id]);
 
   const handleEnrollClick = (event) => {
     event.stopPropagation(); // Stop event propagation to parent

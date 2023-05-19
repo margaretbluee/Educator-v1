@@ -12,6 +12,11 @@ function Module(props) {
   const [messageApi, contextHolder] = message.useMessage();
   const [isEnrolled, setIsEnrolled] = useState(true);
 
+  useEffect(() => {
+    if (props.isEnrolled === undefined) return;
+    setIsEnrolled(props.isEnrolled);
+  }, [props.isEnrolled]);
+
   const success = () => {
     messageApi.open({
       type: "success",

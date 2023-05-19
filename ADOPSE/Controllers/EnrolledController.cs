@@ -62,18 +62,18 @@ public class EnrolledController : ControllerBase
     {
         int studentId = GetClaimedStudentId();
         int[] moduleIds = request.ModuleIds;
-        _logger.LogInformation(moduleIds.ToString());
+        bool authorized = false;
+        object IsEnrolled = null;
         if (studentId == -1 || moduleIds == null || moduleIds.Length == 0)
         {
-            _logger.LogInformation("AAAAAAAAA");
-            var authorized = false;
-            var response = new { authorized };
-            return new JsonResult(response);
+
+            return new JsonResult(authorized);
             // return Json(new { authorized = false });
         }
-        var IsEnrolled = _enrolledService.GetIsEnrolledById(studentId, moduleIds);
-
-        return new JsonResult(IsEnrolled); ;
+        IsEnrolled = _enrolledService.GetIsEnrolledById(studentId, moduleIds);
+        authorized = true;
+        var response = new { authorized, IsEnrolled };
+        return new JsonResult(response); ;
     }
 
 

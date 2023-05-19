@@ -20,6 +20,7 @@ function Modules(props) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [moduleIds, setModuleIds] = useState();
+  const [isEnrolled, setIsEnrolled] = useState({});
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -32,16 +33,15 @@ function Modules(props) {
     }
   }, [pages, activeIndex]);
 
+  // useEffect(() => {
+  //   data.forEach((module) => {
+  //     isEnrolled[module.id] = module.isEnrolled;
+  //   });
+
   useEffect(() => {
     setIsLoading(true);
     let retryCount = 0;
     const maxRetries = 3;
-    // console.log("--Filter Values--");
-    // console.log("Price Range: ", props.priceRange);
-    // console.log("Type: ", props.type);
-    // console.log("Difficulty: ", props.difficulty);
-    // console.log("Stars: ", props.stars);
-    // console.log("Search Query: ", searchQuery);
 
     async function fetchModules() {
       try {
@@ -55,7 +55,7 @@ function Modules(props) {
         ]);
         const data = await response.json();
         setModules(data.modules);
-        setModuleIds(data.modules.map(module => module.id));
+        setModuleIds(data.modules.map((module) => module.id));
         setPages(Math.ceil(data.count / limit));
         setIsLoading(false);
       } catch (error) {
@@ -84,21 +84,16 @@ function Modules(props) {
   useEffect(() => {
     let retryCount = 0;
     const maxRetries = 3;
-  
+
     async function fetchIsEnrolled() {
       try {
         const headers = {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         };
-        
+
         const requestBody = JSON.stringify({ moduleIds });
-        console.log("Request Body: ", requestBody);
 
-        // const enrollmentStatusPromises = moduleId.map(async (moduleId) => {
-
-        //   return data.isEnrolled;
-        // });
         const response = await Promise.race([
           fetch("/api/enrolled/getIsEnrolled", {
             method: "POST",
@@ -110,7 +105,14 @@ function Modules(props) {
           ),
         ]);
         const data = await response.json();
-        
+
+        if (data.authorized === true) {
+          const enrolledStatuses = data.isEnrolled.reduce((obj, item) => {
+            obj[item.moduleId] = item.isEnrolled;
+            return obj;
+          }, {});
+          setIsEnrolled(enrolledStatuses);
+        }
       } catch (error) {
         console.error(error);
         if (retryCount < maxRetries) {
@@ -118,16 +120,17 @@ function Modules(props) {
           console.log(`Retrying fetch... Attempt ${retryCount}`);
           fetchIsEnrolled();
         } else {
-          console.error(`Failed to fetch enrollment statuses after ${maxRetries} attempts`);
+          console.error(
+            `Failed to fetch enrollment statuses after ${maxRetries} attempts`
+          );
         }
       }
     }
 
-    if (moduleIds){
+    if (moduleIds) {
       fetchIsEnrolled();
     }
   }, [moduleIds]);
-  
 
   useEffect(() => {
     if (pages === 0) return;
@@ -182,6 +185,7 @@ function Modules(props) {
                   rating={module.rating}
                   enrolled={module.price}
                   price={module.price}
+                  isEnrolled={isEnrolled[module.id]}
                 />
               ))}
             </div>

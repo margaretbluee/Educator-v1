@@ -18,6 +18,9 @@ function Modules(props) {
     parseInt(new URLSearchParams(location.search).get("id")) || 1
   );
 
+  const [moduleIds, setModuleIds] = useState();
+  const [isEnrolled, setIsEnrolled] = useState({});
+
   const handlePrevClick = () => {
     setActiveIndex(activeIndex - 1);
   };
@@ -42,6 +45,7 @@ function Modules(props) {
         const data = await response.json();
         setModules(data.modules);
         setPages(Math.ceil(data.count / limit));
+        setModuleIds(data.modules.map((module) => module.id));
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -61,6 +65,57 @@ function Modules(props) {
   useEffect(() => {
     setOffset((activeIndex - 1) * limit);
   }, [activeIndex, limit]);
+
+  useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    async function fetchIsEnrolled() {
+      try {
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        };
+
+        const requestBody = JSON.stringify({ moduleIds });
+
+        const response = await Promise.race([
+          fetch("/api/enrolled/getIsEnrolled", {
+            method: "POST",
+            headers,
+            body: requestBody,
+          }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 5000)
+          ),
+        ]);
+        const data = await response.json();
+
+        if (data.authorized === true) {
+          const enrolledStatuses = data.isEnrolled.reduce((obj, item) => {
+            obj[item.moduleId] = item.isEnrolled;
+            return obj;
+          }, {});
+          setIsEnrolled(enrolledStatuses);
+        }
+      } catch (error) {
+        console.error(error);
+        if (retryCount < maxRetries) {
+          retryCount++;
+          console.log(`Retrying fetch... Attempt ${retryCount}`);
+          fetchIsEnrolled();
+        } else {
+          console.error(
+            `Failed to fetch enrollment statuses after ${maxRetries} attempts`
+          );
+        }
+      }
+    }
+
+    if (moduleIds) {
+      fetchIsEnrolled();
+    }
+  }, [moduleIds]);
 
   return (
     <div className="lecturer-modules">
@@ -95,6 +150,7 @@ function Modules(props) {
                       rating={module.rating}
                       enrolled={module.price}
                       price={module.price}
+                      isEnrolled={isEnrolled[module.id]}
                     />
                   ))}
                 </div>
