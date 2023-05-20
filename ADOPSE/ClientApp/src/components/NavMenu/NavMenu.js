@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Collapse,
   Navbar,
@@ -19,7 +19,7 @@ function NavMenu({ navbarRef }) {
 
   const location = useLocation();
 
-  const getNavTitle = () => {
+  const getNavTitle = useCallback(() => {
     switch (location.pathname) {
       case "/":
         return "Dashboard";
@@ -40,13 +40,13 @@ function NavMenu({ navbarRef }) {
       default:
         return "";
     }
-  };
+  }, [location.pathname]);
 
   const [navTitle, setNavTitle] = useState(getNavTitle());
 
   useEffect(() => {
     setNavTitle(getNavTitle());
-  }, [location.pathname]);
+  }, [location.pathname, getNavTitle]);
 
   return (
     <header ref={navbarRef} className="fixed-top nav-menu">

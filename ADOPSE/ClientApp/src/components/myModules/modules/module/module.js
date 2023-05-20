@@ -1,86 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./module.scss";
 import graph from "./icons/graph.png";
 import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
 import { useNavigate } from "react-router-dom";
-import { message } from "antd";
+// import { message } from "antd";
 
 function Module(props) {
   const navigate = useNavigate();
-
-  const [messageApi, contextHolder] = message.useMessage();
-  const [isEnrolled, setIsEnrolled] = useState(true);
-
-  useEffect(() => {
-    if (props.isEnrolled === undefined) return;
-    setIsEnrolled(props.isEnrolled);
-  }, [props.isEnrolled]);
-
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "success enrollment",
-      style: {
-        marginTop: "60px",
-      },
-    });
-  };
-
-  const error = () => {
-    messageApi.open({
-      type: "error",
-      content: "error on enrollment",
-      style: {
-        marginTop: "60px",
-      },
-    });
-  };
 
   const handleGoToModule = () => {
     navigate(`/module?id=${props.id}`);
   };
 
-  const handleEnrollClick = (event) => {
-    event.stopPropagation(); // Stop event propagation to parent
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("token")}`
-    );
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    fetch("/api/enrolled/" + props.id, requestOptions)
-      .then((response) => {
-        if (response.ok) {
-          setIsEnrolled(true);
-          return response.text();
-        } else {
-          return null;
-        }
-      })
-      .then((result) => {
-        console.log(result);
-        if (result) {
-          success();
-        } else {
-          error();
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-        error();
-      });
-  };
-
   return (
     <div className="module" onClick={handleGoToModule}>
-      {contextHolder}
+      {/* {contextHolder} */}
       <div className="price-box">
         <p className="number">
           {props.price !== 0 ? props.price + " $" : "Free"}
@@ -110,14 +45,6 @@ function Module(props) {
           <img src={users} alt="" className="icon" />
           <p className="number">{props.enrolled}</p>
         </div>
-        {/* <button className="enrolledButton" onClick={enrollStudents}> */}
-        {/* <button
-          onClick={handleEnrollClick}
-          className="enrolled-button"
-          disabled={isEnrolled}
-        >
-          Enroll
-        </button> */}
       </div>
     </div>
   );

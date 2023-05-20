@@ -5,7 +5,6 @@ import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
-import { useSession } from "@supabase/auth-helpers-react";
 import { hasJWT } from "../../../authentication/authentication";
 
 function Module(props) {
@@ -13,7 +12,6 @@ function Module(props) {
 
   const [messageApi, contextHolder] = message.useMessage();
   const [isEnrolled, setIsEnrolled] = useState(true);
-  const session = useSession();
 
   useEffect(() => {
     if (props.isEnrolled === undefined) return;
