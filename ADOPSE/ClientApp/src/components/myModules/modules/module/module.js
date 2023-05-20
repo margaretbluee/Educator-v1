@@ -5,7 +5,6 @@ import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
-import { hasJWT } from "../../../authentication/authentication";
 
 function Module(props) {
   const navigate = useNavigate();
@@ -112,15 +111,13 @@ function Module(props) {
           <p className="number">{props.enrolled}</p>
         </div>
         {/* <button className="enrolledButton" onClick={enrollStudents}> */}
-        {!props.isLoadingEnrolled && hasJWT() && (
-          <button
-            onClick={handleEnrollClick}
-            className="enrolled-button"
-            disabled={isEnrolled}
-          >
-            {!isEnrolled ? "Enroll" : "Enrolled"}
-          </button>
-        )}
+        {/* <button
+          onClick={handleEnrollClick}
+          className="enrolled-button"
+          disabled={isEnrolled}
+        >
+          Enroll
+        </button> */}
       </div>
     </div>
   );

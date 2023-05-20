@@ -5,12 +5,15 @@ import users from "./icons/users.png";
 import ratingStar from "./icons/rating-star.png";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
+import { useSession } from "@supabase/auth-helpers-react";
+import { hasJWT } from "../../../authentication/authentication";
 
 function Module(props) {
   const navigate = useNavigate();
 
   const [messageApi, contextHolder] = message.useMessage();
   const [isEnrolled, setIsEnrolled] = useState(true);
+  const session = useSession();
 
   useEffect(() => {
     if (props.isEnrolled === undefined) return;
@@ -109,13 +112,15 @@ function Module(props) {
           <p className="number">{props.enrolled}</p>
         </div>
         {/* <button className="enrolledButton" onClick={enrollStudents}> */}
-        <button
-          onClick={handleEnrollClick}
-          className="enrolled-button"
-          disabled={isEnrolled}
-        >
-          Enroll
-        </button>
+        {!props.isLoadingEnrolled && hasJWT && (
+          <button
+            onClick={handleEnrollClick}
+            className="enrolled-button"
+            disabled={isEnrolled}
+          >
+            {!isEnrolled ? "Enroll" : "Enrolled"}
+          </button>
+        )}
       </div>
     </div>
   );

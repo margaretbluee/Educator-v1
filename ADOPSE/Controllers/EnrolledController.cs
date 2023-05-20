@@ -88,4 +88,26 @@ public class EnrolledController : ControllerBase
         }
         return -1;
     }
+
+    [Authorize]
+    [HttpGet("filtered/{limit}/{offset}")]
+    public IActionResult GetFilteresEnrolledModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
+        [FromQuery] string? Rating, [FromQuery] string? Price, int limit, int offset)
+    {
+        int studentId = GetClaimedStudentId();
+
+        Dictionary<string, string> myDict1 = new Dictionary<string, string>();
+
+        if (ModuleTypeId != null)
+            myDict1.Add("ModuleTypeId", ModuleTypeId);
+        if (DifficultyId != null)
+            myDict1.Add("DifficultyId", DifficultyId);
+        if (Rating != null)
+            myDict1.Add("Rating", Rating);
+        if (Price != null)
+            myDict1.Add("Price", Price);
+
+        var modules = _enrolledService.GetFilteredEnrolledModules(myDict1, limit, offset, studentId);
+        return modules;
+    }
 }

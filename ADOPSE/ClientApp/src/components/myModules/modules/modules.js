@@ -17,8 +17,6 @@ function Modules(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
 
-  const [isLoadingEnrolled, setIsLoadingEnrolled] = useState(true);
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const [moduleIds, setModuleIds] = useState();
@@ -42,9 +40,15 @@ function Modules(props) {
 
     async function fetchModules() {
       try {
+        const headers = {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        };
+
         const response = await Promise.race([
           fetch(
-            `/api/module/filtered/${limit}/${offset}/?ModuleTypeId=${props.type}&DifficultyId=${props.difficulty}&price=${props.priceRange[0]},${props.priceRange[1]}&Rating=${props.stars[0]},${props.stars[1]}&SearchQuery=${searchQuery}`
+            `/api/enrolled/filtered/${limit}/${offset}/?ModuleTypeId=${props.type}&DifficultyId=${props.difficulty}&price=${props.priceRange[0]},${props.priceRange[1]}&Rating=${props.stars[0]},${props.stars[1]}&SearchQuery=${searchQuery}`,
+            { headers }
           ),
           new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Timeout")), 5000)
@@ -81,7 +85,6 @@ function Modules(props) {
   useEffect(() => {
     let retryCount = 0;
     const maxRetries = 3;
-    setIsLoadingEnrolled(true);
 
     async function fetchIsEnrolled() {
       try {
@@ -111,7 +114,6 @@ function Modules(props) {
           }, {});
           setIsEnrolled(enrolledStatuses);
         }
-        setIsLoadingEnrolled(false);
       } catch (error) {
         console.error(error);
         if (retryCount < maxRetries) {
@@ -191,7 +193,6 @@ function Modules(props) {
                   enrolled={module.price}
                   price={module.price}
                   isEnrolled={isEnrolled[module.id]}
-                  isLoadingEnrolled={isLoadingEnrolled}
                 />
               ))}
             </div>

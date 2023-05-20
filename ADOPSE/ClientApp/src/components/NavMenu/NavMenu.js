@@ -7,14 +7,46 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./NavMenu.scss";
 import { hasJWT, removeJWT } from "../authentication/authentication";
+import { useEffect } from "react";
 function NavMenu({ navbarRef }) {
   const [collapsed, setCollapsed] = useState(true);
   const toggleNavbar = () => setCollapsed(!collapsed);
 
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const getNavTitle = () => {
+    switch (location.pathname) {
+      case "/":
+        return "Dashboard";
+      case "/modules":
+        return "Modules";
+      case "/module":
+        return "Module Info";
+      case "/lecturer":
+        return "Lecturer";
+      case "/myLearning":
+        return "My Learning";
+      case "/googleCalendar":
+        return "Google Calendar";
+      case "/login":
+        return "Login";
+      case "/register":
+        return "Register";
+      default:
+        return "";
+    }
+  };
+
+  const [navTitle, setNavTitle] = useState(getNavTitle());
+
+  useEffect(() => {
+    setNavTitle(getNavTitle());
+  }, [location.pathname]);
 
   return (
     <header ref={navbarRef} className="fixed-top nav-menu">
@@ -22,9 +54,12 @@ function NavMenu({ navbarRef }) {
         className="navbar-expand-sm bg-white navbar-toggleable-sm ng-white border-bottom box-shadow"
         light
       >
-        <NavbarBrand className="ms-3" tag={Link} to="/">
-          Educator
-        </NavbarBrand>
+        <div className="d-flex align-items-center">
+          <NavbarBrand className="ms-3 navbar-brand" tag={Link} to="/">
+            Educator <span className="nav-title">{navTitle}</span>
+          </NavbarBrand>
+        </div>
+
         <NavbarToggler onClick={toggleNavbar} className="me-2" />
         <Collapse
           className="d-sm-inline-flex flex-sm-row-reverse me-2"
@@ -43,9 +78,13 @@ function NavMenu({ navbarRef }) {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} className="text-dark" to="/fetch-data">
-                My Learning
-              </NavLink>
+              {hasJWT() ? (
+                <NavLink tag={Link} className="text-dark" to="/myLearning">
+                  My Learning
+                </NavLink>
+              ) : (
+                <div></div>
+              )}
             </NavItem>
             <NavItem>
               {hasJWT() ? (

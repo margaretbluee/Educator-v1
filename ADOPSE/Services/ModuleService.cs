@@ -47,16 +47,6 @@ public class ModuleService : IModuleService
 
     public IActionResult GetFilteredModules(Dictionary<string, string> dic, int limit, int offset)
     {
-        // List<FormattableString> myLista = new List<FormattableString>();
-
-        // foreach (KeyValuePair<string, string> ele1 in dic)
-        // {
-        //     myLista.Add($"{ele1.Key} = {ele1.Value}");
-        // }
-        // FormattableString joinedString = myLista.Aggregate((current, next) => $"{current} and {next}");
-
-        // FormattableString query = $"select * from Module where {joinedString}";
-
         IEnumerable<Module> modules = _moduleRepository.GetFilteredModules(dic, limit, offset);
         var count = _moduleRepository.GetModuleCountFiltered(dic);
         var response = new { count, modules };

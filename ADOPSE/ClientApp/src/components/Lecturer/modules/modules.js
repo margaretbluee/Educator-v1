@@ -14,6 +14,7 @@ function Modules(props) {
   const [pages, setPages] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
+  const [isLoadingEnrolled, setIsLoadingEnrolled] = useState(true);
   const [lecturerId] = useState(
     parseInt(new URLSearchParams(location.search).get("id")) || 1
   );
@@ -69,6 +70,7 @@ function Modules(props) {
   useEffect(() => {
     let retryCount = 0;
     const maxRetries = 3;
+    setIsLoadingEnrolled(true);
 
     async function fetchIsEnrolled() {
       try {
@@ -98,6 +100,7 @@ function Modules(props) {
           }, {});
           setIsEnrolled(enrolledStatuses);
         }
+        setIsLoadingEnrolled(false);
       } catch (error) {
         console.error(error);
         if (retryCount < maxRetries) {
@@ -151,6 +154,7 @@ function Modules(props) {
                       enrolled={module.price}
                       price={module.price}
                       isEnrolled={isEnrolled[module.id]}
+                      isLoadingEnrolled={isLoadingEnrolled}
                     />
                   ))}
                 </div>

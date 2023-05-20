@@ -238,7 +238,7 @@ function ModuleInfo() {
             onClick={handleEnrollClick}
             disabled={isEnrolled}
           >
-            Enroll
+            {!isEnrolled ? "Enroll" : "Enrolled"}
           </button>
         </div>
       </div>
