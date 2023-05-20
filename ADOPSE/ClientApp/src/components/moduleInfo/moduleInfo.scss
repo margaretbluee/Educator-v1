@@ -35,6 +35,7 @@
     display: flex;
     margin-top: 100px;
     margin-bottom: 100px;
+    height: 40px;
   }
 
   .course-first {
@@ -45,6 +46,10 @@
     align-items: center;
     padding-left: 20px;
     border-radius: 20px 0 0 20px;
+  }
+
+  .course-first.full-border {
+    border-radius: 20px;
   }
 
   .course-second {
@@ -66,9 +71,11 @@
     background-color: darkorange;
     color: #fff;
     border: none;
-    padding: 10px 25px 10px 20px;
+    padding-right: 25px;
+    padding-left: 20px;
     border-radius: 0 20px 20px 0;
     font-weight: bold;
+    height: 40px;
     cursor: pointer;
   }
 

@@ -110,7 +110,7 @@ function Module(props) {
           <p className="number">{props.enrolled}</p>
         </div>
         {/* <button className="enrolledButton" onClick={enrollStudents}> */}
-        {!props.isLoadingEnrolled && hasJWT && (
+        {!props.isLoadingEnrolled && hasJWT() && (
           <button
             onClick={handleEnrollClick}
             className="enrolled-button"

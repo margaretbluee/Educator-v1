@@ -9,6 +9,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import "./moduleInfo.scss";
 import { message } from "antd";
+import { hasJWT } from "../authentication/authentication";
 
 function ModuleInfo() {
   const location = useLocation();
@@ -203,7 +204,7 @@ function ModuleInfo() {
         </div>
       </div>
       <div className="course-details">
-        <div className="course-first">
+        <div className={`course-first ${hasJWT() ? "" : "full-border"}`}>
           <div className="course-info">
             <div className="icon">
               <FontAwesomeIcon icon={faHardHat} style={{ color: "white" }} />
@@ -232,15 +233,17 @@ function ModuleInfo() {
             <div className="text">Price: {module.price}</div>
           </div>
         </div>
-        <div className="course-second">
-          <button
-            className="buy-now-button"
-            onClick={handleEnrollClick}
-            disabled={isEnrolled}
-          >
-            {!isEnrolled ? "Enroll" : "Enrolled"}
-          </button>
-        </div>
+        {hasJWT() && (
+          <div className="course-second">
+            <button
+              className="buy-now-button"
+              onClick={handleEnrollClick}
+              disabled={isEnrolled}
+            >
+              {!isEnrolled ? "Enroll" : "Enrolled"}
+            </button>
+          </div>
+        )}
       </div>
       <div className="upcoming-events">
         <h2>Upcoming Events</h2>
