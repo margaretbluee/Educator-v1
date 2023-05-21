@@ -2,18 +2,6 @@ import React, { useState, useEffect } from "react";
 import Lecturer from "./Lecturer";
 import "./Lecturers.scss";
 
-// const lecturers = [
-//     {
-//       "id": 1,
-//       "name": "Καθηγητής 1",
-//     },
-//     {
-//       "id": 2,
-//       "name": "Καθηγητής 2",
-//     }
-
-// ]
-
 function Lecturers(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
