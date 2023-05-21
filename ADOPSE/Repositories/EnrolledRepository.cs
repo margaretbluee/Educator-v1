@@ -10,8 +10,11 @@ public class EnrolledRepository : IEnrolledRepository
     private readonly MyDbContext _aspNetCoreNTierDbContext;
     private readonly ILogger<EnrolledRepository> _logger;
 
-    public EnrolledRepository(MyDbContext aspNetCoreNTierDbContext, ILogger<EnrolledRepository> logger)
+    private readonly ILuceneRepository _luceneRepository;
+
+    public EnrolledRepository(MyDbContext aspNetCoreNTierDbContext, ILogger<EnrolledRepository> logger, ILuceneRepository luceneRepository)
     {
+        _luceneRepository = luceneRepository;
         _aspNetCoreNTierDbContext = aspNetCoreNTierDbContext;
         _logger = logger;
     }
@@ -72,6 +75,22 @@ public class EnrolledRepository : IEnrolledRepository
             .Where(module => _aspNetCoreNTierDbContext.Enrolled
                 .Any(enrolled => enrolled.StudentId == studentId && enrolled.ModuleId == module.Id))
             .AsQueryable();
+
+        if (dic.ContainsKey("SearchQuery"))
+        {
+            string searchQuery;
+            if (dic.TryGetValue("SearchQuery", out searchQuery) && !string.IsNullOrEmpty(searchQuery))
+            {
+                IEnumerable<Module> searchResults = _luceneRepository.SearchModules(searchQuery);
+                _logger.LogInformation($"Search Query: {searchQuery}");
+
+                _logger.LogInformation($"Search Results Count: {searchResults?.Count() ?? 0}");
+
+                var searchResultIds = searchResults.Select(searchModule => Convert.ToInt32(searchModule.Id));
+
+                query = query.Where(module => searchResultIds.Contains(module.Id));
+            }
+        }
 
         if (dic.ContainsKey("ModuleTypeId"))
         {

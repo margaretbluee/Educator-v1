@@ -47,7 +47,7 @@ public class ModuleController : ControllerBase
 
     [HttpGet("filtered/{limit}/{offset}")]
     public IActionResult GetFilteresModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
-        [FromQuery] string? Rating, [FromQuery] string? Price, int limit, int offset)
+        [FromQuery] string? Rating, [FromQuery] string? Price, [FromQuery] string? SearchQuery, int limit, int offset)
     {
         _logger.LogInformation(ModuleTypeId);
         _logger.LogInformation(DifficultyId);
@@ -63,8 +63,17 @@ public class ModuleController : ControllerBase
             myDict1.Add("Rating", Rating);
         if (Price != null)
             myDict1.Add("Price", Price);
+        if (SearchQuery != null)
+            myDict1.Add("SearchQuery", SearchQuery);
 
         var modules = _moduleService.GetFilteredModules(myDict1, limit, offset);
         return modules;
+    }
+
+    [HttpPost("index")]
+    public IActionResult CreateIndex()
+    {
+        _moduleService.CreateIndex();
+        return Ok(); // Or return appropriate status code and response
     }
 }

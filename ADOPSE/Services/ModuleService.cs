@@ -57,4 +57,9 @@ public class ModuleService : IModuleService
     {
         return _moduleRepository.GetModuleByCalendarId(id);
     }
+
+    public void CreateIndex()
+    {
+        _moduleRepository.CreateIndex();
+    }
 }

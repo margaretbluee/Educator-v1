@@ -22,6 +22,7 @@ public interface IModuleRepository
 
     IEnumerable<Module> GetModuleStacksByLecturerId(int limit, int offset, int id);
 
+    public void CreateIndex();
 
 
 

@@ -10,12 +10,15 @@ public class ModuleRepository : IModuleRepository
     private readonly MyDbContext _aspNetCoreNTierDbContext;
     private readonly ILogger<ModuleRepository> _logger;
 
-    public ModuleRepository(MyDbContext aspNetCoreNTierDbContext, ILogger<ModuleRepository> logger)
+    private readonly ILuceneRepository _luceneRepository;
+
+
+    public ModuleRepository(MyDbContext aspNetCoreNTierDbContext, ILogger<ModuleRepository> logger, ILuceneRepository luceneRepository)
     {
+        _luceneRepository = luceneRepository;
         _aspNetCoreNTierDbContext = aspNetCoreNTierDbContext;
         _logger = logger;
     }
-
     public IEnumerable<Module> GetModules()
     {
         return _aspNetCoreNTierDbContext.Module.Take(10).ToList();
@@ -30,9 +33,24 @@ public class ModuleRepository : IModuleRepository
 
     public IQueryable<Module> QueryFiltered(Dictionary<string, string> dic)
     {
+
         var query = _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).Include(m => m.ModuleType).AsQueryable();
 
-        // var query = _aspNetCoreNTierDbContext.Module.AsQueryable();
+        if (dic.ContainsKey("SearchQuery"))
+        {
+            string searchQuery;
+            if (dic.TryGetValue("SearchQuery", out searchQuery) && !string.IsNullOrEmpty(searchQuery))
+            {
+                IEnumerable<Module> searchResults = _luceneRepository.SearchModules(searchQuery);
+                _logger.LogInformation($"Search Query: {searchQuery}");
+
+                _logger.LogInformation($"Search Results Count: {searchResults?.Count() ?? 0}");
+
+                var searchResultIds = searchResults.Select(searchModule => Convert.ToInt32(searchModule.Id));
+
+                query = query.Where(module => searchResultIds.Contains(module.Id));
+            }
+        }
 
         if (dic.ContainsKey("ModuleTypeId"))
         {
@@ -100,7 +118,7 @@ public class ModuleRepository : IModuleRepository
         // _logger.LogInformation(query.ToString());
         var toReturn = QueryFiltered(dic).Skip(offset).Take(limit).OrderBy(m => m.Id).ToList();
         // var toReturn = _aspNetCoreNTierDbContext.Module.FromSqlRaw(query.ToString()).Skip(offset).Take(limit).ToList();
-        toReturn.ForEach((module => _logger.LogInformation(module.Name)));
+        // toReturn.ForEach((module => _logger.LogInformation(module.Name)));
         return toReturn;
     }
 
@@ -125,5 +143,10 @@ public class ModuleRepository : IModuleRepository
     public IEnumerable<Module> GetModuleStacksByLecturerId(int limit, int offset, int id)
     {
         return _aspNetCoreNTierDbContext.Module.Where(x => x.leaderId == id).Skip(offset).Take(limit).OrderBy(m => m.Id);
+    }
+
+    public void CreateIndex()
+    {
+        _luceneRepository.CreateIndex();
     }
 }

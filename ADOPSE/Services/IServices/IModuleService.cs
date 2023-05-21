@@ -17,6 +17,6 @@ public interface IModuleService
 
     Module GetModuleByCalendarId(string id);
 
-
+    public void CreateIndex();
 
 }
