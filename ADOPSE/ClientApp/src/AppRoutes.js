@@ -7,6 +7,7 @@ import MyModules from "./components/myModules";
 import GoogleCalendar from "./components/googleCalendar";
 import ModuleInfo from "./components/moduleInfo";
 import Lecturer from "./components/Lecturer";
+import LecturersPage from "./components/LecturerPage";
 
 const AppRoutes = [
   {
@@ -16,6 +17,10 @@ const AppRoutes = [
   {
     path: "/modules",
     element: <ModulePage />,
+  },
+  {
+    path: "/lecturers",
+    element: <LecturersPage />,
   },
   {
     path: "/myLearning",

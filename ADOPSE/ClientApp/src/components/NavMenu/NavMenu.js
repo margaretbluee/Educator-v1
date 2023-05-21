@@ -27,6 +27,8 @@ function NavMenu({ navbarRef }) {
         return "Modules";
       case "/module":
         return "Module Info";
+      case "/lecturers":
+        return "Lecturers";
       case "/lecturer":
         return "Lecturer";
       case "/myLearning":
@@ -75,6 +77,11 @@ function NavMenu({ navbarRef }) {
             <NavItem>
               <NavLink tag={Link} className="text-dark" to="/modules">
                 Modules
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} className="text-dark" to="/lecturers">
+                Lecturers
               </NavLink>
             </NavItem>
             <NavItem>
