@@ -1,0 +1,196 @@
+/* Testing */
+$module-height: 235px * 1;
+$module-width: 320px * 1;
+
+.lecturer-module {
+  position: relative;
+  cursor: pointer;
+
+  .box {
+    position: absolute;
+    height: 80%;
+    width: 80%;
+  }
+
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
+  background-color: #fff;
+  height: $module-height; /* 235px * 1.25 = 293.75px */
+  width: $module-width; /* 310px * 1.25 = 387.5px */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* style for every school */
+
+  .title {
+    position: absolute;
+    border-bottom: 10px solid rgb(255 255 255);
+    background-color: rgb(255 255 255);
+    width: 92%;
+
+    .school {
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .school:hover {
+      max-height: none;
+      background-color: rgb(255 255 255);
+      -webkit-line-clamp: 6; /* number of lines to show */
+    }
+
+    /* style for every subject */
+    .subject {
+      display: flex;
+
+      .subject-text {
+        font-weight: bold;
+        font-size: 17px;
+        color: darkorange;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* number of lines to show */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .subject-text:hover {
+        max-height: none;
+        -webkit-line-clamp: 6; /* number of lines to show */
+        border-bottom: 1px solid rgb(255 255 255);
+      }
+    }
+
+    .subject:hover {
+      z-index: 1;
+    }
+  }
+
+  .title:hover {
+    z-index: 1;
+  }
+
+  .price-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px 0 0 7px;
+    background-color: darkorange;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    font-weight: bold;
+    font-size: 15px;
+    top: 5%;
+    right: 0%;
+
+    // text-align: center; /* Add this property */
+    .number {
+      color: white;
+      margin: auto;
+      text-align: center;
+    }
+  }
+
+  /* style for the type of the subject */
+  .subtype {
+    position: absolute;
+    font-weight: bold;
+    font-size: 15px;
+    bottom: 20%;
+    left: 30%;
+  }
+
+  /* style and position for the small vector icon */
+
+  .difficulty {
+    position: absolute;
+    bottom: 20%;
+    left: 0%;
+    display: flex;
+
+    .icon {
+      width: 19px;
+      height: 19px;
+    }
+
+    /* style for the difficulty */
+    .difficulty-value {
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+  }
+
+  /* style for the rating icon */
+  .rating {
+    position: absolute;
+    bottom: 20%;
+    right: 0%;
+    display: flex;
+
+    .icon {
+      width: 19px;
+      height: 19px;
+    }
+
+    .number {
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+  }
+
+  /* style for the enrolled in a subject icon */
+  .enrolled {
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    display: flex;
+
+    .icon {
+      width: 19px;
+      height: 19px;
+    }
+
+    /* style for the enrolled info */
+    .number {
+      font-weight: bold;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+  }
+
+  /* style for the enroll button */
+  .enrolled-button {
+    position: absolute;
+    background-color: darkorange;
+    color: white;
+
+    // top: -50px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    bottom: 0%;
+    right: 0%;
+  }
+
+  .enrolled-button:disabled {
+    background-color: rgb(209 207 207);
+    color: white;
+    cursor: default;
+  }
+}

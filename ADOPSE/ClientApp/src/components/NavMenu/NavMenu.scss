@@ -1,20 +1,10 @@
-﻿/* stylelint-disable media-feature-range-notation */
+/* stylelint-disable media-feature-range-notation */
 .nav-menu {
-  a.navbar-brand {
+  .navbar-brand {
     font-weight: bold;
     font-size: 25px;
     color: #ff7420;
   }
-
-  /* .custom-brand {
-    margin-left: 20px !important;
-  } */
-
-  /* a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-  } */
 
   .box-shadow {
     box-shadow: 0 0.25rem 0.75rem;
@@ -34,5 +24,37 @@
 
   .login-register span {
     display: inline-block;
+  }
+
+  .logout-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .logout-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ff7420;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-align: left;
+    border-left: 7px solid #ff7420;
+    padding-left: 10px;
+    margin-left: 10px;
   }
 }

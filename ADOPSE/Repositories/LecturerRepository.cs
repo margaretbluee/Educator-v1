@@ -20,7 +20,7 @@ public class LecturerRepository : ILecturerRepository
 
     public Lecturer GetLecturerById(int id)
     {
-        throw new NotImplementedException();
+        return _aspNetCoreNTierDbContext.Lecturer.Where(x => x.Id == id).FirstOrDefault();
     }
 
     public void UpdateLecturer(Lecturer lecturer)

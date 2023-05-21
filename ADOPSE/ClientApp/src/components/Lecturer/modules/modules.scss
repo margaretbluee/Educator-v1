@@ -1,0 +1,59 @@
+.lecturer-modules {
+  width: 100%;
+  height: 350px;
+  padding: 20px;
+
+  .modules-main {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modules-scroll {
+    display: flex;
+    overflow-x: auto;
+    margin-top: 10px;
+    padding: 10px;
+  }
+
+  .modules-cards {
+    display: flex;
+
+    // min-width: 200px;
+    // padding: 10px;
+    // background-color: darkorange;
+    // margin-right: 10px;
+    // color: white;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // height: 100px;
+    // // flex-wrap: nowrap;
+    // display: flex;
+    gap: 20px;
+
+    // align-items: center;
+    // justify-content: center;
+  }
+
+  .nav-button {
+    background-color: darkorange;
+    color: white;
+
+    // top: -50px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 0.9em;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.25s;
+  }
+
+  .nav-button:disabled {
+    background-color: rgb(209 207 207);
+    color: white;
+  }
+}

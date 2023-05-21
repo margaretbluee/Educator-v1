@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy with rsync
         run: |
-          rsync -avz --delete -e "ssh -p 1313" --exclude 'sqlData' \
+          rsync -avz --delete -e "ssh -p 1313" --exclude 'server/lucene' --exclude 'sqlData' \
           buildTool/build/* educator@${{ secrets.SERVER_HOST }}:/home/educator/Dockerize/deployment
 
       - name: Change Group and restart docker stracks
@@ -99,3 +99,9 @@ jobs:
         run: |
           mysql -h 127.0.0.1 -P 3306 -u root -proot ADOPSE -e "show tables;"
           flyway -cleanDisabled="false" -url=jdbc:mysql://localhost:3306/ADOPSE -user=root -password=root clean migrate
+  index:
+    needs: migrate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make POST request to index endpoint
+        run: curl -X POST https://adopse.thankarezos.com/api/module/index

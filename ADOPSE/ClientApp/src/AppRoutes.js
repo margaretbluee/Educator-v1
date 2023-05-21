@@ -1,8 +1,13 @@
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
+// import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import Login from "./components/login";
 import Register from "./components/register";
+import ModulePage from "./components/modulepage/";
+import MyModules from "./components/myModules";
+import GoogleCalendar from "./components/googleCalendar";
+import ModuleInfo from "./components/moduleInfo";
+import Lecturer from "./components/Lecturer";
+import LecturersPage from "./components/LecturerPage";
 
 const AppRoutes = [
   {
@@ -10,12 +15,24 @@ const AppRoutes = [
     element: <Home />,
   },
   {
-    path: "/counter",
-    element: <Counter />,
+    path: "/modules",
+    element: <ModulePage />,
   },
   {
-    path: "/fetch-data",
-    element: <FetchData />,
+    path: "/lecturers",
+    element: <LecturersPage />,
+  },
+  {
+    path: "/myLearning",
+    element: <MyModules />,
+  },
+  {
+    path: "/module",
+    element: <ModuleInfo />,
+  },
+  {
+    path: "/lecturer",
+    element: <Lecturer />,
   },
   {
     path: "/login",
@@ -24,6 +41,10 @@ const AppRoutes = [
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/googleCalendar",
+    element: <GoogleCalendar />,
   },
 ];
 
