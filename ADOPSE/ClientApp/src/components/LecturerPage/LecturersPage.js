@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import Lecturers from "./Lecturers";
-// import Modules from "./modules/";
-// import ModuleFilter from "./ModuleFilter";
-// import "./modulepage.scss";
 import "./LecturersPage.scss";
 
 function LecturersPage() {
