@@ -11,7 +11,8 @@
         <SpaProxyServerUrl>https://localhost:44442</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
-        <NoWarn>CS8618</NoWarn>
+        <NoWarn>CS8618;NU1701</NoWarn>
+
     </PropertyGroup>
 
     <ItemGroup>
