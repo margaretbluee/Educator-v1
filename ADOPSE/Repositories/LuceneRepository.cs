@@ -49,10 +49,24 @@ namespace ADOPSE.Repositories
             using var reader = DirectoryReader.Open(indexDir, true);
             using var searcher = new IndexSearcher(reader);
 
-            searchQuery = searchQuery.Trim() + "*";
+            var queryTerms = searchQuery.Split(' ');
 
-            var parsedQuery = queryParser.Parse(searchQuery);
-            var topDocs = searcher.Search(parsedQuery, int.MaxValue); // Adjust the number of results as needed
+            // var phraseQuery = new PhraseQuery();
+            // foreach (var term in queryTerms)
+            // {
+            //     phraseQuery.Add(new Term("Name", term));
+            // }
+
+            var booleanQuery = new BooleanQuery();
+            foreach (var term in queryTerms)
+            {
+                var wildcardTerm = new WildcardQuery(new Term("Name", $"*{term}*"));
+                booleanQuery.Add(wildcardTerm, Occur.MUST);
+            }
+
+
+            // var parsedQuery = queryParser.Parse(searchQuery);
+            var topDocs = searcher.Search(booleanQuery, int.MaxValue); // Adjust the number of results as needed
 
             foreach (var scoreDoc in topDocs.ScoreDocs)
             {
