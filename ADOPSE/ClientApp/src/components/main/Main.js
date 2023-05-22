@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./MainPage.scss";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { hasJWT } from "../authentication/authentication";
+import girl from "./girl.png";
+import { useNavigate } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
-
-/*{
-  title: "Meeting 1",
-      start: new Date(2023, 5, 19, 10, 0),
-    end: new Date(2023, 5, 19, 11, 0),
-},
-{
-  title: "Meeting 2",
-      start: new Date(2023, 4, 6, 14, 0),
-    end: new Date(2023, 4, 6, 15, 0),
-},*/
 
 function convertStringToDate(str) {
   const dateParts = str.split("T")[0].split("-");
@@ -32,6 +24,9 @@ function convertStringToDate(str) {
 
 const MainPage = () => {
   const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
+  const calendarContainerRef = useRef(null);
+  const [calendarHeight, setCalendarHeight] = useState(0);
 
   useEffect(() => {
     var myHeaders = new Headers();
@@ -66,25 +61,56 @@ const MainPage = () => {
       .catch((error) => console.log("error", error));
   }, []);
 
+  const handleJoinFree = () => {
+    navigate("/register");
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (calendarContainerRef.current) {
+        const width = calendarContainerRef.current.offsetWidth;
+        const height = Math.floor(width / 2);
+        setCalendarHeight(height);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="main-page">
-      <h1 className="heading">Welcome to Educator!</h1>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: "100vh" }}
-      />
-      {/* <main className="App-main">
+      {hasJWT() ? (
+        <div ref={calendarContainerRef}>
+          <h1 className="heading">Welcome to Educator!</h1>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: calendarHeight }}
+          />
+        </div>
+      ) : (
+        <main className="app-main">
           <div className="left-section">
-            <p className="left-text">"Streamline your studies with our university course scheduling program - never miss a class again!"</p>
-            <button className="orange-button">Join Free</button>
+            <p className="left-text">
+              "Streamline your studies with our university course scheduling
+              program - never miss a class again!"
+            </p>
+            <button className="orange-button" onClick={handleJoinFree}>
+              Join Free
+            </button>
           </div>
           <div className="right-section">
-            <img src="" alt="placeholder" />
+            <img src={girl} alt="placeholder" />
           </div>
-      </main> */}
+        </main>
+      )}
     </div>
   );
 };

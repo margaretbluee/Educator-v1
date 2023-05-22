@@ -43,7 +43,7 @@ namespace ADOPSE.Repositories
 
             var LuceneVersion = Lucene.Net.Util.Version.LUCENE_30;
 
-            using var analyzer = new StandardAnalyzer(LuceneVersion);
+            using var analyzer = new KeywordAnalyzer();
             var queryParser = new QueryParser(LuceneVersion, "Name", analyzer);
 
             using var reader = DirectoryReader.Open(indexDir, true);
