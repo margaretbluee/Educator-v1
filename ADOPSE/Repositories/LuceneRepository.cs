@@ -91,10 +91,10 @@ namespace ADOPSE.Repositories
                 System.IO.Directory.CreateDirectory(indexPath);
             }
 
-            var LuceneVersion = Lucene.Net.Util.Version.LUCENE_30;
+            // var LuceneVersion = Lucene.Net.Util.Version.LUCENE_30;
 
             using var indexDir = FSDirectory.Open(indexPath);
-            using var analyzer = new StandardAnalyzer(LuceneVersion);
+            using var analyzer = new KeywordAnalyzer();
             var writer = new IndexWriter(indexDir, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
             // Get data from the database
             var modules = GetModulesFromDatabase(); // Replace this with your own logic to fetch modules from the database
