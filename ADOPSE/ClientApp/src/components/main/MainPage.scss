@@ -1,7 +1,6 @@
 .main-page {
   display: flex;
-  flex-direction: column;
-  height: 100vh; /* set the height of the container to full viewport height */
+  flex-direction: column; /* set the height of the container to full viewport height */
   padding: 20px;
 
   .calendar {
@@ -14,8 +13,6 @@
   .heading {
     margin: 0;
     color: #ff7420;
-    margin-top: 4%;
-    margin-bottom: 4%;
   }
 
   .text {
@@ -29,7 +26,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
+    height: 500px;
+    margin: 50px;
   }
 
   .left-section {
@@ -37,17 +35,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50%;
   }
 
   .left-text {
     font-size: 1.5rem;
     line-height: 1.5;
     margin-bottom: 20px;
+    font-weight: bold;
   }
 
   .orange-button {
-    background-color: orange;
+    background-color: darkorange;
     border: none;
     color: white;
     cursor: pointer;
@@ -63,5 +61,10 @@
 
   .right-section {
     width: 50%;
+
+    img {
+      width: 80%;
+      height: 80%;
+    }
   }
 }
