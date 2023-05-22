@@ -1,0 +1,2 @@
+update Module set GoogleCalendarID = '351c3e78780a00a778ee20b09b202e69f1c7d03f8f88795e12164382d87b5d5c@group.calendar.google.com'  where Id = 15138;
+update Module set GoogleCalendarID = '961cc12df23a15bc08cac5b487a457a64e922cfa5147f235de466881af36003d@group.calendar.google.com'  where Id = 15139;
