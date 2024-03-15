@@ -1,0 +1,83 @@
+version: '3'
+
+services:
+
+  frontend:
+    image: thankarezos/node-web-app
+    container_name: ADOPSE-frontend
+    networks:
+      adopse_net:
+        ipv4_address: 172.20.0.2
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      REACT_APP_API_URL: http://172.20.0.3:7014
+    volumes:
+      - ./deployment/wwwroot:/usr/src/app/build
+    profiles:
+      - deployment
+
+  backend:
+    image: thankarezos/asp.net
+    container_name: ADOPSE-backend
+    networks:
+      adopse_net:
+        ipv4_address: 172.20.0.3
+    restart: unless-stopped
+    ports:
+      - "7014:7014"
+    environment:
+      ASPNETCORE_URLS: http://172.20.0.3:7014
+      DB_NAME: ADOPSE
+      DB_HOST: 172.20.0.4
+    volumes:
+      - ./deployment/server:/App
+    depends_on:
+      mysql:
+        condition: service_healthy
+    profiles:
+      - deployment
+
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    networks:
+      adopse_net:
+        ipv4_address: 172.20.0.4
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./deployment/sqlData:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+    profiles:
+      - deployment
+
+  mysqldev:
+      image: mysql:latest
+      container_name: mysqlDev
+      restart: unless-stopped
+      ports: 
+        - "3333:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: user
+        MYSQL_PASSWORD: root
+        MYSQL_DATABASE: mysql
+      profiles:
+       - dev
+
+networks:
+  adopse_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

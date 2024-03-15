@@ -5,8 +5,10 @@ namespace ADOPSE.Data;
 
 public class MyDbContext : DbContext
 {
-    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+    private readonly string? _schema;
+    public MyDbContext(DbContextOptions<MyDbContext> options, IConfiguration configuration) : base(options)
     {
+        _schema = configuration.GetConnectionString(name: "Schema");
 
     }
 
@@ -19,4 +21,12 @@ public class MyDbContext : DbContext
     public DbSet<Module> Module { get; set; }
     public DbSet<Student> Student { get; set; }
     public DbSet<ModuleType> ModuleType { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        if (!string.IsNullOrWhiteSpace(_schema))
+            modelBuilder.HasDefaultSchema(_schema);
+    }
 }

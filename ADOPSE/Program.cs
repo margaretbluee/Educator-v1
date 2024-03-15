@@ -37,22 +37,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 // string connectionString;
 
-bool hasDbEnvironment = Environment.GetEnvironmentVariables().Keys.Cast<string>().Any(key => key.StartsWith("DB"));
 
-string connectionString = builder.Configuration.GetConnectionString(
-                        hasDbEnvironment ? "TestConnection" : "DefaultConnection")
-                        ?? throw new InvalidOperationException("Connection string not found.");
 
-connectionString = connectionString.Replace("${DB_HOST}", Environment.GetEnvironmentVariable("DB_HOST") ?? "127.0.0.1")
-                                     .Replace("${DB_PORT}", Environment.GetEnvironmentVariable("DB_PORT") ?? "3306")
-                                     .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "mysql")
-                                     .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "root")
-                                     .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "root");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string not found.");
+
 
 // Add services to the container.
 
+
 builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.35-mysql")));
+    options.UseMySql(connectionString,ServerVersion.Parse("5.7.35-mysql")));
+
 
 Console.Write(connectionString + " Connection String \n");
 
@@ -88,17 +83,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
-
-// string allowedOrigin = Environment.GetEnvironmentVariable("ALLOWED_ORIGIN") ?? "https://localhost:44442";
-// Console.Write(allowedOrigin + " Allowed Origin \n");
-
-// app.UseCors(builder =>
-//     builder.WithOrigins(allowedOrigin)
-//         .AllowAnyHeader()
-//         .AllowAnyMethod()
-//         .AllowCredentials()
-// );
 
 app.UseAuthentication();
 app.UseAuthorization();
