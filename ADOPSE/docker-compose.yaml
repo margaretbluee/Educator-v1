@@ -74,6 +74,20 @@ services:
         MYSQL_DATABASE: mysql
       profiles:
        - dev
+      networks:
+        adopse_dev:
+          
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    profiles:
+      - dev
+    networks:
+      adopse_dev:
+ 
 
 networks:
   adopse_net:
@@ -81,3 +95,4 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/16
+  adopse_dev:      
