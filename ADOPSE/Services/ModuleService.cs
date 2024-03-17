@@ -17,6 +17,7 @@ public class ModuleService : IModuleService
     {
         _moduleRepository = moduleRepository;
         _logger = logger;
+        CreateIndex();
     }
 
     public IEnumerable<Module> GetModules()
