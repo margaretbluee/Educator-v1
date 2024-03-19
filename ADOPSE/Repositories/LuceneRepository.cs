@@ -61,7 +61,11 @@ namespace ADOPSE.Repositories
             foreach (var term in queryTerms)
             {
                 var wildcardTerm = new WildcardQuery(new Term("Name", $"*{term}*"));
-                booleanQuery.Add(wildcardTerm, Occur.MUST);
+                var wildcardTerm2 = new WildcardQuery(new Term("Description", $"*{term}*"));
+
+                booleanQuery.Add(wildcardTerm, Occur.SHOULD);
+                booleanQuery.Add(wildcardTerm2, Occur.SHOULD);
+           
             }
 
 
@@ -106,6 +110,7 @@ namespace ADOPSE.Repositories
                 // Add fields to the document
                 document.Add(new Field("Id", module.Id.ToString(), Field.Store.YES, Field.Index.NO));
                 document.Add(new Field("Name", module.Name, Field.Store.YES, Field.Index.ANALYZED));
+                document.Add(new Field("Description", module.Description, Field.Store.YES, Field.Index.ANALYZED));
 
                 // Add the document to the index
                 writer.AddDocument(document);
