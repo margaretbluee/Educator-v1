@@ -2,64 +2,57 @@ version: '3'
 
 services:
 
-  frontend:
-    image: thankarezos/node-web-app
-    container_name: ADOPSE-frontend
-    networks:
-      adopse_net:
-        ipv4_address: 172.20.0.2
-    restart: unless-stopped
+  nginx:
+    container_name: ADOPSE-nginx
+    build: 
+      context: ./ClientApp
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
-    environment:
-      REACT_APP_API_URL: http://172.20.0.3:7014
+      - "80:80"
     volumes:
-      - ./deployment/wwwroot:/usr/src/app/build
+      - ./conf.d:/etc/nginx/conf.d
+    networks:
+      - adopse_net
+    depends_on:
+      - backend
     profiles:
-      - deployment
+      - stage
 
   backend:
-    image: thankarezos/asp.net
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: ADOPSE-backend
     networks:
       adopse_net:
-        ipv4_address: 172.20.0.3
-    restart: unless-stopped
-    ports:
-      - "7014:7014"
     environment:
-      ASPNETCORE_URLS: http://172.20.0.3:7014
-      DB_NAME: ADOPSE
-      DB_HOST: 172.20.0.4
-    volumes:
-      - ./deployment/server:/App
+      ASPNETCORE_ENVIRONMENT: deployment
     depends_on:
       mysql:
         condition: service_healthy
     profiles:
-      - deployment
-
+      - stage
 
   mysql:
-    image: mysql:8
-    container_name: mysql
-    networks:
-      adopse_net:
-        ipv4_address: 172.20.0.4
+    image: mysql:latest
+    container_name: mysqladopse
     restart: unless-stopped
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./deployment/sqlData:/var/lib/mysql
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: user
+        MYSQL_PASSWORD: root
+        MYSQL_DATABASE: mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 10s
       retries: 3
     profiles:
-      - deployment
+      - stage
+    networks:
+      adopse_net:
 
   mysqldev:
       image: mysql:latest
@@ -91,8 +84,4 @@ services:
 
 networks:
   adopse_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
   adopse_dev:      
