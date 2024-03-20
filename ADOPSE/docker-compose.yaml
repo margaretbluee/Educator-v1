@@ -4,13 +4,12 @@ services:
 
   nginx:
     container_name: ADOPSE-nginx
-    build: 
-      context: ./ClientApp
-      dockerfile: Dockerfile
+    image: nginx:1.21.3
     ports:
       - "80:80"
     volumes:
       - ./conf.d:/etc/nginx/conf.d
+      - ./ClientApp/build:/usr/share/nginx/html
     networks:
       - adopse_net
     depends_on:
@@ -19,14 +18,16 @@ services:
       - stage
 
   backend:
-    build:
+    build: 
       context: .
       dockerfile: Dockerfile
     container_name: ADOPSE-backend
     networks:
       adopse_net:
-    environment:
-      ASPNETCORE_ENVIRONMENT: deployment
+    # environment:
+    #   ASPNETCORE_ENVIRONMENT: Production
+    volumes:
+      - ./bin/Release/net7.0/linux-x64/publish:/App
     depends_on:
       mysql:
         condition: service_healthy
