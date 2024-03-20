@@ -11,7 +11,7 @@
     "ADOPSE": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7014;http://localhost:5051",
+      "applicationUrl": "http://localhost:5051",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
