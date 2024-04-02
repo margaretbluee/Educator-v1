@@ -2,11 +2,11 @@
 
 ## Project managment
 
-Excel link https://docs.google.com/spreadsheets/d/e/2PACX-1vT93u852ph-7iqtC3c3egdPGrvPUobJ9-Rr1zH8v_ZALWYN4kc3QLAd7xXMSJIrRt58jdQpHfaL7md2/pubhtml
+Excel link https://docs.google.com/spreadsheets/d/e/2PACX-1vT93u852ph-7iqtC3c3egdPGrvPUobJ9-Rr1zH8v_ZALWYN4kc3QLAd7xXMSJIrRt58jdQpHfaL7md2/pubhtml](https://docs.google.com/spreadsheets/d/1DA_aLVsmpUR_lMjvIH0oUEYLvfcCvG6j37yzm9O4z5w/edit#gid=0
 
 ## Design
 
-Figma link https://www.figma.com/file/fmcABWXw3I2l3U2yDujE0t/Untitled?type=design&node-id=30%3A34&t=OAGMOEYWFVH8v3nK-1
+Figma link https://www.figma.com/file/fmcABWXw3I2l3U2yDujE0t/Untitled?type=design&node-id=30%3A34&t=OAGMOEYWFVH8v3nK-1](https://www.figma.com/file/7hx5iWBCtHUXfI9OVog32y/Untitled?type=design&node-id=14-36&mode=design
 
 ## About
 
