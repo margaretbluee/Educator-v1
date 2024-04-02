@@ -2,7 +2,7 @@
 
 ## Project managment
 
-Excel link https://docs.google.com/spreadsheets/d/e/2PACX-1vT93u852ph-7iqtC3c3egdPGrvPUobJ9-Rr1zH8v_ZALWYN4kc3QLAd7xXMSJIrRt58jdQpHfaL7md2/pubhtml](https://docs.google.com/spreadsheets/d/1DA_aLVsmpUR_lMjvIH0oUEYLvfcCvG6j37yzm9O4z5w/edit#gid=0
+Excel link https://docs.google.com/spreadsheets/d/1DA_aLVsmpUR_lMjvIH0oUEYLvfcCvG6j37yzm9O4z5w/edit#gid=0
 
 ## Design
 
