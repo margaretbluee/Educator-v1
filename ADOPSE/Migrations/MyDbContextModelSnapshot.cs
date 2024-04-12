@@ -54,6 +54,10 @@ namespace ADOPSE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("EventId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("ModuleId")
                         .HasColumnType("int");
 

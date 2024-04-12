@@ -1,144 +1,95 @@
 import React from "react";
-import {
-  useSession,
-  useSupabaseClient,
-  // useSessionContext,
-} from "@supabase/auth-helpers-react";
 
 function GoogleCalendar(props) {
-  const session = useSession();
-  const supabase = useSupabaseClient();
+ 
+    async function getAllEvents() {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append(
+            "Authorization", `Bearer ${localStorage.getItem("token")}`
+        );
 
-  async function googleSignIn() {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        scopes: "https://www.googleapis.com/auth/calendar",
-      },
-    });
-    if (error) {
-      alert("EEERRROOORRR");
-    }
-  }
+        var requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow",
+        };    
 
-  async function signOut() {
-    await supabase.auth.signOut();
-  }
+        let eventList = await fetch("/api/calendar/getAllEventsFromGoogle", requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Could not fetch resource")
+                }
+                return response.json()
+            })
+            .then(data => {
+                console.log(data)
+                return data;                          
+            })
+            .catch((error) => {
+                console.log("error", error)
 
-  async function retrieveEventsFromCalendar(calendarId) {
-    let toReturn;
-    await fetch(
-      `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + session.provider_token, // Access token for google
-        },
-      }
-    )
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        //console.log(data.items);
-        toReturn = data.items;
-        // return data.items;
-        // alert("Event created, check your Google Calendar!");
-      });
+                // if(error.response.status === 401){
+                //     return error;
+                // }
+            });
 
-    return toReturn;
-  }
+          sendEvents(eventList)  // send events to database in order to be stored
 
-  async function sendEvents(events) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append(
-      "Authorization",
-      `Bearer ${localStorage.getItem("token")}`
-    );
 
-    var raw = JSON.stringify(events);
+        console.log(eventList);        
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+        alert("Synchronized as well as posible! Thanks for you services.");
 
-    fetch("/api/calendar/addModules", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-  }
-
-  async function retrieveAllEvents() {
-    var calendarsId = [];
-    var events = [];
-    await fetch(
-      "https://www.googleapis.com/calendar/v3/users/me/calendarList",
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + session.provider_token, // Access token for google
-        },
-      }
-    )
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        // console.log(data.items);
-
-        data.items.forEach((calendar) => calendarsId.push(calendar.id));
-        // console.log(calendarsId);
-        //alert("Calendar List retrieved");
-      });
-
-    //console.log("finish");
-
-    for (let i = 1; i < calendarsId.length; i++) {
-      events.push(await retrieveEventsFromCalendar(calendarsId[i]));
     }
 
-    console.log(events);
+    async function sendEvents(events) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append(
+            "Authorization",
+            `Bearer ${localStorage.getItem("token")}`
+        );
 
-    let array2d = [];
-    events.forEach((calendar) => {
-      calendar.forEach((event) => {
-        //console.log(event.organizer.email);
-        let eventArray = [
-          event.organizer.email,
-          event.summary,
-          event.description || "",
-          event.start.dateTime,
-          event.end.dateTime,
-        ];
-        array2d.push(eventArray);
-      });
-    });
+        var raw = JSON.stringify(events);
 
-    console.log(array2d);
+        var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+        };
 
-    await sendEvents(array2d);
+        fetch("/api/calendar/addModules", requestOptions)
+            .then((response) =>{
+              if(!response.ok)  {
+                throw new Error("'addModules' could not fetch recource")
+              }
+              response.text()
+            }) 
+            .then((result) => console.log(result))
+            .catch((error) => console.log("error", error));
+    }
 
-    alert("synchronized");
-  }
 
   return (
     <div>
-      {session ? (
-        <>
-          <h2>Hey there {session.user.email}</h2>
-          <button onClick={() => signOut()}>Sign Out</button>
-          <button onClick={() => retrieveAllEvents()}>Retrieve</button>
-        </>
-      ) : (
-        <>
-          <button onClick={() => googleSignIn()}>Empa mesa</button>
-        </>
-      )}
-    </div>
+  {/*    {session ? (*/}
+  {/*      <>*/}
+  {/*        <h2>Hey there {session.user.email}</h2>*/}
+  {/*        <button onClick={() => signOut()}>Sign Out</button>*/}
+  {/*        <button onClick={() => retrieveAllEvents()}>Retrieve</button>*/}
+  {/*      </>*/}
+  {/*    ) : (*/}
+  {/*      <>*/}
+  {/*        <button onClick={() => googleSignIn()}>Empa mesa</button>*/}
+  {/*      </>*/}
+  {/*        )} <br></br><br></br>*/}
+  {/*    </div>*/}
+          <>
+              <button onClick={() => getAllEvents()}> RetrieveTest</button>
+          </>
+      </div>    
   );
 }
 

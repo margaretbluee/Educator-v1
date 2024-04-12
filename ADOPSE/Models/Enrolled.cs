@@ -11,6 +11,7 @@ public class Enrolled
 
     public int ModuleId { get; set; }
     public Module Module { get; set; }
+    public string EventId { get; set; }
 
 
     public override string ToString()
