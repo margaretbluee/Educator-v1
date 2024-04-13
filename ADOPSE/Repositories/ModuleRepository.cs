@@ -26,10 +26,8 @@ public class ModuleRepository : IModuleRepository
 
     public Module GetModuleById(int id)
     {
-        return _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).Include(m => m.ModuleType).Where(x => x.Id == id).FirstOrDefault();
+        return _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).Include(m => m.ModuleType).Where(x => x.Id == id).FirstOrDefault();        
     }
-
-
 
     public IQueryable<Module> QueryFiltered(Dictionary<string, string> dic)
     {
@@ -149,4 +147,30 @@ public class ModuleRepository : IModuleRepository
     {
         _luceneRepository.CreateIndex();
     }
+
+    public bool ExistsModuleById(int id)
+    {
+        var module = _aspNetCoreNTierDbContext.Module.Where(m => m.Id == id).FirstOrDefault();
+        return module != null;
+    }
+
+    public bool IsGoogleCalendarIdEmpty(int moduleId)
+    {
+        return _aspNetCoreNTierDbContext.Module.Where(m => m.Id == moduleId).Any(m => string.IsNullOrEmpty(m.GoogleCalendarID));        
+    }
+
+    public Module UpdateGoogleCalendarIdOfModuleByModuleId(int moduleId, string googleCalendarId)
+    {
+        var moduleToUpdate = _aspNetCoreNTierDbContext.Module.Find(moduleId);
+
+        if (moduleToUpdate != null)
+        {
+            moduleToUpdate.GoogleCalendarID = googleCalendarId;
+        }
+
+        _aspNetCoreNTierDbContext.SaveChanges();
+
+        return moduleToUpdate;
+    }
+
 }

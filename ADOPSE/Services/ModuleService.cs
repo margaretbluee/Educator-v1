@@ -5,18 +5,21 @@ using ADOPSE.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Google.Apis.Calendar.v3.Data;
 
 namespace ADOPSE.Services;
 
 public class ModuleService : IModuleService
 {
     private readonly IModuleRepository _moduleRepository;
+    
     private readonly ILogger<ModuleService> _logger;
 
     public ModuleService(IModuleRepository moduleRepository, ILogger<ModuleService> logger)
     {
         _moduleRepository = moduleRepository;
-        _logger = logger;
+        _logger = logger;        
     }
 
     public IEnumerable<Module> GetModules()
@@ -61,5 +64,22 @@ public class ModuleService : IModuleService
     public void CreateIndex()
     {
         _moduleRepository.CreateIndex();
+    }
+
+    public bool ExistsModuleById(int id)
+    {
+        return _moduleRepository.ExistsModuleById(id);
+    }
+    public bool IsGoogleCalendarIdEmpty(int moduleId)
+    {
+        return _moduleRepository.IsGoogleCalendarIdEmpty(moduleId);
+    }
+
+    public ActionResult<Module> UpdateGoogleCalendarIdOfModuleByModuleId(int moduleId, string googleCalendarId) 
+    {             
+            var updatedModule = _moduleRepository.UpdateGoogleCalendarIdOfModuleByModuleId(moduleId, googleCalendarId);
+
+        return new JsonResult(updatedModule);
+
     }
 }

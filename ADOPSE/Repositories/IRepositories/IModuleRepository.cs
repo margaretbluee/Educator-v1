@@ -8,6 +8,12 @@ public interface IModuleRepository
 
     Module GetModuleById(int id);
 
+    bool ExistsModuleById(int id);
+
+    bool IsGoogleCalendarIdEmpty(int moduleid);
+
+    Module UpdateGoogleCalendarIdOfModuleByModuleId(int moduleId, string googleCalendarId);    
+
     IEnumerable<Module> GetModuleStacks(int limit, int offset);
 
     int GetModuleCount();

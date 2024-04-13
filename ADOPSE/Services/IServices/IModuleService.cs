@@ -7,7 +7,7 @@ public interface IModuleService
 {
     IEnumerable<Module> GetModules();
 
-    Module GetModuleById(int id);
+    Module GetModuleById(int id);     
 
     IActionResult GetModuleStacks(int limit, int offset);
 
@@ -19,4 +19,9 @@ public interface IModuleService
 
     public void CreateIndex();
 
+    bool ExistsModuleById(int id);
+
+    public bool IsGoogleCalendarIdEmpty(int moduleId);
+
+    ActionResult<Module> UpdateGoogleCalendarIdOfModuleByModuleId(int moduleId, string googleCalendarId);
 }

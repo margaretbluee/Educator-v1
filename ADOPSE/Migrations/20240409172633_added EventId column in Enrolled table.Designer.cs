@@ -3,6 +3,7 @@ using System;
 using ADOPSE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADOPSE.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409172633_added EventId column in Enrolled table")]
+    partial class addedEventIdcolumninEnrolledtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +58,7 @@ namespace ADOPSE.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("EventId")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("ModuleId")

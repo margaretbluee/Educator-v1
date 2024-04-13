@@ -1,4 +1,5 @@
 ﻿using ADOPSE.Models;
+using ADOPSE.Services;
 using ADOPSE.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,13 @@ public class ModuleController : ControllerBase
 {
     private readonly ILogger<ModuleController> _logger;
     private readonly IModuleService _moduleService;
+    private readonly IGoogleCalendarService _googleCalendarService;
 
-    public ModuleController(ILogger<ModuleController> logger, IModuleService moduleService)
+    public ModuleController(ILogger<ModuleController> logger, IModuleService moduleService, IGoogleCalendarService googleCalendarService)
     {
         _logger = logger;
         _moduleService = moduleService;
+        _googleCalendarService = googleCalendarService;
     }
 
     [HttpGet]
@@ -75,5 +78,31 @@ public class ModuleController : ControllerBase
     {
         _moduleService.CreateIndex();
         return Ok(); // Or return appropriate status code and response
+    }
+
+    [HttpPut("{moduleId}/googleCalendarId")]
+    public ActionResult<Module> UpdateGoogleCalendarIdOfModule(int moduleId)
+    {
+        var exists = _moduleService.ExistsModuleById(moduleId);
+        if (!exists)
+        {         
+            return NotFound(new { message = $"Module with id '{moduleId}' does not exist" });
+        }
+
+        var isEmpty = _moduleService.IsGoogleCalendarIdEmpty(moduleId);
+        if (!isEmpty)
+        {
+            return BadRequest(new { message = $"Module with id '{moduleId}' arleady has a its own calendar!" });
+        }
+
+        var module = _moduleService.GetModuleById(moduleId);
+        var summaryText = module.Name;
+        var descriptionText = module.Description;
+
+        string googleCalendarId = _googleCalendarService.CreateCalendar(summaryText, descriptionText);
+
+        var updatedModule = _moduleService.UpdateGoogleCalendarIdOfModuleByModuleId(moduleId, googleCalendarId);
+
+        return updatedModule;
     }
 }

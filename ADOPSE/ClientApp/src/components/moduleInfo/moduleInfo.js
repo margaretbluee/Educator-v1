@@ -21,6 +21,7 @@ function ModuleInfo() {
   const [module, setModule] = useState({}); // module info
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
+  const [isLoadingCalendarCreate, setIsLoadingCalendarCreate] = useState(false);
 
   const [eventsIsLoading, setEventsIsLoading] = useState(true);
   const [eventsfailedToLoad, setEventsFailedToLoad] = useState(false);
@@ -52,6 +53,39 @@ function ModuleInfo() {
       },
     });
   };
+
+  const calendarCreationLoading = () => {
+    messageApi.open({
+      type: "loading",
+      content: "Loading",
+      style: {
+        color: "darkorange",
+        marginTop: "60px",
+      },
+    });
+  };
+
+  // const calendarCreationFailed = () => {
+  //   messageApi.open({
+  //     type: "error",
+  //     content: "Calendar creation failed",
+  //     style: {
+  //       color: "red",
+  //       marginTop: "60px",
+  //     },
+  //   });
+  // };
+
+    // const calendarCreationSuccessed = () => {
+  //   messageApi.open({
+  //     type: "success",
+  //     content: "Calendar successfully created",
+  //     style: {
+  //       color: "lightgreen",
+  //       marginTop: "60px",
+  //     },
+  //   });
+  // };
 
   useEffect(() => {
     let retryCount = 0;
@@ -122,6 +156,46 @@ function ModuleInfo() {
         error();
       });
   };
+
+  const handleCreateCalendarClick = () => {
+    var myHeaders = new Headers();
+    myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+    );
+
+    var requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        redirect: "follow",
+    };
+  
+    setIsLoadingCalendarCreate(true)
+    fetch(`/api/module/${moduleId}/googleCalendarId`, requestOptions)
+    .then((response) => {
+            if (response.ok) {
+              console.log(response)
+                return response.json();
+            }
+        })        
+        .then((result) => {
+          setIsLoadingCalendarCreate(false)
+            if (result) {
+                // success();
+                // calendarCreationSuccesed();
+                alert("Calendar successfuly created");
+            } else {
+                alert("Calendar creation failed");
+              // calendarCreationFailed();
+              // error();
+            }                
+        })
+        .catch((error) => {
+          setIsLoadingCalendarCreate(false)
+            console.log("error", error);
+            error();
+        });
+    };
 
   useEffect(() => {
     setIsLoading(true);
@@ -244,6 +318,21 @@ function ModuleInfo() {
             </button>
           </div>
         )}
+      </div>
+      <div className="course-third">        
+      {isLoadingCalendarCreate ? 
+        (
+          <h5 style={{display: "inline-block"}}>Loading...</h5> 
+        ) : (
+          null
+        )
+      }
+        <button
+          onClick={handleCreateCalendarClick}
+          className="createCalendar-button"          
+          >            
+            Create Calendar
+          </button>
       </div>
       <div className="upcoming-events">
         <h2>Upcoming Events</h2>
