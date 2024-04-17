@@ -11,9 +11,9 @@ public class ModuleController : ControllerBase
 {
     private readonly ILogger<ModuleController> _logger;
     private readonly IModuleService _moduleService;
-    private readonly IGoogleCalendarService _googleCalendarService;
+    private readonly ICalendarService _googleCalendarService;
 
-    public ModuleController(ILogger<ModuleController> logger, IModuleService moduleService, IGoogleCalendarService googleCalendarService)
+    public ModuleController(ILogger<ModuleController> logger, IModuleService moduleService, ICalendarService googleCalendarService)
     {
         _logger = logger;
         _moduleService = moduleService;

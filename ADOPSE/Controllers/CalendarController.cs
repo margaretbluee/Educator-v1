@@ -3,6 +3,7 @@ using System.Security.Claims;
 using ADOPSE.Models;
 using ADOPSE.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADOPSE.Controllers;
@@ -11,13 +12,13 @@ namespace ADOPSE.Controllers;
 [Route("[controller]")]
 public class CalendarController : ControllerBase
 {
-    private readonly IGoogleCalendarService _googleCalendarService;
+    private readonly ICalendarService _googleCalendarService;
     private readonly ICalendarService _calendarService;
     private readonly IEventService _eventService;
     private readonly ILogger<CalendarController> _logger;
    
     public CalendarController(ICalendarService calendarService, IEventService eventService, ILogger<CalendarController> logger,
-        IGoogleCalendarService googleCalendarService)
+        ICalendarService googleCalendarService)
     {
         _googleCalendarService = googleCalendarService;
         _calendarService = calendarService;
@@ -26,28 +27,15 @@ public class CalendarController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("getAllEventsFromGoogle")]
-    public IActionResult GetCalendars()
+    [HttpGet("fetchAndSync")]
+    public IActionResult FetchAndSync()
     {
         List<List<string>> allEvents = _googleCalendarService.RetrieveAllEventsFromGoogleApi();
 
+        // delete unsupported events - refresh updated events - add new events
+        _eventService.Sync(allEvents);
+        
         return new JsonResult(allEvents);
-    }
-
-    [Authorize]
-    [HttpPost("addModules")]
-    public IActionResult Add([FromBody] List<List<string>> lista)
-    {
-        //Module module = _moduleService.GetModuleByCalendarId()
-        /*lista.ForEach(item => item.ForEach(
-            item => _logger.LogInformation(item)
-            ));
-            */      
-
-        _calendarService.AddEvents(lista);
-
-
-        return Ok();
     }
 
     [HttpGet("getEvent/{googleEventId}")]

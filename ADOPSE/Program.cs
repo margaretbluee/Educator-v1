@@ -21,8 +21,8 @@ builder.Services.AddScoped<IEnrolledRepository, EnrolledRepository>();
 builder.Services.AddScoped<IEnrolledService, EnrolledService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<ILuceneRepository, LuceneRepository>();
-builder.Services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {

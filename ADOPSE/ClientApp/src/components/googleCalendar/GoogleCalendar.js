@@ -2,7 +2,7 @@ import React from "react";
 
 function GoogleCalendar(props) {
  
-    async function getAllEvents() {
+    async function FetchAllEventsFromGoogleAndSync() {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append(
@@ -14,8 +14,8 @@ function GoogleCalendar(props) {
             headers: myHeaders,
             redirect: "follow",
         };    
-
-        let eventList = await fetch("/api/calendar/getAllEventsFromGoogle", requestOptions)
+        
+        let eventList = await fetch("/api/calendar/fetchAndSync", requestOptions)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Could not fetch resource")
@@ -28,49 +28,13 @@ function GoogleCalendar(props) {
             })
             .catch((error) => {
                 console.log("error", error)
-
-                // if(error.response.status === 401){
-                //     return error;
-                // }
             });
-
-          sendEvents(eventList)  // send events to database in order to be stored
-
 
         console.log(eventList);        
 
         alert("Synchronized as well as posible! Thanks for you services.");
 
     }
-
-    async function sendEvents(events) {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append(
-            "Authorization",
-            `Bearer ${localStorage.getItem("token")}`
-        );
-
-        var raw = JSON.stringify(events);
-
-        var requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow",
-        };
-
-        fetch("/api/calendar/addModules", requestOptions)
-            .then((response) =>{
-              if(!response.ok)  {
-                throw new Error("'addModules' could not fetch recource")
-              }
-              response.text()
-            }) 
-            .then((result) => console.log(result))
-            .catch((error) => console.log("error", error));
-    }
-
 
   return (
     <div>
@@ -87,7 +51,7 @@ function GoogleCalendar(props) {
   {/*        )} <br></br><br></br>*/}
   {/*    </div>*/}
           <>
-              <button onClick={() => getAllEvents()}> RetrieveTest</button>
+              <button onClick={() => FetchAllEventsFromGoogleAndSync()}> Fetch And Sync</button>
           </>
       </div>    
   );
