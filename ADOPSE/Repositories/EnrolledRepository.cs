@@ -81,7 +81,7 @@ public class EnrolledRepository : IEnrolledRepository
             string searchQuery;
             if (dic.TryGetValue("SearchQuery", out searchQuery) && !string.IsNullOrEmpty(searchQuery))
             {
-                IEnumerable<Module> searchResults = _luceneRepository.SearchModules(searchQuery);
+                IEnumerable<Module> searchResults = _luceneRepository.SearchModulesLucene(searchQuery);
                 _logger.LogInformation($"Search Query: {searchQuery}");
 
                 _logger.LogInformation($"Search Results Count: {searchResults?.Count() ?? 0}");

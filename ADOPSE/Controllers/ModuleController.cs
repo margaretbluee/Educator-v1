@@ -1,20 +1,103 @@
 ﻿using ADOPSE.Models;
+using ADOPSE.Repositories.IRepositories;
+using ADOPSE.Services;
 using ADOPSE.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 
 namespace ADOPSE.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class ModuleController : ControllerBase
-{
-    private readonly ILogger<ModuleController> _logger;
+{ private readonly ILogger<ModuleController> _logger;
     private readonly IModuleService _moduleService;
+private readonly IElasticClient _elasticClient;
+ private readonly  IModuleRepository _moduleRepository;
+ private readonly  ILuceneRepository _luceneRepository;
 
-    public ModuleController(ILogger<ModuleController> logger, IModuleService moduleService)
+
+    [HttpPost("update/{from}/{to}")]
+    public async Task<IActionResult> UpdateModulesWithDescription(int from, int to )
+    {
+        bool success = await _moduleService.UpdateModulesWithRandomDescription(from, to);
+        
+        if (success)
+        {
+            return Ok("Modules updated successfully.");
+        }
+        else
+        {
+            return BadRequest("Failed to update modules. Check if all modules exist and update was successful.");
+        }
+    }
+
+
+[HttpPut("{id}/fixDescription")]
+public async Task<IActionResult> UpdateModuleWithFaultyDescription(int id)
+{
+    var result = await _moduleService.FixWrongDescriptions(id);
+    if (result)
+    {
+        return Ok("Faulty description updated successfully.");
+    }
+    else
+    {
+        return NotFound("Module not found.");
+    }
+}
+
+[HttpPut("mistral/{from}/{to}")]
+public async Task<IActionResult> Mistral_test(int from,int to)
+{
+    var result = await _moduleService.Mistral(from, to);
+    if (result)
+    {
+        return Ok("MISTRAL descriptions updated successfully.");
+    }
+    else
+    {
+        return NotFound("Module not found.");
+    }
+}
+
+
+    [HttpPut("lost_descriptions")]
+    public IActionResult Find_lost_descriptions()
+    {
+        bool result = _moduleService.Find_missing_files();
+
+        if (result)
+        {
+            return Ok("Missing IDs have been written to missing_ids.txt.");
+        }
+        else
+        {
+            return BadRequest("Failed to write missing IDs.");
+        }
+    }
+
+
+    [HttpPut("{id}/randomdescription")]
+public async Task<IActionResult> UpdateModuleWithRandomDescription(int id)
+{
+    var result = await _moduleService.UpdateModuleWithFaultyDescription(id);
+    if (result)
+    {
+        return Ok("Random description updated successfully.");
+    }
+    else
+    {
+        return NotFound("Module not found.");
+    }
+}
+
+ 
+    public ModuleController(ILogger<ModuleController> logger, IModuleService moduleService, IElasticClient elasticClient)
     {
         _logger = logger;
         _moduleService = moduleService;
+        _elasticClient = elasticClient;
     }
 
     [HttpGet]
@@ -45,8 +128,8 @@ public class ModuleController : ControllerBase
         return _moduleService.GetModuleStacksByLecturerId(limit, offset, id);
     }
 
-    [HttpGet("filtered/{limit}/{offset}")]
-    public IActionResult GetFilteresModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
+    [HttpGet("filtered/{limit}/{offset}")] 
+    public IActionResult GetFilteresModulesLucene([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
         [FromQuery] string? Rating, [FromQuery] string? Price, [FromQuery] string? SearchQuery, int limit, int offset)
     {
         _logger.LogInformation(ModuleTypeId);
@@ -65,15 +148,45 @@ public class ModuleController : ControllerBase
             myDict1.Add("Price", Price);
         if (SearchQuery != null)
             myDict1.Add("SearchQuery", SearchQuery);
-
-        var modules = _moduleService.GetFilteredModules(myDict1, limit, offset);
+       
+        var modules = _moduleService.GetFilteredModulesLucene(myDict1, limit, offset);
+        
         return modules;
-    }
+    } 
+ 
+   
+   /*   [HttpGet("search")]
+    public IActionResult SearchModules([FromQuery] string searchQuery)
+    {
+        try
+        {
+            var modules = _luceneRepository.SearchModulesElastic(searchQuery);
+            return Ok(modules);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred: {ex.Message}");
+        }
+    }*/
 
-    [HttpPost("index")]
+[HttpPost("index_elastic")]
+public async Task<IActionResult> Create_ELS_Index()
+{
+ try
+        {
+            _luceneRepository.CreateIndexElastic();
+            return Ok("Index created successfully.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred: {ex.Message}");
+        }
+}
+ 
+    [HttpPost("index_lucene")]
     public IActionResult CreateIndex()
     {
-        _moduleService.CreateIndex();
+        _moduleService.CreateIndexLucene();
         return Ok(); // Or return appropriate status code and response
     }
 }
