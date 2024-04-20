@@ -22,6 +22,7 @@ namespace ADOPSE.Repositories
         private readonly IMemoryCache _memoryCache;
 
         private const string IndexCreatedCacheKey = "IndexCreated";
+        private Boolean indexCreated;
 
         public LuceneRepository(MyDbContext aspNetCoreNTierDbContext, ILogger<ModuleRepository> logger)
         {
@@ -30,7 +31,7 @@ namespace ADOPSE.Repositories
         }
         private const string IndexName = "lucene";
 
-        public IEnumerable<Module> SearchModules(string searchQuery)
+        public IEnumerable<Module> SearchModules(string searchQuery, int searchType)
         {
             string indexPath = Path.Combine(Environment.CurrentDirectory, IndexName);
             if (!System.IO.Directory.Exists(indexPath))
@@ -60,12 +61,15 @@ namespace ADOPSE.Repositories
             var booleanQuery = new BooleanQuery();
             foreach (var term in queryTerms)
             {
+                if(searchType == 0){
                 var wildcardTerm = new WildcardQuery(new Term("Name", $"*{term}*"));
+                booleanQuery.Add(wildcardTerm, Occur.MUST);
+                }
+                else if(searchType == 1){
                 var wildcardTerm2 = new WildcardQuery(new Term("Description", $"*{term}*"));
+                booleanQuery.Add(wildcardTerm2, Occur.MUST);
+                }
 
-                booleanQuery.Add(wildcardTerm, Occur.SHOULD);
-                booleanQuery.Add(wildcardTerm2, Occur.SHOULD);
-           
             }
 
 

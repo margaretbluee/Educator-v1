@@ -36,12 +36,15 @@ public class ModuleRepository : IModuleRepository
 
         var query = _aspNetCoreNTierDbContext.Module.Include(m => m.Lecturer).Include(m => m.ModuleType).AsQueryable();
 
+        string searchType;
+        dic.TryGetValue("SearchType", out searchType);
+        
         if (dic.ContainsKey("SearchQuery"))
         {
             string searchQuery;
             if (dic.TryGetValue("SearchQuery", out searchQuery) && !string.IsNullOrEmpty(searchQuery))
             {
-                IEnumerable<Module> searchResults = _luceneRepository.SearchModules(searchQuery);
+                IEnumerable<Module> searchResults = _luceneRepository.SearchModules(searchQuery, int.Parse(searchType));
                 _logger.LogInformation($"Search Query: {searchQuery}");
 
                 _logger.LogInformation($"Search Results Count: {searchResults?.Count() ?? 0}");
