@@ -12,25 +12,29 @@ namespace ADOPSE.Controllers;
 [Route("[controller]")]
 public class CalendarController : ControllerBase
 {
-    private readonly ICalendarService _googleCalendarService;
     private readonly ICalendarService _calendarService;
     private readonly IEventService _eventService;
+    private readonly IModuleService _moduleService;
+
     private readonly ILogger<CalendarController> _logger;
    
-    public CalendarController(ICalendarService calendarService, IEventService eventService, ILogger<CalendarController> logger,
-        ICalendarService googleCalendarService)
+    public CalendarController(ICalendarService calendarService, IEventService eventService, IModuleService moduleService, ILogger<CalendarController> logger)
     {
-        _googleCalendarService = googleCalendarService;
         _calendarService = calendarService;
         _eventService = eventService;
         _logger = logger;
+        _moduleService = moduleService;
     }
 
     [Authorize]
     [HttpGet("fetchAndSync")]
     public IActionResult FetchAndSync()
     {
-        List<List<string>> allEvents = _googleCalendarService.RetrieveAllEventsFromGoogleApi();
+        List<List<string>> allEvents = _calendarService.RetrieveAllEventsFromGoogleApi();
+
+        // delete cancelled, by googleCalendar interface, calendars from modules
+        var calendarIds = _calendarService.RetrieveCalendarsIds();
+        _moduleService.SyncGoogleCalendarsIdsOfModules(calendarIds);
 
         // delete unsupported events - refresh updated events - add new events
         _eventService.Sync(allEvents);
