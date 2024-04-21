@@ -194,7 +194,10 @@ function ModuleInfo() {
           setIsLoadingCalendarCreate(false)
             console.log("error", error);
             error();
-        });
+        })
+        .finally(
+          setIsLoadingCalendarCreate(false)
+        );
     };
 
   useEffect(() => {
@@ -308,7 +311,7 @@ function ModuleInfo() {
           </div>
         </div>
         {hasJWT() && (
-          <div className="course-second">
+          <div className="course-second">            
             <button
               className="buy-now-button"
               onClick={handleEnrollClick}
@@ -316,7 +319,13 @@ function ModuleInfo() {
             >
               {!isEnrolled ? "Enroll" : "Enrolled"}
             </button>
-          </div>
+            <button            
+              className = "create-callendar-button"
+              onClick= {handleCreateCalendarClick}
+            >
+              Create Calendar
+            </button>
+          </div>                    
         )}
       </div>
       <div className="course-third">        
