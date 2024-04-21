@@ -27,20 +27,18 @@ namespace ADOPSE.Services
         {
             var service = GetCalendarService();
             var requestCalendarList = service.CalendarList.List().Execute();
-            List<List<string>> events = new List<List<string>>();
-
 
             List<CalendarListEntry> calendars = (List<CalendarListEntry>)requestCalendarList.Items;
-
+            
             foreach (var calendar in calendars)
-            {
+            {                
                 Console.WriteLine($"Calendar '{calendar.Summary}', DescriptionText: {calendar.Description}, CalendarId: '{calendar.Id}'");                
             }
 
             return calendars;
         }
 
-    
+        
         public List<List<string>> RetrieveAllEventsFromGoogleApi()
         {
             var service = GetCalendarService();
@@ -62,20 +60,16 @@ namespace ADOPSE.Services
                 {
                     foreach (var evt in eventList)
                     {
-                        string startWhen = "", endWhen = "";
+                        string startWhen,  endWhen , summary, description;
                         _ = String.IsNullOrEmpty(evt.Start.DateTime.ToString()) ? startWhen = evt.Start.Date : startWhen = evt.Start.DateTime.ToString();
-                        _ = String.IsNullOrEmpty(evt.End.DateTime.ToString()) ? endWhen = evt.End.Date : endWhen = evt.End.DateTime.ToString();                        
-
-                        string description = "";
-                        if (!String.IsNullOrEmpty(evt.Description))
-                        {
-                            description = evt.Description;
-                        }
+                        _ = String.IsNullOrEmpty(evt.End.DateTime.ToString()) ? endWhen = evt.End.Date : endWhen = evt.End.DateTime.ToString();
+                        _ = String.IsNullOrEmpty(evt.Summary) ? summary = "" : summary = evt.Summary.ToString();
+                        _ = String.IsNullOrEmpty(evt.Description) ? description = "" : description = evt.Description.ToString();
 
                         List<string> eventDetails = new List<string>
                         {
-                            evt.Organizer.Email.ToString(),
-                            evt.Summary.ToString(),
+                            evt.Organizer.Email.ToString(),                            
+                            summary,
                             description,
                             startWhen,
                             endWhen,
@@ -85,16 +79,14 @@ namespace ADOPSE.Services
                         };                        
                         Console.WriteLine($"EventId: '{evt.Id}',\n " +
                                           $"Inside Calendar with id: '{evt.Organizer.Email}',\n " +
-                                          $"Summary: '{evt.Summary}'," +
-                                          $" DescriptionText: '{evt.Description}'," +
+                                          $"Summary: '{summary}'," +
+                                          $" DescriptionText: '{description}'," +
                                           $" StartDate: '{startWhen}'," +
                                           $" EndDate: '{endWhen}," +
                                           $" LastUpdate: '{evt.Updated}'");
                         events.Add(eventDetails);
                     };
-
                 }                                
-
             }
 
             return events;

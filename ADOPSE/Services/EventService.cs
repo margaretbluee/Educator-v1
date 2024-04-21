@@ -64,7 +64,7 @@ public class EventService : IEventService
             }
         });
                   
-        filteredEventsToAdd = AddEvents(eventsToAdd);
+        AddEvents(filteredEventsToAdd);
     }
 
     // Summary    : Removes the events that have been deleted in Google Calendar, therefore they must be deleted from our dB too
@@ -72,7 +72,7 @@ public class EventService : IEventService
     // Processing : Deletes the events from dB that are currently in it, but do not anymore exist in the GoogleEvents List 
     // Returns    : All the events from GoogleCalendarAPI which are new or already stored in the dB but modified/unmodified
     public List<List<string>> DeleteCancelledEvents(List<List<string>> googleCalendarEvents)
-    {
+    {        
         HashSet<string> existingEventsList = new HashSet<string>();
         List<List<string>> eventsToAdd = new List<List<string>>();
 
@@ -82,7 +82,7 @@ public class EventService : IEventService
             existingEventsList.Add(googleCalendarEvent[6]); // the 6th parameter of the event parameter list which is the googleCalendarEventId
             eventsToAdd.Add(googleCalendarEvent);
         }
-
+      
         List<Event> eventsToRemove = _eventRepository.GetLeftoverEvents(existingEventsList);
 
         _eventRepository.DeleteEvents(eventsToRemove);        
@@ -93,12 +93,10 @@ public class EventService : IEventService
     // Parameter : All the events from GoogleCalendarAPI which are new or already stored in the dB but modified/unmodified
     // Processing: Adds new events on dB. Updates already existing events that have been updated after the googleCalendarAPI call
     // Returns   : All the events from GoogleCalendarAPI that are new or already stored in the dB but only newly modified  
-    public List<List<string>> AddEvents(List<List<string>> googleCalendarEvents)
+    public void AddEvents(List<List<string>> googleCalendarEvents)
     {
-        List<List<string>> newEventsList = new List<List<string>>();
-
         foreach (var googleCalendarEvent in googleCalendarEvents)
-        {            
+        {
 
             var eventInDB = GetEventByGoogleCalendarEventId(googleCalendarEvent[6]); // eventExistsByGoogleCalendarEventID(string googleCalendarEvent)
 
@@ -123,7 +121,6 @@ public class EventService : IEventService
                 _eventRepository.AddEvent(googleCalendarEvent);
             }
         }
-        return newEventsList;
     }
 
     public IEnumerable<Event> GetEventsByStudentId(int studentId)

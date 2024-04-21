@@ -19,7 +19,7 @@ public interface IEventService
     // Parameter : All the events from GoogleCalendarAPI which are new or already stored in the dB but modified/unmodified
     // Processing: Adds new events on dB. Updates already existing events that have been updated after the googleCalendarAPI call
     // Returns   : All the events from GoogleCalendarAPI that are new or already stored in the dB but only newly modified  
-    public List<List<string>> AddEvents(List<List<string>> googleCalendarEvents);
+    public void AddEvents(List<List<string>> googleCalendarEvents);
 
     public void AddEvent(List<string> eventAttributes);
 
