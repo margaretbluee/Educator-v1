@@ -10,9 +10,7 @@ public interface IModuleRepository
 
     bool ExistsModuleById(int id);
 
-    bool IsGoogleCalendarIdEmpty(int moduleid);
-
-    Module UpdateGoogleCalendarIdOfModuleByModuleId(int moduleId, string googleCalendarId);    
+    bool IsGoogleCalendarIdEmpty(int moduleid);    
 
     IEnumerable<Module> GetModuleStacks(int limit, int offset);
 
@@ -27,6 +25,12 @@ public interface IModuleRepository
     Module GetModuleByCalendarId(string id);
 
     IEnumerable<Module> GetModuleStacksByLecturerId(int limit, int offset, int id);
+
+    IEnumerable<string> GetAllCalendarIds();
+
+    Module UpdateGoogleCalendarIdOfModuleByModuleId(int moduleId, string googleCalendarId);
+
+    bool ClearGoogleCalendarIdOfModuleByCalendarId(string  calendarId);
 
     public void CreateIndex();
 

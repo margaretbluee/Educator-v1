@@ -17,6 +17,8 @@ public interface IModuleService
 
     Module GetModuleByCalendarId(string id);
 
+    IEnumerable<string> GetAllCalendarsIds();
+
     public void CreateIndex();
 
     bool ExistsModuleById(int id);
@@ -24,4 +26,6 @@ public interface IModuleService
     public bool IsGoogleCalendarIdEmpty(int moduleId);
 
     ActionResult<Module> UpdateGoogleCalendarIdOfModuleByModuleId(int moduleId, string googleCalendarId);
+
+    void SyncGoogleCalendarsIdsOfModules(HashSet<string> calendarIdsList);
 }

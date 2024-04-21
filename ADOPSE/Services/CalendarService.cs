@@ -4,6 +4,7 @@ using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using Calendar = Google.Apis.Calendar.v3.Data.Calendar;
 using GoogleApisV3CalendarService = Google.Apis.Calendar.v3.CalendarService;
 
@@ -38,7 +39,24 @@ namespace ADOPSE.Services
             return calendars;
         }
 
-        
+        public HashSet<string> RetrieveCalendarsIds()
+        {
+            var service = GetCalendarService();
+            var requestCalendarList = service.CalendarList.List().Execute();
+
+            List<CalendarListEntry> calendars = (List<CalendarListEntry>)requestCalendarList.Items;
+            HashSet<string> calendarIds = new HashSet<string>();
+
+            foreach (var calendar in calendars)
+            {
+                calendarIds.Add(calendar.Id);
+                // Console.WriteLine($"Calendar '{calendar.Summary}', DescriptionText: {calendar.Description}, CalendarId: '{calendar.Id}'");
+            }
+
+            return calendarIds;
+        }
+
+
         public List<List<string>> RetrieveAllEventsFromGoogleApi()
         {
             var service = GetCalendarService();

@@ -2,6 +2,7 @@
 using ADOPSE.Models;
 using ADOPSE.Repositories.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ADOPSE.Repositories;
 
@@ -143,6 +144,11 @@ public class ModuleRepository : IModuleRepository
         return _aspNetCoreNTierDbContext.Module.Where(x => x.leaderId == id).Skip(offset).Take(limit).OrderBy(m => m.Id);
     }
 
+    public IEnumerable<string> GetAllCalendarIds()
+    {
+        return _aspNetCoreNTierDbContext.Module.Where(m => !string.IsNullOrEmpty(m.GoogleCalendarID)).Select(m => m.GoogleCalendarID).ToList();
+    }
+
     public void CreateIndex()
     {
         _luceneRepository.CreateIndex();
@@ -171,6 +177,22 @@ public class ModuleRepository : IModuleRepository
         _aspNetCoreNTierDbContext.SaveChanges();
 
         return moduleToUpdate;
+    }
+
+    public bool ClearGoogleCalendarIdOfModuleByCalendarId(string calendarId)
+    {
+        var moduleToUpdate = _aspNetCoreNTierDbContext.Module.Where(m => m.GoogleCalendarID == calendarId).FirstOrDefault();
+
+        if (moduleToUpdate != null)
+        {
+            moduleToUpdate.GoogleCalendarID = "";
+            _logger.LogInformation($"Module with id: '{moduleToUpdate.Id}' does not have google calendar id from now on");
+            _aspNetCoreNTierDbContext.SaveChanges();
+            return true;
+        }        
+
+        _logger.LogError($"Cannot clear the googleCalendar Id '{calendarId}' of a module because the module instance does not exist");
+        return false;
     }
 
 }

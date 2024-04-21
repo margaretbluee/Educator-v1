@@ -61,6 +61,11 @@ public class ModuleService : IModuleService
         return _moduleRepository.GetModuleByCalendarId(id);
     }
 
+    public IEnumerable<string> GetAllCalendarsIds()
+    {
+        return _moduleRepository.GetAllCalendarIds();
+    }
+
     public void CreateIndex()
     {
         _moduleRepository.CreateIndex();
@@ -81,5 +86,21 @@ public class ModuleService : IModuleService
 
         return new JsonResult(updatedModule);
 
+    }
+
+    public void SyncGoogleCalendarsIdsOfModules(HashSet<string> calendarIdsList)
+    {
+        _logger.LogInformation($"The number of calendars is: " + calendarIdsList.Count);
+
+        var calendarIds = _moduleRepository.GetAllCalendarIds();
+
+        foreach (var calendarId in calendarIds)
+        {
+            if (!calendarIdsList.Contains(calendarId))
+            {
+                _moduleRepository.ClearGoogleCalendarIdOfModuleByCalendarId(calendarId);
+            }
+        }
+        _logger.LogInformation("Calendar Ids Sync has successfully finished");
     }
 }
