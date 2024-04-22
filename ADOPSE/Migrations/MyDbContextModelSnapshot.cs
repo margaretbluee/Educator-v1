@@ -57,14 +57,14 @@ namespace ADOPSE.Migrations
                     b.Property<int>("ModuleId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ModuleId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("Enrolled");
                 });
@@ -199,29 +199,6 @@ namespace ADOPSE.Migrations
                     b.ToTable("ModuleType");
                 });
 
-            modelBuilder.Entity("ADOPSE.Models.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Student");
-                });
-
             modelBuilder.Entity("ADOPSE.Models.SubCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -242,6 +219,36 @@ namespace ADOPSE.Migrations
                     b.ToTable("SubCategory");
                 });
 
+            modelBuilder.Entity("ADOPSE.Models.Users", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Suspend")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("USERS");
+                });
+
             modelBuilder.Entity("ADOPSE.Models.Enrolled", b =>
                 {
                     b.HasOne("ADOPSE.Models.Module", "Module")
@@ -250,15 +257,15 @@ namespace ADOPSE.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ADOPSE.Models.Student", "Student")
+                    b.HasOne("ADOPSE.Models.Users", "USERS")
                         .WithMany()
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Module");
 
-                    b.Navigation("Student");
+                    b.Navigation("USERS");
                 });
 
             modelBuilder.Entity("ADOPSE.Models.Event", b =>

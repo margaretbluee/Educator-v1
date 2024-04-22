@@ -11,8 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 builder.Services.AddScoped<ILecturerService, LecturerService>();
 builder.Services.AddScoped<ILecturerRepository, LecturerRepository>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
@@ -39,17 +37,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 // string connectionString;
 
+bool hasDbEnvironment = Environment.GetEnvironmentVariables().Keys.Cast<string>().Any(key => key.StartsWith("DB"));
 
+string connectionString = builder.Configuration.GetConnectionString(
+                        hasDbEnvironment ? "TestConnection" : "DefaultConnection")
+                        ?? throw new InvalidOperationException("Connection string not found.");
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string not found.");
-
+connectionString = connectionString.Replace("${DB_HOST}", Environment.GetEnvironmentVariable("DB_HOST") ?? "127.0.0.1")
+                                     .Replace("${DB_PORT}", Environment.GetEnvironmentVariable("DB_PORT") ?? "3306")
+                                     .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "mysql")
+                                     .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "root")
+                                     .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "root");
 
 // Add services to the container.
 
-
 builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseMySql(connectionString,ServerVersion.Parse("5.7.35-mysql")));
-
+    options.UseMySql(connectionString, Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.35-mysql")));
 
 Console.Write(connectionString + " Connection String \n");
 
@@ -81,20 +84,21 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-if (!app.Environment.IsDevelopment())
-{
-    //apply migrations
-
-    using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
-    dbContext.Database.Migrate();
-}
-
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+
+// string allowedOrigin = Environment.GetEnvironmentVariable("ALLOWED_ORIGIN") ?? "https://localhost:44442";
+// Console.Write(allowedOrigin + " Allowed Origin \n");
+
+// app.UseCors(builder =>
+//     builder.WithOrigins(allowedOrigin)
+//         .AllowAnyHeader()
+//         .AllowAnyMethod()
+//         .AllowCredentials()
+// );
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -14,7 +14,7 @@ import { useEffect } from "react";
 function NavMenu({ navbarRef }) {
   const [collapsed, setCollapsed] = useState(true);
   const toggleNavbar = () => setCollapsed(!collapsed);
-
+  
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -39,6 +39,10 @@ function NavMenu({ navbarRef }) {
         return "Login";
       case "/register":
         return "Register";
+      case "/Roles":
+        return "Roles";
+      case "/Profile":
+          return "Profile";
       default:
         return "";
     }
@@ -49,6 +53,10 @@ function NavMenu({ navbarRef }) {
   useEffect(() => {
     setNavTitle(getNavTitle());
   }, [location.pathname, getNavTitle]);
+
+  
+  
+ 
 
   return (
     <header ref={navbarRef} className="fixed-top nav-menu">
@@ -102,6 +110,22 @@ function NavMenu({ navbarRef }) {
                 <div></div>
               )}
             </NavItem>
+ 
+            <NavItem>
+              {hasJWT() ? (
+                <NavLink tag={Link} className="text-dark" to="/Profile">
+                  Profile
+                </NavLink>
+              ) : (
+                <div></div>
+              )}
+            </NavItem>
+
+
+
+
+
+
             <NavItem className="login-register">
               {hasJWT() ? (
                 <div className="logout-div">

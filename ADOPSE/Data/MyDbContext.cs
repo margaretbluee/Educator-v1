@@ -5,10 +5,8 @@ namespace ADOPSE.Data;
 
 public class MyDbContext : DbContext
 {
-    private readonly string? _schema;
-    public MyDbContext(DbContextOptions<MyDbContext> options, IConfiguration configuration) : base(options)
+    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
     {
-        _schema = configuration.GetConnectionString(name: "Schema");
 
     }
 
@@ -19,8 +17,13 @@ public class MyDbContext : DbContext
     public DbSet<Event> Event { get; set; }
     public DbSet<Lecturer> Lecturer { get; set; }
     public DbSet<Module> Module { get; set; }
-    public DbSet<Student> Student { get; set; }
+    public DbSet<Users> USERS{ get; set; }
+    
     public DbSet<ModuleType> ModuleType { get; set; }
+<<<<<<< Updated upstream
+}
+=======
+    public object Usersq { get; internal set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,4 +32,7 @@ public class MyDbContext : DbContext
         if (!string.IsNullOrWhiteSpace(_schema))
             modelBuilder.HasDefaultSchema(_schema);
     }
+
 }
+
+>>>>>>> Stashed changes

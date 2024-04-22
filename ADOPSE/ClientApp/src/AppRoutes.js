@@ -8,6 +8,8 @@ import GoogleCalendar from "./components/googleCalendar";
 import ModuleInfo from "./components/moduleInfo";
 import Lecturer from "./components/Lecturer";
 import LecturersPage from "./components/LecturerPage";
+import Roles from "./components/Roles";
+import Profile from "./components/Profile/profile";
 
 const AppRoutes = [
   {
@@ -45,6 +47,14 @@ const AppRoutes = [
   {
     path: "/googleCalendar",
     element: <GoogleCalendar />,
+  },
+  {
+    path: "/Roles",
+    element: <Roles />,
+  },
+  {
+    path: "/Profile",
+    element: <Profile />,
   },
 ];
 

@@ -6,8 +6,8 @@ public class Enrolled
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-    public int StudentId { get; set; }
-    public Student Student { get; set; }
+    public int UsersId { get; set; }
+    public Users USERS { get; set; }
 
     public int ModuleId { get; set; }
     public Module Module { get; set; }
@@ -15,6 +15,6 @@ public class Enrolled
 
     public override string ToString()
     {
-        return $"{nameof(Id)}: {Id}, {nameof(Student)}: {Student}, {nameof(Module)}: {Module}";
+        return $"{nameof(Id)}: {Id}, {nameof(Users)}: {USERS}, {nameof(Module)}: {Module}";
     }
 }

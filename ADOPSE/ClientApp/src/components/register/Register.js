@@ -7,6 +7,7 @@ function Register(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  //const [role, setRole] = useState("");
   const navigate = useNavigate();
   const key = "updatable";
 
@@ -37,7 +38,7 @@ function Register(props) {
     });
   };
 
-  const errorM = () => {
+  /*const errorM = () => {
     messageApi.open({
       key,
       type: "error",
@@ -47,10 +48,63 @@ function Register(props) {
         marginTop: "60px",
       },
     });
+  };*/
+  const errorM = (errorMessage) => {
+    messageApi.open({
+      key,
+      type: "error",
+      content: errorMessage,
+      duration: 1,
+      style: {
+        marginTop: "60px",
+        color: "red", 
+      },
+    });
+  };
+  const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   };
 
   const handleRegister = async (event) => {
     event.preventDefault();
+    
+    if (!username || !password || !email) {
+      errorM("All fields are required."); 
+      return;
+    }
+
+    if (!isValidEmail(email)) { 
+      errorM("Please enter a valid email address.");
+      return;
+    }
+
+
+
+    if (password.length < 8) {
+      errorM("Password must be at least 8 characters long.");
+      return;
+    }
+
+    if (!/\d/.test(password)) {
+      errorM("Password must contain at least one number.");
+      return;
+    }
+
+    if (!/[a-z]/.test(password)) {
+      errorM("Password must contain at least one lowercase letter.");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      errorM("Password must contain at least one uppercase letter.");
+      return;
+    }
+
+    if (!/[^a-zA-Z0-9]/.test(password)) {
+      errorM("Password must contain at least one special character.");
+      return;
+    }
 
     success();
 
@@ -68,6 +122,7 @@ function Register(props) {
           Connection: "keep-alive",
         },
         body: `{"username": "${username}","password": "${password}","email": "${email}"}`,
+        
       });
 
       if (response.ok) {
@@ -76,13 +131,15 @@ function Register(props) {
 
         close();
       } else {
-        errorM();
+        errorM("");
         throw new Error("Register failed");
       }
     } catch (error) {
-      errorM();
+      errorM(" not ok");
       console.error(error);
     }
+
+ 
   };
 
   return (
@@ -92,12 +149,13 @@ function Register(props) {
       <div className="register-box">
         <form>
           <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          
           <br />
           <label htmlFor="email">Email:</label>
           <input
@@ -115,6 +173,9 @@ function Register(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br />
+          
+          
+        
           <div className="register-options">
             <label>
               <input type="checkbox" name="agreeToTerms" /> Agree to Terms of
