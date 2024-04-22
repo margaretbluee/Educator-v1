@@ -16,11 +16,11 @@ private readonly IElasticClient _elasticClient;
  private readonly  IModuleRepository _moduleRepository;
  private readonly  ILuceneRepository _luceneRepository;
 
-
+//update with Custom Google Search Api
     [HttpPost("update/{from}/{to}")]
     public async Task<IActionResult> UpdateModulesWithDescription(int from, int to )
     {
-        bool success = await _moduleService.UpdateModulesWithRandomDescription(from, to);
+        bool success = await _moduleService.UpdateModulesWithGoogleDescription(from, to);
         
         if (success)
         {
@@ -46,7 +46,7 @@ public async Task<IActionResult> UpdateModuleWithFaultyDescription(int id)
         return NotFound("Module not found.");
     }
 }
-
+//Descriptions with LLM MistralAI
 [HttpPut("mistral/{from}/{to}")]
 public async Task<IActionResult> Mistral_test(int from,int to)
 {
@@ -61,8 +61,8 @@ public async Task<IActionResult> Mistral_test(int from,int to)
     }
 }
 
-
-    [HttpPut("lost_descriptions")]
+//write files with missing descriptions(DEBUG)
+    [HttpPut("Find_lost_Descriptions")]
     public IActionResult Find_lost_descriptions()
     {
         bool result = _moduleService.Find_missing_files();
@@ -77,14 +77,14 @@ public async Task<IActionResult> Mistral_test(int from,int to)
         }
     }
 
-
-    [HttpPut("{id}/randomdescription")]
+//update a single module using google search, and the sixth link
+    [HttpPut("{id}/google_Description")]
 public async Task<IActionResult> UpdateModuleWithRandomDescription(int id)
 {
     var result = await _moduleService.UpdateModuleWithFaultyDescription(id);
     if (result)
     {
-        return Ok("Random description updated successfully.");
+        return Ok("Random description updated successfuxlly.");
     }
     else
     {
@@ -183,7 +183,7 @@ public async Task<IActionResult> Create_ELS_Index()
         }
 }
  
-    [HttpPost("index_lucene")]
+    [HttpPost("index")]
     public IActionResult CreateIndex()
     {
         _moduleService.CreateIndexLucene();

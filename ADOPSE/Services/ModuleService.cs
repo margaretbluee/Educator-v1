@@ -27,12 +27,11 @@ namespace ADOPSE.Services;
 //read hugginf face description token:  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
 //mistral api key iDUVIKlLPIrn0uQmBjlR9an4j4WfVuGm
 // WRITE TOKEN HF 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
-//ELASTIC USERNAME :  elastic
-//ELASTIC PASSWORD : vpYQMXXxjJU864wLxXf02Uti
+ 
 private readonly string mistral_apiKey = "TEeDC4DUTia9azwiMHcecjWdcQQtC60m";
 
 
-
+//Check if all Descriptions are filled
 public bool FindAndWriteMissingIDsToFile(string folderPath, int startID, int endID)
 {
     try
@@ -82,6 +81,9 @@ public bool FindAndWriteMissingIDsToFile(string folderPath, int startID, int end
         return false;
     }
 }
+
+
+//Find Descriptions without context
 public bool Find_missing_files()
 {
     string folderPath = @"C:\Users\marga\Desktop\εαρ23-24\AΔΟΠΣΕ\mistral_descriptions";
@@ -102,6 +104,8 @@ public bool Find_missing_files()
     }
 }
 
+
+//Update Descriptions using MISTRAL AI API
 public async  Task<bool> Mistral (int start, int end){
   string folderPath = @"C:\Users\marga\Desktop\εαρ23-24\AΔΟΠΣΕ\mistral_descriptions";
 
@@ -168,8 +172,8 @@ var mistralClient = new MistralClient(mistral_apiKey);
     }
  
 
- 
-public async Task<bool> UpdateModulesWithRandomDescription(int start, int end)
+ //Update Descriptions using Google Search API  
+ public async Task<bool> UpdateModulesWithGoogleDescription(int start, int end)
 {
       string folderPath = @"C:\Users\marga\Desktop\εαρ23-24\AΔΟΠΣΕ\descriptions\";
     //check if module exists
@@ -183,7 +187,7 @@ public async Task<bool> UpdateModulesWithRandomDescription(int start, int end)
 
         string name = module.Name;
         string description = module.Description;
-
+//check for problematic descriptions in order to refill them
         string[] descriptionsToCheck = {
             "No relevant content found on the webpage.",
             "Invalid URL.",
@@ -243,6 +247,8 @@ public async Task<bool> UpdateModulesWithRandomDescription(int start, int end)
     // If all modules are successfully updated, return true.
     return true;
 }
+
+//Search in the 6th URL for Description 
 public async Task<bool> UpdateModuleWithFaultyDescription(int id)
 {
     var module = _moduleRepository.GetModuleById(id);
@@ -262,6 +268,7 @@ string description = await GetDescriptionFromWebPage(sixth_url);
     return _moduleRepository.Update(module);
 }
 
+//Fix wrong google search descriptions
 public async Task<bool> FixWrongDescriptions(int moduleId)
 {
     try
@@ -336,7 +343,8 @@ public async Task<bool> FixWrongDescriptions(int moduleId)
     return false; // Return false in case of any errors
 }
 
-  
+
+  //Search for a description in a specified url 
 public  async Task<string> SpecifyURLForDescription(int url_number, int id)
 {
    
@@ -395,6 +403,8 @@ WriteJsonDataAndLinksToFile(id,responseString,jsonData);
         return "PROBLEM";
     }
 }
+
+//Keep record of Google Search Custom Search Functionality
 public void WriteJsonDataAndLinksToFile(int id, string responseString, dynamic jsonData)
     {
         string folderPath = @"C:\Users\marga\Desktop\εαρ23-24\AΔΟΠΣΕ\descriptions\";
@@ -429,6 +439,8 @@ public void WriteJsonDataAndLinksToFile(int id, string responseString, dynamic j
         }
     }
 
+
+//Search inside a page to find sentences inside a paragraph element
   static async Task<string> GetDescriptionFromWebPage(string url)
 {
     try

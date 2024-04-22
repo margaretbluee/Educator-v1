@@ -6,7 +6,7 @@
  public interface IModuleService
  {
    Task<bool> UpdateModuleWithFaultyDescription(int id);
-   Task<bool> UpdateModulesWithRandomDescription(int start, int end);
+   Task<bool> UpdateModulesWithGoogleDescription(int start, int end);
 
  Task<bool> FixWrongDescriptions(int moduleId);
  Task<bool> Mistral (int start, int end);
