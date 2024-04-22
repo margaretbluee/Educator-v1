@@ -32,9 +32,7 @@ function NavMenu({ navbarRef }) {
       case "/lecturer":
         return "Lecturer";
       case "/myLearning":
-        return "My Learning";
-      case "/googleCalendar":
-        return "Google Calendar";
+        return "My Learning";      
       case "/login":
         return "Login";
       case "/register":
@@ -92,16 +90,7 @@ function NavMenu({ navbarRef }) {
               ) : (
                 <div></div>
               )}
-            </NavItem>
-            <NavItem>
-              {hasJWT() ? (
-                <NavLink tag={Link} className="text-dark" to="/googleCalendar">
-                  GoogleCalendar
-                </NavLink>
-              ) : (
-                <div></div>
-              )}
-            </NavItem>
+            </NavItem>          
             <NavItem className="login-register">
               {hasJWT() ? (
                 <div className="logout-div">

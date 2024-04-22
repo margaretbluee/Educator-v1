@@ -54,16 +54,16 @@ function ModuleInfo() {
     });
   };
 
-  const calendarCreationLoading = () => {
-    messageApi.open({
-      type: "loading",
-      content: "Loading",
-      style: {
-        color: "darkorange",
-        marginTop: "60px",
-      },
-    });
-  };
+  //const calendarCreationLoading = () => {
+  //  messageApi.open({
+  //    type: "loading",
+  //    content: "Loading",
+  //    style: {
+  //      color: "darkorange",
+  //      marginTop: "60px",
+  //    },
+  //  });
+  //};
 
   // const calendarCreationFailed = () => {
   //   messageApi.open({
@@ -327,21 +327,6 @@ function ModuleInfo() {
             </button>
           </div>                    
         )}
-      </div>
-      <div className="course-third">        
-      {isLoadingCalendarCreate ? 
-        (
-          <h5 style={{display: "inline-block"}}>Loading...</h5> 
-        ) : (
-          null
-        )
-      }
-        <button
-          onClick={handleCreateCalendarClick}
-          className="createCalendar-button"          
-          >            
-            Create Calendar
-          </button>
       </div>
       <div className="upcoming-events">
         <h2>Upcoming Events</h2>
