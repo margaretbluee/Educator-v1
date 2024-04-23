@@ -126,6 +126,16 @@ function ModuleFilter(props) {
                   />
                   <span>Περιγραφή</span>
                 </label>
+                <label>
+                  <input
+                    type="radio"
+                    value="2"
+                    name="searchType"
+                    checked={searchType === 2}
+                    onChange={handleSearchTypeChange}
+                  />
+                  <span>All</span>
+                </label>
               </div>
             </div>
             <div className="filter-group">

@@ -61,7 +61,15 @@ namespace ADOPSE.Repositories
 
     if (!searchQuery.Contains(':'))
     {
-        searchQuery = $"Id:{searchQuery} OR Name:{searchQuery} OR Description:{searchQuery}";
+        if(searchType == 0){
+           searchQuery = $"Id:{searchQuery} OR Name:{searchQuery}"; 
+        }
+        else if(searchType == 1){
+        searchQuery = $"Id:{searchQuery} OR Description:{searchQuery}";
+        }
+        else if(searchType == 2){
+            searchQuery = $"Id:{searchQuery} OR Name:{searchQuery} OR Description:{searchQuery}";
+        }
     }
 
     // MultiFieldQueryParser Setup:
