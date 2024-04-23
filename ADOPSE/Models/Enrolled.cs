@@ -11,7 +11,7 @@ public class Enrolled
 
     public int ModuleId { get; set; }
     public Module Module { get; set; }
-    public string? EventId { get; set; }
+    public string? EventId { get; set; } = string.Empty;
 
 
     public override string ToString()

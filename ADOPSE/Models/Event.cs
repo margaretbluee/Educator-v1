@@ -15,5 +15,5 @@ public class Event
     public string Details { get; set; }
     public DateTime Starts { get; set; }
     public DateTime Ends { get; set; }
-    public DateTime LastModification { get; set; }
+    public DateTime LastModification { get; set; } = DateTime.MinValue;
 }
