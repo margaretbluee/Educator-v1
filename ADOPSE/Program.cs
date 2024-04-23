@@ -8,6 +8,13 @@ using ADOPSE.Services.IServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
+using ADOPSE.infra.quartz;
+using Microsoft.Build.Execution;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +61,19 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 
 Console.Write(connectionString + " Connection String \n");
 
+// Quartz for schedulling
+
+ // Add Quartz services
+builder.Services.AddSingleton<IJobFactory, JobFactory>();
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+builder.Services.AddSingleton<SyncJob>();
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(SyncJob),
+cronExpression: "0 0 * ? * *")); // Run every hour
+//cronExpression: "0/15 * * ? * *")); // Run every 15 sec
+
+builder.Services.AddHostedService<QuartzHostedService>();
+builder.Services.AddMvc();
 
 builder.Services.AddControllersWithViews();
 
