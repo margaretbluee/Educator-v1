@@ -30,7 +30,6 @@ namespace ADOPSE.Repositories
         private readonly IMemoryCache _memoryCache;
 
         private const string IndexCreatedCacheKey = "IndexCreated";
-        
 
         public LuceneRepository(MyDbContext aspNetCoreNTierDbContext, ILogger<ModuleRepository> logger)
         {
@@ -39,17 +38,17 @@ namespace ADOPSE.Repositories
         }
         private const string IndexName = "lucene";
 
-      public IEnumerable<Module> SearchModulesLucene(string searchQuery)
-{ 
+        public IEnumerable<Module> SearchModulesLucene(string searchQuery,  int searchType)
+        { 
     
-   // var basePath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-string indexPath = Path.Combine(Environment.CurrentDirectory, IndexName);
+            // var basePath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            string indexPath = Path.Combine(Environment.CurrentDirectory, IndexName);
             if (!System.IO.Directory.Exists(indexPath))
             {
                 System.IO.Directory.CreateDirectory(indexPath);
             }
 
-    using var indexDir = FSDirectory.Open(indexPath);
+            using var indexDir = FSDirectory.Open(indexPath);
 
     // Re-use the writer to get real-time updates
     using var reader = DirectoryReader.Open(indexDir);
@@ -70,7 +69,7 @@ string indexPath = Path.Combine(Environment.CurrentDirectory, IndexName);
 
     // Query Parsing:
     Query query = multiFieldQueryParser.Parse(searchQuery);
-
+///
     BooleanQuery aggregateQuery = new() {
         { query, Occur.MUST }
     };
@@ -82,7 +81,7 @@ foreach (ScoreDoc scoreDoc in topDocs.ScoreDocs)
 {
     int docId = scoreDoc.Doc;
     Document document = searcher.Doc(docId);
-
+///
     // Retrieve the stored field as a string and parse it to an integer
     int id;
     if (int.TryParse(document.Get("Id"), out id))

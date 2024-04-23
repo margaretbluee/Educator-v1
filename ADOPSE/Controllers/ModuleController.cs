@@ -128,13 +128,14 @@ public async Task<IActionResult> UpdateModuleWithRandomDescription(int id)
         return _moduleService.GetModuleStacksByLecturerId(limit, offset, id);
     }
 
-    [HttpGet("filtered/{limit}/{offset}")] 
-    public IActionResult GetFilteresModulesLucene([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
-        [FromQuery] string? Rating, [FromQuery] string? Price, [FromQuery] string? SearchQuery, int limit, int offset)
+    [HttpGet("filtered/{limit}/{offset}")]
+    public IActionResult GetFilteresModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
+        [FromQuery] string? Rating, [FromQuery] string? Price, [FromQuery] string? SearchQuery,[FromQuery] string? SearchType, int limit, int offset)
     {
         _logger.LogInformation(ModuleTypeId);
         _logger.LogInformation(DifficultyId);
         _logger.LogInformation(Rating);
+        _logger.LogInformation(SearchType);
 
         Dictionary<string, string> myDict1 = new Dictionary<string, string>();
 
@@ -146,6 +147,8 @@ public async Task<IActionResult> UpdateModuleWithRandomDescription(int id)
             myDict1.Add("Rating", Rating);
         if (Price != null)
             myDict1.Add("Price", Price);
+        if(SearchType != null)
+            myDict1.Add("SearchType", SearchType);
         if (SearchQuery != null)
             myDict1.Add("SearchQuery", SearchQuery);
        

@@ -9,6 +9,7 @@ function ModulesPage() {
   const [priceRange, setPriceRange] = useState(priceRangeLimit);
   const [stars, setStars] = useState([1, 5]);
   const [type, setType] = useState(0);
+  const [searchType, setSearchType] = useState(0);
   const [difficulty, setDifficulty] = useState(0);
 
   return (
@@ -19,6 +20,8 @@ function ModulesPage() {
         setPriceRange={setPriceRange}
         type={type}
         setType={setType}
+        searchType = {searchType}
+        setSearchType = {setSearchType}
         difficulty={difficulty}
         setDifficulty={setDifficulty}
         setStars={setStars}
@@ -28,6 +31,7 @@ function ModulesPage() {
         type={type}
         difficulty={difficulty}
         stars={stars}
+        searchType={searchType}
       />
     </div>
   );

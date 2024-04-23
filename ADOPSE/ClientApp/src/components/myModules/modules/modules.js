@@ -33,44 +33,44 @@ function Modules(props) {
     }
   }, [pages, activeIndex]);
 
-  useEffect(() => {
-    setIsLoading(true);
+  async function fetchModules() {
     let retryCount = 0;
     const maxRetries = 3;
+    try {
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      };
 
-    async function fetchModules() {
-      try {
-        const headers = {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        };
-
-        const response = await Promise.race([
-          fetch(
-            `/api/enrolled/filtered/${limit}/${offset}/?ModuleTypeId=${props.type}&DifficultyId=${props.difficulty}&price=${props.priceRange[0]},${props.priceRange[1]}&Rating=${props.stars[0]},${props.stars[1]}&SearchQuery=${searchQuery}`,
-            { headers }
-          ),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Timeout")), 5000)
-          ),
-        ]);
-        const data = await response.json();
-        setModules(data.modules);
-        setModuleIds(data.modules.map((module) => module.id));
-        setPages(Math.ceil(data.count / limit));
-        setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-        if (retryCount < maxRetries) {
-          retryCount++;
-          console.log(`Retrying fetch... Attempt ${retryCount}`);
-          fetchModules();
-        } else {
-          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
-          setFailedToLoad(true);
-        }
+      const response = await Promise.race([
+        fetch(
+          `/api/enrolled/filtered/${limit}/${offset}/?ModuleTypeId=${props.type}&DifficultyId=${props.difficulty}&price=${props.priceRange[0]},${props.priceRange[1]}&Rating=${props.stars[0]},${props.stars[1]}&SearchQuery=${searchQuery}&SearchType=${props.searchType}`,
+          { headers }
+        ),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), 5000)
+        ),
+      ]);
+      const data = await response.json();
+      setModules(data.modules);
+      setModuleIds(data.modules.map((module) => module.id));
+      setPages(Math.ceil(data.count / limit));
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      if (retryCount < maxRetries) {
+        retryCount++;
+        console.log(`Retrying fetch... Attempt ${retryCount}`);
+        fetchModules();
+      } else {
+        console.error(`Failed to fetch modules after ${maxRetries} attempts`);
+        setFailedToLoad(true);
       }
     }
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
     fetchModules();
   }, [
     limit,
@@ -79,8 +79,18 @@ function Modules(props) {
     props.priceRange,
     props.type,
     props.difficulty,
-    searchQuery,
+    props.searchType
   ]);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchQuery.length > 3 || searchQuery.length == 0) {
+        setIsLoading(true);
+        fetchModules();
+      }
+    }, 300)
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchQuery])
 
   useEffect(() => {
     let retryCount = 0;
