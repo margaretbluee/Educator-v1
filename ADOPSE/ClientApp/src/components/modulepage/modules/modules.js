@@ -17,9 +17,14 @@ function Modules(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
 
+  const [count, setCount] = useState(null);
+  const [searchType, setSearchType] = useState(0);
+  const [infoToggle, setInfoToggle] = useState(false);
+
   const [isLoadingEnrolled, setIsLoadingEnrolled] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
+
 
   const [moduleIds, setModuleIds] = useState();
   const [isEnrolled, setIsEnrolled] = useState({});
@@ -27,6 +32,15 @@ function Modules(props) {
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
+  const handleSearchTypeChange = (event) => {
+    const selectedSearchType = parseInt(event.target.value, 10);
+    setSearchType(selectedSearchType);
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      fetchModules();
+    }
+  }
 
   useEffect(() => {
     if (pages === null) return;
@@ -47,13 +61,14 @@ function Modules(props) {
           &price=${props.priceRange[0]},${props.priceRange[1]}
           &Rating=${props.stars[0]},${props.stars[1]}
           &SearchQuery=${searchQuery}
-          &SearchType=${props.searchType}`
+          &SearchType=${searchType}`
         ),
         new Promise((_, reject) =>
           setTimeout(() => reject(new Error("Timeout")), 5000)
         ),
       ]);
       const data = await response.json();
+      setCount(data.count);
       setModules(data.modules);
       setModuleIds(data.modules.map((module) => module.id));
       setPages(Math.ceil(data.count / limit));
@@ -81,19 +96,7 @@ function Modules(props) {
     props.priceRange,
     props.type,
     props.difficulty,
-    props.searchType
   ]);
-
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchQuery.length > 3 || searchQuery.length == 0) {
-        setIsLoading(true);
-        fetchModules();
-      }
-    }, 300)
-    return () => clearTimeout(delayDebounceFn)
-  }, [searchQuery])
 
   useEffect(() => {
     let retryCount = 0;
@@ -164,6 +167,48 @@ function Modules(props) {
   return (
     <div className="modules">
       <div className="search-bar">
+        <div className="lucene-info">
+          <button onClick={() => setInfoToggle(!infoToggle)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+            </svg>
+          </button>
+          {infoToggle && <div className="lucene-info-content popup">
+            <div className='popup-content'>
+              <h2>Lucene Wildcard Searches</h2>
+              <p>Lucene supports single and multiple character wildcard searches within single terms (not within phrase queries).</p>
+              <p>To perform a single character wildcard search, use the <code>?</code> symbol.</p>
+              <p>To perform a multiple character wildcard search, use the <code>*</code> symbol.</p>
+              <p>The single character wildcard search looks for terms that match with the single character replaced. For example, to search for "text" or "test", you can use the search:</p>
+              <p><code>te?t</code></p>
+              <p>Multiple character wildcard searches look for 0 or more characters. For example, to search for "test", "tests", or "tester", you can use the search:</p>
+              <p><code>test*</code></p>
+              <p>You can also use wildcard searches in the middle of a term.</p>
+              <p>For example, to search for any term starting with "te" and ending with "t", you can use:</p>
+              <p><code>te*t</code></p>
+
+              <h2>Lucene Boolean Operators</h2>
+
+              <p>Boolean operators allow terms to be combined through logic operators. Lucene supports <code>AND</code>, <code>+</code>, <code>OR</code>, <code>NOT</code>, and <code>-</code> as Boolean operators (Note: Boolean operators must be ALL CAPS).</p>
+              <p>The <code>OR</code> operator links two terms and finds a matching document if either of the terms exists in a document. This is equivalent to a union using sets. The symbol <code>||</code> can be used in place of the word <code>OR</code>.</p>
+              <p>To search for documents that contain either "jakarta apache" or just "jakarta", use the query:</p>
+              <p><code>"jakarta apache" OR jakarta</code></p>
+              <p>The <code>AND</code> operator matches documents where both terms exist anywhere in the text of a single document. This is equivalent to an intersection using sets. The symbol <code>&&</code> can be used in place of the word <code>AND</code>.</p>
+              <p>To search for documents that contain "jakarta apache" and "Apache Lucene", use the query:</p>
+              <p><code>"jakarta apache" AND "Apache Lucene"</code></p>
+              <p>The <code>+</code> or required operator requires that the term after the <code>+</code> symbol exists somewhere in a field of a single document.</p>
+              <p>To search for documents that must contain "jakarta" and may contain "lucene", use the query:</p>
+              <p><code>+jakarta lucene</code></p>
+              <p>The <code>NOT</code> operator excludes documents that contain the term after <code>NOT</code>. This is equivalent to a difference using sets. The symbol <code>!</code> can be used in place of the word <code>NOT</code>.</p>
+              <p>To search for documents that contain "jakarta apache" but not "Apache Lucene", use the query:</p>
+              <p><code>"jakarta apache" NOT "Apache Lucene"</code></p>
+              <p>Note: The <code>NOT</code> operator cannot be used with just one term. For example, the following search will return no results:</p>
+              <p><code>NOT "jakarta apache"</code></p>
+              <button onClick={() => setInfoToggle(!infoToggle)}>Close</button>
+            </div>
+          </div>}
+        </div>
         <input
           className="search-query-input"
           type="text"
@@ -171,12 +216,14 @@ function Modules(props) {
           placeholder="Search"
           value={searchQuery}
           onChange={handleSearchChange}
+          onKeyDown={handleKeyPress}
         />
         <button
           className="search-query-submit"
           type="submit"
           name="searchQuerySubmit"
-        >
+          onClick={fetchModules}
+        >Search
           <svg viewBox="0 0 24 24">
             <path
               fill="#666666"
@@ -184,7 +231,48 @@ function Modules(props) {
             />
           </svg>
         </button>
+        <div className="search-options">
+          <label>Options</label>
+          <div className="radio-buttons">
+            <label>
+              <input
+                type="radio"
+                value="0"
+                name="searchType"
+                checked={searchType === 0}
+                onChange={handleSearchTypeChange}
+              />
+              <span>All</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="1"
+                name="searchType"
+                checked={searchType === 1}
+                onChange={handleSearchTypeChange}
+              />
+              <span>Τίτλος</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="2"
+                name="searchType"
+                checked={searchType === 2}
+                onChange={handleSearchTypeChange}
+              />
+              <span>Περιγραφή</span>
+            </label>
+
+          </div>
+        </div>
       </div>
+      {modules && <div className="result-count">
+        <span>Total Modules Found: {count}</span>
+        {modules.length > 0 && <span>Showing {offset}- {offset + modules.length}</span>}
+      </div>}
+      <br />
       {isLoading ? ( // check if loading is true
         failedToLoad ? (
           <div>Failed to load modules. Please try again later.</div>

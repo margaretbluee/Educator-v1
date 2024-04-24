@@ -13,7 +13,6 @@ function ModuleFilter(props) {
 
   const { priceRange, setPriceRange } = props;
   const { type, setType } = props;
-  const { searchType, setSearchType} = props;
   const { difficulty, setDifficulty } = props;
   const { setStars } = props;
 
@@ -54,10 +53,7 @@ function ModuleFilter(props) {
     }
   };
   
-  const handleSearchTypeChange = (event) => {
-    const selectedSearchType = parseInt(event.target.value, 10);
-    setSearchType(selectedSearchType);
-  };
+ 
 
   const handleTypeChange = (event) => {
     const selectedType = parseInt(event.target.value, 10);
@@ -102,42 +98,6 @@ function ModuleFilter(props) {
         </div>
         <div className={`overlay ${showOverlay ? "visible" : ""}`}>
           <div className="filter-container">
-          <div className="filter-group">
-              <label>Search Option</label>
-              <div className="radio-buttons">
-                <label>
-                  <input
-                    type="radio"
-                    value="0"
-                    name="searchType"
-                    checked={searchType === 0}
-                    onChange={handleSearchTypeChange}
-                  />
-                  <span>Τίτλος</span>
-                </label>
-
-                <label>
-                  <input
-                    type="radio"
-                    value="1"
-                    name="searchType"
-                    checked={searchType === 1}
-                    onChange={handleSearchTypeChange}
-                  />
-                  <span>Περιγραφή</span>
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    value="2"
-                    name="searchType"
-                    checked={searchType === 2}
-                    onChange={handleSearchTypeChange}
-                  />
-                  <span>All</span>
-                </label>
-              </div>
-            </div>
             <div className="filter-group">
               <label>Price</label>
               <div className="input-group">

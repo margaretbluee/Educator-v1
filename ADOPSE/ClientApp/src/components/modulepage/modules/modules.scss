@@ -6,9 +6,50 @@
     width: 70%;
     display: flex;
     flex-direction: row;
+    gap: 25px;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
+
+    .lucene-info{
+      button{
+        border: none;
+        background: none;
+        outline: none;
+      }
+      
+      .popup {
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(
+            0,
+            0,
+            0,
+            0.4
+        );
+      }
+      .popup-content {
+        background-color: white;
+        margin: 5% auto;
+        padding: 25px;
+        border: 1px solid #888888;
+        width: 40%;
+      }
+      .popup-content button {
+        display: block;
+        margin: 0 auto;
+        padding: 12px;
+        width: 5rem;
+        background-color: rgb(240, 240, 240) !important;
+      }
+    }
+
+
 
     .search-query-input {
       width: 100%;
@@ -22,24 +63,81 @@
     }
 
     .search-query-submit {
-      width: 3.5rem;
+      display: flex;
+      padding: 15px;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 7rem;
       height: 2.8rem;
       margin-left: -3.5rem;
-      background: none;
+      background-color: rgb(231, 231, 231);
       border: none;
       outline: none;
     }
 
     .search-query-submit:hover {
       cursor: pointer;
+      background-color: rgb(200, 200, 200);
     }
 
     svg {
       width: 24px;
       height: 24px;
     }
-  }
+    .search-options {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      .radio-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        label {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          input {
+            appearance: none;
+            outline: none;
+            margin: 0;
+          }
+          input::before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            margin-right: 8px;
+            background-color: white;
+          }
 
+          input:checked::before {
+            /* Styles for the checked state */
+            background-color: darkorange;
+            border-color: darkorange;
+          }
+        }
+      }
+    }
+  }
+  .result-count {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: right;
+    width: 100%;
+    span {
+      font-weight: 100;
+      font-size: 16px;
+    }
+  }
   .modules-main {
     display: grid;
     grid-template-columns: repeat(auto-fill, 320 * 1.2px);
