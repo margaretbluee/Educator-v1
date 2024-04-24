@@ -5,8 +5,10 @@ namespace ADOPSE.Data;
 
 public class MyDbContext : DbContext
 {
-    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+    private readonly string? _schema;
+    public MyDbContext(DbContextOptions<MyDbContext> options, IConfiguration configuration) : base(options)
     {
+        _schema = configuration.GetConnectionString(name: "Schema");
 
     }
 
@@ -20,9 +22,6 @@ public class MyDbContext : DbContext
     public DbSet<Users> USERS{ get; set; }
     
     public DbSet<ModuleType> ModuleType { get; set; }
-<<<<<<< Updated upstream
-}
-=======
     public object Usersq { get; internal set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,4 +34,3 @@ public class MyDbContext : DbContext
 
 }
 
->>>>>>> Stashed changes

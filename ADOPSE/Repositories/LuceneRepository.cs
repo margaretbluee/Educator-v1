@@ -61,15 +61,14 @@ namespace ADOPSE.Repositories
             foreach (var term in queryTerms)
             {
                 var wildcardTerm = new WildcardQuery(new Term("Name", $"*{term}*"));
-<<<<<<< Updated upstream
                 booleanQuery.Add(wildcardTerm, Occur.MUST);
-=======
-                var wildcardTerm2 = new WildcardQuery(new Term("Description", $"*{term}*"));
 
+                var wildcardTerm2 = new WildcardQuery(new Term("Description", $"*{term}*"));
+                
                 booleanQuery.Add(wildcardTerm, Occur.SHOULD);
+
                 booleanQuery.Add(wildcardTerm2, Occur.SHOULD);
            
->>>>>>> Stashed changes
             }
 
 
