@@ -53,6 +53,7 @@
         <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
         <PackageReference Include="Serilog.Sinks.ElasticSearch" Version="10.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Quartz" Version="3.8.1" />
     </ItemGroup>
 
     <ItemGroup>

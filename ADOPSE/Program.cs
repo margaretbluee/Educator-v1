@@ -19,6 +19,13 @@ using AngleSharp.Text;
 using System.Reflection;
 using ADOPSE.Extensions;
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
+using ADOPSE.infra.quartz;
+using Microsoft.Build.Execution;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +41,7 @@ builder.Services.AddScoped<IEnrolledRepository, EnrolledRepository>();
 builder.Services.AddScoped<IEnrolledService, EnrolledService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<ILuceneRepository, LuceneRepository>();
 
 builder.Services.AddScoped<IOpenAiService, OpenAiService>();
@@ -41,27 +49,27 @@ builder.Services.Configure<OpenAiConfig>(builder.Configuration.GetSection("OpenA
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
- builder.Services.AddSwaggerGen();
- 
- 
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-        };
-    });
-    
-    // string connectionString;
-    
-    
- var web = new HtmlWeb();
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+
+// string connectionString;
+
+
+var web = new HtmlWeb();
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string not found.");
 
 
@@ -69,12 +77,25 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 
 builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseMySql(connectionString,ServerVersion.Parse("5.7.35-mysql")));
+    options.UseMySql(connectionString, ServerVersion.Parse("5.7.35-mysql")));
 
 builder.Services.AddScoped<HttpClient>();
 Console.Write(connectionString + " Connection String \n");
 
 builder.Services.AddHttpClient();
+// Quartz for schedulling
+
+// Add Quartz services
+builder.Services.AddSingleton<IJobFactory, JobFactory>();
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+builder.Services.AddSingleton<SyncJob>();
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(SyncJob),
+cronExpression: "0 0 * ? * *")); // Run every hour
+//cronExpression: "0/15 * * ? * *")); // Run every 15 sec
+
+builder.Services.AddHostedService<QuartzHostedService>();
+builder.Services.AddMvc();
 
 builder.Services.AddControllersWithViews();
 
@@ -99,13 +120,13 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-  //Configure the HTTP request pipeline.
-   if (!app.Environment.IsDevelopment())
-   {
-       // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-       app.UseHsts();
-    
-   }
+//Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+
+}
 //     Configure the HTTP request pipeline.
 //   if (!app.Environment.IsDevelopment())
 //   {
@@ -113,14 +134,14 @@ using (var scope = app.Services.CreateScope())
 //      app.UseSwagger();
 //       app.UseSwaggerUI();
 //   }
-  if (!app.Environment.IsDevelopment())
-  {
-      //apply migrations
-  
-      using var scope = app.Services.CreateScope();
-      var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
-      dbContext.Database.Migrate();
-  }
+if (!app.Environment.IsDevelopment())
+{
+    //apply migrations
+
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<MyDbContext>();
+    dbContext.Database.Migrate();
+}
 
 
 
@@ -135,7 +156,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 
- app.MapFallbackToFile("index.html");
+app.MapFallbackToFile("index.html");
 
 app.Run();
 
@@ -143,32 +164,32 @@ app.Run();
 #region helper
 void ConfigureLogs()
 {//get the environment
-     var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-//get the configuration
-var configuration = new ConfigurationBuilder()
-.AddJsonFile("appsettings.json", optional: false , reloadOnChange:true)
-.Build();
+    //get the configuration
+    var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .Build();
 
-//CREATE LOGGER
-Log.Logger = new LoggerConfiguration()
-.Enrich.FromLogContext()
-//.Enrich.With<ExceptionContext>
-.WriteTo.Debug()
-.WriteTo.Console()
-.WriteTo.Elasticsearch(ConfigureELS(configuration, env))
-.CreateLogger();
+    //CREATE LOGGER
+    Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    //.Enrich.With<ExceptionContext>
+    .WriteTo.Debug()
+    .WriteTo.Console()
+    .WriteTo.Elasticsearch(ConfigureELS(configuration, env))
+    .CreateLogger();
 }
 
 
-ElasticsearchSinkOptions ConfigureELS(IConfiguration configuration, string env )
+ElasticsearchSinkOptions ConfigureELS(IConfiguration configuration, string env)
 {
     return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"])) //apo appsettings.json
-{
+    {
 
-    AutoRegisterTemplate = true,
-    IndexFormat=$"{Assembly.GetExecutingAssembly().GetName().Name.ToLower()}-{env.ToLower().Replace(".","-")}-{DateTime.UtcNow:yyyy-MM}" //cspoj
+        AutoRegisterTemplate = true,
+        IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower()}-{env.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}" //cspoj
 
-} ;
+    };
 }
 #endregion

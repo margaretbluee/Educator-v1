@@ -97,7 +97,7 @@ public class AuthenticationController : ControllerBase
         var token = new JwtSecurityToken(_config["Jwt:Issuer"],
             _config["Jwt:Audience"],
             claims,
-            expires: DateTime.Now.AddMinutes(15),
+            expires: DateTime.Now.AddMinutes(15), // token longs 15 mins
             signingCredentials: credentials);
 
 

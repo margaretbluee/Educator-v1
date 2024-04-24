@@ -1,6 +1,9 @@
 ﻿using ADOPSE.Data;
 using ADOPSE.Models;
+using ADOPSE.Repositories;
+using ADOPSE.Repositories.IRepositories;
 using ADOPSE.Services.IServices;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace ADOPSE.Services;
@@ -8,12 +11,16 @@ namespace ADOPSE.Services;
 public class EventService : IEventService
 {
     private readonly MyDbContext _aspNetCoreNTierDbContext;
+    private readonly IModuleService _moduleService;
+    private readonly IEventRepository _eventRepository;
     private readonly ILogger<EventService> _logger;
 
 
-    public EventService(MyDbContext aspNetCoreNTierDbContext, ILogger<EventService> logger)
+    public EventService(MyDbContext aspNetCoreNTierDbContext, IModuleService moduleService, ILogger<EventService> logger, IEventRepository eventRepository)
     {
         _aspNetCoreNTierDbContext = aspNetCoreNTierDbContext;
+        _moduleService = moduleService;
+        _eventRepository = eventRepository;
         _logger = logger;
     }
 
@@ -38,6 +45,84 @@ public class EventService : IEventService
         }
     }
 
+    // Parameter 0: All the retrieved events from GooglecalendarAPI
+    // Processing : Deletes unsupported events on dB - Refresh updated events on dB - Add new events on dB
+    public void Sync(List<List<string>> events)
+    {
+        List<List<string>> filteredEventsToAdd = new List<List<string>>();
+
+        List<List<string>> eventsToAdd = DeleteCancelledEvents(events);
+
+
+        eventsToAdd.ForEach(current_event =>
+        {
+            string googleCalendarId = current_event[0];
+            if (_moduleService.GetModuleByCalendarId(googleCalendarId) != null)
+            {
+                current_event.Add($"{_moduleService.GetModuleByCalendarId(current_event[0]).Id}");
+                filteredEventsToAdd.Add(current_event);
+            }
+        });
+
+        AddEvents(filteredEventsToAdd);
+    }
+
+    // Summary    : Removes the events that have been deleted in Google Calendar, therefore they must be deleted from our dB too
+    // Parameter 0: All the retrieved events from GooglecalendarAPI
+    // Processing : Deletes the events from dB that are currently in it, but do not anymore exist in the GoogleEvents List 
+    // Returns    : All the events from GoogleCalendarAPI which are new or already stored in the dB but modified/unmodified
+    public List<List<string>> DeleteCancelledEvents(List<List<string>> googleCalendarEvents)
+    {
+        HashSet<string> existingEventsList = new HashSet<string>();
+        List<List<string>> eventsToAdd = new List<List<string>>();
+
+        foreach (var googleCalendarEvent in googleCalendarEvents)
+        {
+            //existingEventsList.Add(googleCalendarEvent[0]); // contains the first parameter of the event parameter list which is the googleCalendarId
+            existingEventsList.Add(googleCalendarEvent[6]); // the 6th parameter of the event parameter list which is the googleCalendarEventId
+            eventsToAdd.Add(googleCalendarEvent);
+        }
+
+        List<Event> eventsToRemove = _eventRepository.GetLeftoverEvents(existingEventsList);
+
+        _eventRepository.DeleteEvents(eventsToRemove);
+
+        return eventsToAdd;
+    }
+
+    // Parameter : All the events from GoogleCalendarAPI which are new or already stored in the dB but modified/unmodified
+    // Processing: Adds new events on dB. Updates already existing events that have been updated after the googleCalendarAPI call
+    // Returns   : All the events from GoogleCalendarAPI that are new or already stored in the dB but only newly modified  
+    public void AddEvents(List<List<string>> googleCalendarEvents)
+    {
+        foreach (var googleCalendarEvent in googleCalendarEvents)
+        {
+
+            var eventInDB = GetEventByGoogleCalendarEventId(googleCalendarEvent[6]); // eventExistsByGoogleCalendarEventID(string googleCalendarEvent)
+
+
+            if (eventInDB != null && googleCalendarEvent[6] == eventInDB.GoogleCalendarID.ToString())
+            {
+                _logger.LogInformation($"Event with GoogleCalendarEventid: '{eventInDB.Id}' FOUND (EventService.AddEvents)");
+
+                if (googleCalendarEvent[5] != eventInDB.LastModification.ToString())
+                {
+                    _eventRepository.UpdateEvent(googleCalendarEvent);
+                    //_aspNetCoreNTierDbContext.Remove<Event>(eventInDB);
+                    //_eventRepository.AddEvent(googleCalendarEvent);
+                }
+                else
+                {
+                    // event's already stored and up to date
+                }
+            }
+            else
+            {
+                _eventRepository.AddEvent(googleCalendarEvent);
+            }
+        }
+    }
+
     public IEnumerable<Event> GetEventsByStudentId(int studentId)
     {
         List<Enrolled> enrolled =
@@ -54,40 +139,37 @@ public class EventService : IEventService
         return _aspNetCoreNTierDbContext.Event.Where(x => enrolledModuleIds.Contains(x.Module.Id));
     }
 
+    // Adds the event on dB
     public void AddEvent(List<string> eventAttributes)
     {
-        DateTimeOffset offsetStartDateTime = DateTimeOffset.Parse(eventAttributes[3]);
-        DateTimeOffset offsetEndDateTime = DateTimeOffset.Parse(eventAttributes[4]);
-        DateTime convertedStartDateTime = offsetStartDateTime.DateTime;
-        DateTime convertedEndDateTime = offsetEndDateTime.DateTime;
-        string StartDateTime = convertedStartDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffffff");
-        string EndDateTime = convertedEndDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffffff");
-
-        _logger.LogInformation($"INSERT INTO Event(GoogleCalendarID, ModuleId, Name, Details, Starts, Ends) VALUES ('{eventAttributes[0]}', {eventAttributes[5]}, '{eventAttributes[1]}', '{eventAttributes[2]}','{StartDateTime}', '{EndDateTime}'  );");
-
-
-        _aspNetCoreNTierDbContext.Event.Add(new Event
-        {
-            Details = eventAttributes[2],
-            Ends = DateTime.Parse(EndDateTime),
-            GoogleCalendarID = eventAttributes[0],
-            Starts = DateTime.Parse(StartDateTime),
-            Name = eventAttributes[1],
-            Module = _aspNetCoreNTierDbContext.Module.Where(x => x.Id == Int16.Parse(eventAttributes[5])).First()
-        }
-        );
-
-        /*_aspNetCoreNTierDbContext.Event.FromSql(
-            $"INSERT INTO Event(GoogleCalendarID, ModuleId, Name, Details, Starts, Ends) VALUES ('{eventAttributes[0]}', {eventAttributes[5]}, '{eventAttributes[1]}', '{eventAttributes[2]}','{StartDateTime}', '{EndDateTime}');");*/
-
-        _aspNetCoreNTierDbContext.SaveChanges();
+        _eventRepository.AddEvent(eventAttributes);
     }
+
     public IEnumerable<Event> GetEventsByModuleId(int id)
     {
         return _aspNetCoreNTierDbContext.Event.Where(x => x.ModuleId == id).ToList();
     }
 
+    public Event GetEventByGoogleCalendarEventId(string eventId)
+    {
+        return _aspNetCoreNTierDbContext.Event.Include(x => x.Module).Where(x => x.GoogleCalendarID == eventId).FirstOrDefault();
+    }
+
+    //returns the event according to moduleId(including the details of module)
+    public Event GetEventByModuleId(int moduleId)
+    {
+        return _aspNetCoreNTierDbContext.Event.Where(e => e.ModuleId == moduleId).FirstOrDefault();
+    }
+
+    // returns the googleCalendarId of event according to moduleId
+    //public IQueryable<string> GetGoogleCalendarIdByModuleId(int moduleId)
+    //{
+    //    return _aspNetCoreNTierDbContext.Event.Where(e => e.ModuleId == moduleId).Select(e => e.Module.GoogleCalendarID);
+
+    //}
+
 }
+
 
 /*
  *

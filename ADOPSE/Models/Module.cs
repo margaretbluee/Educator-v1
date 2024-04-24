@@ -48,5 +48,5 @@ public class Module
         set { } // Empty setter to satisfy the entity framework
     }
 
- 
+
 }

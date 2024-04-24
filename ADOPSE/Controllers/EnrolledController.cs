@@ -92,7 +92,7 @@ public class EnrolledController : ControllerBase
     [Authorize]
     [HttpGet("filtered/{limit}/{offset}")]
     public IActionResult GetFilteresEnrolledModules([FromQuery] string? ModuleTypeId, [FromQuery] string? DifficultyId,
-        [FromQuery] string? Rating, [FromQuery] string? Price, string? SearchQuery,[FromQuery] string? SearchType, int limit, int offset)
+        [FromQuery] string? Rating, [FromQuery] string? Price, string? SearchQuery, [FromQuery] string? SearchType, int limit, int offset)
     {
         int studentId = GetClaimedStudentId();
 
@@ -106,7 +106,7 @@ public class EnrolledController : ControllerBase
             myDict1.Add("Rating", Rating);
         if (Price != null)
             myDict1.Add("Price", Price);
-        if(SearchType != null)
+        if (SearchType != null)
             myDict1.Add("SearchType", SearchType);
         if (SearchQuery != null)
             myDict1.Add("SearchQuery", SearchQuery);

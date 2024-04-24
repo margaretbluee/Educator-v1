@@ -6,15 +6,15 @@ namespace ADOPSE.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class OpenAiController : ControllerBase
-{ 
+{
 
     private readonly ILogger<OpenAiController> _logger;
     private readonly IOpenAiService _openAiService;
 
     public OpenAiController(ILogger<OpenAiController> logger, IOpenAiService openAiService)
     {
-                _logger = logger;
-                _openAiService = openAiService;
+        _logger = logger;
+        _openAiService = openAiService;
     }
 
     [HttpPost()]
@@ -25,7 +25,7 @@ public class OpenAiController : ControllerBase
         return Ok(result);
     }
 
-     [HttpPost()]
+    [HttpPost()]
     [Route("CompleteSentence")]
     public async Task<IActionResult> CompleteSentence(string text)
     {
@@ -35,5 +35,5 @@ public class OpenAiController : ControllerBase
 
 
 
-    
+
 }
