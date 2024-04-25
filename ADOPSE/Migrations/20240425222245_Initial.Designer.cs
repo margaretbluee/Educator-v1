@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADOPSE.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240425101421_initial")]
-    partial class initial
+    [Migration("20240425222245_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -29,7 +29,9 @@ using Microsoft.Build.Execution;
 
 
 var builder = WebApplication.CreateBuilder(args);
-ConfigureLogs();
+
+var configuration = builder.Configuration;
+ConfigureLogs(configuration);
 builder.Host.UseSerilog();
 
 
@@ -173,15 +175,11 @@ app.Run();
 
 
 #region helper
-void ConfigureLogs()
+void ConfigureLogs(IConfiguration configuration)
 {//get the environment
-    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Deployment";
 
     //get the configuration
-    var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .Build();
-
     //CREATE LOGGER
     Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -195,7 +193,8 @@ void ConfigureLogs()
 
 ElasticsearchSinkOptions ConfigureELS(IConfiguration configuration, string env)
 {
-    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"])) //apo appsettings.json
+    var uri = configuration["ElasticConfiguration:Uri"];
+    return new ElasticsearchSinkOptions(new Uri(uri))
     {
 
         AutoRegisterTemplate = true,
