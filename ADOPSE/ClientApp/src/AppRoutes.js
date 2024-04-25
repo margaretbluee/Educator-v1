@@ -8,6 +8,8 @@ import MyModules from "./components/myModules";
 import ModuleInfo from "./components/moduleInfo";
 import Lecturer from "./components/Lecturer";
 import LecturersPage from "./components/LecturerPage";
+import Roles from "./components/Roles";
+import Profile from "./components/Profile/profile";
 
 const AppRoutes = [
   {
@@ -41,6 +43,14 @@ const AppRoutes = [
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/Roles",
+    element: <Roles />,
+  },
+  {
+    path: "/Profile",
+    element: <Profile />,
   },
 ];
 

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ADOPSE.Models;
 
-public class Student
+public class Users
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
@@ -11,9 +11,10 @@ public class Student
     public string Password { get; set; }
     [EmailAddress]
     public string Email { get; set; }
-
+    public string Role { get; set; }="Student";
+    public bool Suspend { get; set; }=false;
     public override string ToString()
     {
-        return $"{nameof(Id)}: {Id}, {nameof(Username)}: {Username}, {nameof(Password)}: {Password}, {nameof(Email)}: {Email}";
+        return $"{nameof(Id)}: {Id},{nameof(Username)}: {Username}, {nameof(Email)}: {Email},{nameof(Password)}: {Password}, {nameof(Role)}: {Role}, {nameof(Suspend)}: {Suspend}";
     }
 }

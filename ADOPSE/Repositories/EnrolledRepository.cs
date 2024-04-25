@@ -30,7 +30,7 @@ public class EnrolledRepository : IEnrolledRepository
     public bool isEnrolled(int studentId, int moduleId)
     {
         var enrollment = _aspNetCoreNTierDbContext.Enrolled
-            .FirstOrDefault(r => r.StudentId == studentId && r.ModuleId == moduleId);
+            .FirstOrDefault(r => r.UsersId == studentId && r.ModuleId == moduleId);
 
         return enrollment != null;
     }
@@ -38,7 +38,7 @@ public class EnrolledRepository : IEnrolledRepository
     public IEnumerable<object> GetIsEnrolledById(int studentId, int[] moduleIds)
     {
         var enrollments = _aspNetCoreNTierDbContext.Enrolled
-            .Where(r => r.StudentId == studentId && moduleIds.Contains(r.ModuleId))
+            .Where(r => r.UsersId == studentId && moduleIds.Contains(r.ModuleId))
             .Select(r => new { moduleId = r.ModuleId, isEnrolled = true })
             .ToList();
 
@@ -60,7 +60,7 @@ public class EnrolledRepository : IEnrolledRepository
             new Enrolled
             {
                 Module = _aspNetCoreNTierDbContext.Module.Where(x => x.Id == moduleId).First(),
-                Student = _aspNetCoreNTierDbContext.Student.Where(x => x.Id == studentId).First(),
+                USERS = _aspNetCoreNTierDbContext.USERS.Where(x => x.Id == studentId).First(),
             }
         );
 
@@ -73,7 +73,7 @@ public class EnrolledRepository : IEnrolledRepository
             .Include(m => m.Lecturer)
             .Include(m => m.ModuleType)
             .Where(module => _aspNetCoreNTierDbContext.Enrolled
-                .Any(enrolled => enrolled.StudentId == studentId && enrolled.ModuleId == module.Id))
+                .Any(enrolled => enrolled.UsersId == studentId && enrolled.ModuleId == module.Id))
             .AsQueryable();
         string searchType;
         dic.TryGetValue("SearchType", out searchType);

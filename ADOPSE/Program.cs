@@ -68,13 +68,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 // string connectionString;
 
+bool hasDbEnvironment = Environment.GetEnvironmentVariables().Keys.Cast<string>().Any(key => key.StartsWith("DB"));
 
 var web = new HtmlWeb();
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string not found.");
 
 
 // Add services to the container.
-
 
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.Parse("5.7.35-mysql")));
@@ -148,6 +148,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+
+// string allowedOrigin = Environment.GetEnvironmentVariable("ALLOWED_ORIGIN") ?? "https://localhost:44442";
+// Console.Write(allowedOrigin + " Allowed Origin \n");
+
+// app.UseCors(builder =>
+//     builder.WithOrigins(allowedOrigin)
+//         .AllowAnyHeader()
+//         .AllowAnyMethod()
+//         .AllowCredentials()
+// );
 
 app.UseAuthentication();
 app.UseAuthorization();

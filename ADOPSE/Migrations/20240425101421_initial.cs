@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ADOPSE.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,7 +82,7 @@ namespace ADOPSE.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Student",
+                name: "USERS",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -92,11 +92,14 @@ namespace ADOPSE.Migrations
                     Password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Role = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Suspend = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Student", x => x.Id);
+                    table.PrimaryKey("PK_USERS", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -169,8 +172,10 @@ namespace ADOPSE.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    ModuleId = table.Column<int>(type: "int", nullable: false)
+                    UsersId = table.Column<int>(type: "int", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false),
+                    EventId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -182,9 +187,9 @@ namespace ADOPSE.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Enrolled_Student_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Student",
+                        name: "FK_Enrolled_USERS_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "USERS",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -196,7 +201,7 @@ namespace ADOPSE.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    GoogleCalendarID = table.Column<string>(type: "longtext", nullable: false)
+                    GoogleCalendarEventID = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ModuleId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false)
@@ -204,7 +209,8 @@ namespace ADOPSE.Migrations
                     Details = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Starts = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Ends = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    Ends = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastModification = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,9 +230,9 @@ namespace ADOPSE.Migrations
                 column: "ModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrolled_StudentId",
+                name: "IX_Enrolled_UsersId",
                 table: "Enrolled",
-                column: "StudentId");
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Event_ModuleId",
@@ -265,7 +271,7 @@ namespace ADOPSE.Migrations
                 name: "SubCategory");
 
             migrationBuilder.DropTable(
-                name: "Student");
+                name: "USERS");
 
             migrationBuilder.DropTable(
                 name: "Module");
