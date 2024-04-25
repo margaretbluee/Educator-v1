@@ -62,6 +62,8 @@ function Modules(props) {
       console.log(titleQuery)
       if (query.length > 0)
         query += " AND " + titleQuery;
+      else 
+        query += titleQuery;
     }
     if (descriptionSearchQuery.length > 0) {
       if (titleQuery.length > 0 || query.length > 0)
