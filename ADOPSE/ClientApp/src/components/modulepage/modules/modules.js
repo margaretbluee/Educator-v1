@@ -50,14 +50,18 @@ function Modules(props) {
   }, [pages, activeIndex]);
 
   async function fetchModules() {
-    let query = searchQuery;
+    
+    let query ="";
     let titleQuery = "";
     let descriptionQuery = "";
-    if (titleSearchQuery.length > 0) {
+    if(searchQuery.trim().length > 0){
+      query = "(" + searchQuery +")"
+    }
+    if (titleSearchQuery.trim().length > 0) {
       let words = titleSearchQuery.split(" ");
-      for (let i = 0; i < words.length; i++) {
+      for (let i = 0; i < words.length; i++) 
         titleQuery += `Name:${words[i]} AND `;
-      }
+      
       titleQuery = titleQuery.slice(0, -5);
       console.log(titleQuery)
       if (query.length > 0)
@@ -65,15 +69,14 @@ function Modules(props) {
       else 
         query += titleQuery;
     }
-    if (descriptionSearchQuery.length > 0) {
-      if (titleQuery.length > 0 || query.length > 0)
+    if (descriptionSearchQuery.trim().length > 0) {
+      if (titleQuery.length > 0 || query.trim().length > 0)
         query += " AND "
-
       let words = descriptionSearchQuery.split(" ");
 
-      for (let i = 0; i < words.length; i++) {
+      for (let i = 0; i < words.length; i++) 
         descriptionQuery += `Description:${words[i]} AND `;
-      }
+      
       descriptionQuery = descriptionQuery.slice(0, -5);
       query += descriptionQuery;
     }

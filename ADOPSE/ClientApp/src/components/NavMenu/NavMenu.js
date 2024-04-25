@@ -99,15 +99,6 @@ function NavMenu({ navbarRef }) {
                 <div></div>
               )}
             </NavItem>
-            <NavItem>
-              {hasJWT() ? (
-                <NavLink tag={Link} className="text-dark" to="/googleCalendar">
-                  GoogleCalendar
-                </NavLink>
-              ) : (
-                <div></div>
-              )}
-            </NavItem>
  
             <NavItem>
               {hasJWT() ? (
