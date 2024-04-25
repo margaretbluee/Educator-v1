@@ -75,14 +75,13 @@ public class EnrolledRepository : IEnrolledRepository
             .Where(module => _aspNetCoreNTierDbContext.Enrolled
                 .Any(enrolled => enrolled.StudentId == studentId && enrolled.ModuleId == module.Id))
             .AsQueryable();
-        string searchType;
-        dic.TryGetValue("SearchType", out searchType);
+            
         if (dic.ContainsKey("SearchQuery"))
         {
             string searchQuery;
             if (dic.TryGetValue("SearchQuery", out searchQuery) && !string.IsNullOrEmpty(searchQuery))
             {
-                IEnumerable<Module> searchResults = _luceneRepository.SearchModulesLucene(searchQuery, int.Parse(searchType));
+                IEnumerable<Module> searchResults = _luceneRepository.SearchModulesLucene(searchQuery);
                 _logger.LogInformation($"Search Query: {searchQuery}");
 
                 _logger.LogInformation($"Search Results Count: {searchResults?.Count() ?? 0}");
