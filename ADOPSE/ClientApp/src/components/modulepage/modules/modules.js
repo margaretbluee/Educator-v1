@@ -176,6 +176,14 @@ function Modules(props) {
           </button>
           {infoToggle && <div className="lucene-info-content popup">
             <div className='popup-content'>
+              <div className="popup-exit">
+                <button onClick={() => setInfoToggle(!infoToggle)}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                  </svg>
+                </button>
+              </div>
               <h2>Lucene Wildcard Searches</h2>
               <p>Lucene supports single and multiple character wildcard searches within single terms (not within phrase queries).</p>
               <p>To perform a single character wildcard search, use the <code>?</code> symbol.</p>
@@ -232,7 +240,6 @@ function Modules(props) {
           </svg>
         </button>
         <div className="search-options">
-          <label>Options</label>
           <div className="radio-buttons">
             <label>
               <input
@@ -270,7 +277,7 @@ function Modules(props) {
       </div>
       {modules && <div className="result-count">
         <span>Total Modules Found: {count}</span>
-        {modules.length > 0 && <span>Showing {offset}- {offset + modules.length}</span>}
+        {modules.length > 0 && <span>Showing {offset} - {offset + modules.length}</span>}
       </div>}
       <br />
       {isLoading ? ( // check if loading is true
