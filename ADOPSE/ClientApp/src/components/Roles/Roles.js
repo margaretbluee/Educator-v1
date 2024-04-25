@@ -130,7 +130,7 @@ function UsersList() {
 
   return (
     <div>
-      <h2 className='title'>Role Management</h2>
+      <h2 className='titleRoles'>Role Management</h2>
      
       <table className='table'>
         <thead>

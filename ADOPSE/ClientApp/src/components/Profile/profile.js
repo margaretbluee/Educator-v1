@@ -118,9 +118,9 @@ function UsersList() {
             {userRole === 'Admin' && <button className='editrolesbtn' onClick={handleEditRoles}>Edit Roles</button>}
             <h2 className='titleprofile'>Here is your information</h2>
             <div className="userform">
-                <form>
+                <form className='profileform'>
                     <label htmlFor="username">Username:</label>
-                    <input
+                    <input className='inputU'
                         type="text"
                         id="username"
                         name="username"
@@ -129,7 +129,7 @@ function UsersList() {
                     />
                     <br />
                     <label htmlFor="email">Email:</label>
-                    <input
+                    <input className='inputE'
                         type="email"
                         id="email"
                         name="email"
@@ -138,7 +138,7 @@ function UsersList() {
                     />
                     <br />
                     <label htmlFor="password">Password:</label>
-                    <input
+                    <input className='inputP'
                         type="text"
                         id="password"
                         name="password"
@@ -147,7 +147,7 @@ function UsersList() {
                     />
                     <br />
                    
-                    <button type="submit" onClick={handleSubmit}>
+                    <button className='changebtn' type="submit" onClick={handleSubmit}>
                         Change
                     </button>
                 </form>
