@@ -21,7 +21,7 @@ function ModuleInfo() {
   const [module, setModule] = useState({}); // module info
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
-  const [isLoadingCalendarCreate, setIsLoadingCalendarCreate] = useState(false);
+  const [isLoadingCreateCalendar, setisLoadingCreateCalendar] = useState(false);
 
   const [eventsIsLoading, setEventsIsLoading] = useState(true);
   const [eventsfailedToLoad, setEventsFailedToLoad] = useState(false);
@@ -160,17 +160,17 @@ function ModuleInfo() {
   const handleCreateCalendarClick = () => {
     var myHeaders = new Headers();
     myHeaders.append(
-        "Authorization",
-        `Bearer ${localStorage.getItem("token")}`
+      "Authorization",
+      `Bearer ${localStorage.getItem("token")}`
     );
-
+    
     var requestOptions = {
-        method: "PUT",
-        headers: myHeaders,
-        redirect: "follow",
+      method: "PUT",
+      headers: myHeaders,
+      redirect: "follow",
     };
-  
-    setIsLoadingCalendarCreate(true)
+    
+    setisLoadingCreateCalendar(true);
     fetch(`/api/module/${moduleId}/googleCalendarId`, requestOptions)
     .then((response) => {
             if (response.ok) {
@@ -179,24 +179,20 @@ function ModuleInfo() {
             }
         })        
         .then((result) => {
-          setIsLoadingCalendarCreate(false)
+          setisLoadingCreateCalendar(false);
             if (result) {
-                // success();
                 // calendarCreationSuccesed();
                 alert("Calendar successfuly created");
             } else {
                 alert("Calendar creation failed");
-              // calendarCreationFailed();
-              // error();
             }                
         })
-        .catch((error) => {
-          setIsLoadingCalendarCreate(false)
-            console.log("error", error);
-            error();
+        .catch((  error) => {
+          setisLoadingCreateCalendar(false)
+          console.log("error", error);
+          error();
         })
         .finally(
-          setIsLoadingCalendarCreate(false)
         );
     };
 
@@ -322,8 +318,9 @@ function ModuleInfo() {
             <button            
               className = "create-callendar-button"
               onClick= {handleCreateCalendarClick}
+              disabled={isLoadingCreateCalendar}
             >
-              Create Calendar
+              {!isLoadingCreateCalendar ? "Create Calendar" : "Creating Calendar"}
             </button>
           </div>                    
         )}

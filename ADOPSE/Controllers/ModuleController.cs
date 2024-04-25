@@ -214,8 +214,13 @@ public class ModuleController : ControllerBase
         var module = _moduleService.GetModuleById(moduleId);
         var summaryText = module.Name;
         var descriptionText = module.Description;
-
-        string googleCalendarId = _googleCalendarService.CreateCalendar(summaryText, descriptionText);
+        string googleCalendarId = "";
+        try{
+            googleCalendarId = _googleCalendarService.CreateCalendar(summaryText, descriptionText);
+        }catch(Google.GoogleApiException ex){
+           // Console.WriteLine("We lost access to google calendar api due to request limit, " + ex.Message);
+            return BadRequest(new { message = "An error occurred while accessing Google API. Please try again later" });
+        }
 
         var updatedModule = _moduleService.UpdateGoogleCalendarIdOfModuleByModuleId(moduleId, googleCalendarId);
 
