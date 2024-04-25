@@ -38,7 +38,7 @@ namespace ADOPSE.Repositories
         }
         private const string IndexName = "lucene";
 
-        public IEnumerable<Module> SearchModulesLucene(string searchQuery, int searchType)
+        public IEnumerable<Module> SearchModulesLucene(string searchQuery)
         {
 
             // var basePath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
@@ -58,22 +58,6 @@ namespace ADOPSE.Repositories
 
             // Analyzer Setup:
             using var analyzer = new StandardAnalyzer(LuceneVersion); // Use StandardAnalyzer for text fields
-
-            if (!searchQuery.Contains(':'))
-            {
-                if (searchType == 0)
-                {
-                    searchQuery = $"Id:{searchQuery} OR Name:{searchQuery}";
-                }
-                else if (searchType == 1)
-                {
-                    searchQuery = $"Id:{searchQuery} OR Description:{searchQuery}";
-                }
-                else if (searchType == 2)
-                {
-                    searchQuery = $"Id:{searchQuery} OR Name:{searchQuery} OR Description:{searchQuery}";
-                }
-            }
 
             // MultiFieldQueryParser Setup:
             var multiFieldQueryParser = new Lucene.Net.QueryParsers.Classic.MultiFieldQueryParser(LuceneVersion, new[] { "Id", "Name", "Description" }, analyzer);
