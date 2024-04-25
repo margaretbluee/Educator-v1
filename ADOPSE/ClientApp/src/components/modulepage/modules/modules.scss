@@ -122,38 +122,6 @@
         outline: none;
         text-decoration: underline;
       }
-      .radio-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        label {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          input {
-            appearance: none;
-            outline: none;
-            margin: 0;
-          }
-          input::before {
-            content: "";
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #ccc;
-            margin-right: 8px;
-            background-color: white;
-          }
-
-          input:checked::before {
-            /* Styles for the checked state */
-            background-color: darkorange;
-            border-color: darkorange;
-          }
-        }
-      }
     }
   }
   .result-count {

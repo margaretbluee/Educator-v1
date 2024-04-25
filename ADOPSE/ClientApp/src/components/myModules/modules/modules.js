@@ -18,7 +18,6 @@ function Modules(props) {
   const [failedToLoad, setFailedToLoad] = useState(false);
 
   const [count, setCount] = useState(null);
-  const [searchType, setSearchType] = useState(0);
   const [infoToggle, setInfoToggle] = useState(false);
   const [advancedSearchToggle, setAdvancedSearchToggle] = useState(false);
   
@@ -33,10 +32,6 @@ function Modules(props) {
     setSearchQuery(event.target.value);
   };
 
-  const handleSearchTypeChange = (event) => {
-    const selectedSearchType = parseInt(event.target.value, 10);
-    setSearchType(selectedSearchType);
-  };
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       fetchModules();
@@ -277,40 +272,9 @@ function Modules(props) {
         </div>
         <div className="search-options">
           <button onClick={()=> {setAdvancedSearchToggle(!advancedSearchToggle); setDescriptionSearchQuery(""); setTitleSearchQuery("");}}>Advanced Search</button>
-          {advancedSearchToggle && <div className="radio-buttons">
-            <label>
-              <input
-                type="radio"
-                value="0"
-                name="searchType"
-                checked={searchType === 0}
-                onChange={handleSearchTypeChange}
-              />
-              <span>All</span>
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="1"
-                name="searchType"
-                checked={searchType === 1}
-                onChange={handleSearchTypeChange}
-              />
-              <span>Τίτλος</span>
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="2"
-                name="searchType"
-                checked={searchType === 2}
-                onChange={handleSearchTypeChange}
-              />
-              <span>Περιγραφή</span>
-            </label>
-          </div>}
+         
         </div>
-        {(searchType === 1 || searchType === 0 && advancedSearchToggle) && <div className="extra-search-bar">
+        {(advancedSearchToggle) && <div className="extra-search-bar">
           <label>
             Search in title
           </label>
@@ -323,7 +287,7 @@ function Modules(props) {
             onChange={(e) => setTitleSearchQuery(e.target.value)}
             onKeyDown={handleKeyPress} />
         </div>} 
-        {(searchType === 2 || searchType === 0 && advancedSearchToggle) && <div className="extra-search-bar">
+        {(advancedSearchToggle) && <div className="extra-search-bar">
           <label>
             Search in description
           </label>
