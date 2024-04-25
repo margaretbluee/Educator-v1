@@ -62,7 +62,7 @@ function Modules(props) {
       if (query.length > 0)
         query += " AND " + titleQuery;
       else 
-      query += titleQuery;
+        query += titleQuery;
     }
     if (descriptionSearchQuery.trim().length > 0) {
       if (titleQuery.length > 0 || query.trim().length > 0)

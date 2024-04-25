@@ -117,11 +117,13 @@ namespace ADOPSE.Repositories
                 var document = new Document
                 {
                     // Add fields to the document
-               new Int32Field("Id", module.Id, Field.Store.YES) ,
+                    new Int32Field("Id", module.Id, Field.Store.YES) ,
                     new TextField("Name", module.Name, Field.Store.YES),
                     new TextField("Description", module.Description, Field.Store.YES)
-
                 };
+                // Add fields to the document
+                document.Add(new Field("Id", module.Id.ToString(), Field.Store.YES, Field.Index.NO));
+                document.Add(new Field("Name", module.Name, Field.Store.YES, Field.Index.ANALYZED));
 
                 // Add the document to the index
                 writer.AddDocument(document);
@@ -207,12 +209,13 @@ namespace ADOPSE.Repositories
             // return searchResults;
         }
 
-        private IEnumerable<Module> GetModulesFromDatabase()
-        {
+            private IEnumerable<Module> GetModulesFromDatabase()
+            {
 
-            var modules = _aspNetCoreNTierDbContext.Module.ToList();
-            return modules;
-        }
+                var modules = _aspNetCoreNTierDbContext.Module.ToList();
+                return modules;
+            }
 
+        
     }
 }

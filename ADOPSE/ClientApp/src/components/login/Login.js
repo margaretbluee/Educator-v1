@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
 function Login(props) {
+  //const [email, setEmail] = useState(""); 
   const [username, setUsername] = useState("");
+  
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -39,14 +41,15 @@ function Login(props) {
     });
   };
 
-  const errorM = () => {
+  const errorM = (errorMessage) => {
     messageApi.open({
       key,
       type: "error",
-      content: "Wrong credentials",
+      content: errorMessage,
       duration: 1,
       style: {
         marginTop: "60px",
+        color: "red", 
       },
     });
   };
@@ -54,11 +57,16 @@ function Login(props) {
   const handleLogin = async (event) => {
     event.preventDefault();
 
+    if (!username || !password) {
+      errorM("All fields are required."); 
+      return;
+    }
+
     success();
 
     console.log("Start Login");
     try {
-      const response = await fetch("/api/authentication/login", {
+       const response = await fetch("/api/authentication/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,23 +74,30 @@ function Login(props) {
           "Accept-Encoding": "gzip, deflate, br",
           Connection: "keep-alive",
         },
-        body: `{"username": "${username}","password": "${password}","email": "x@x.x"}`,
-      });
+        
+        body: `{"username":"${username}","password": "${password}","email": "x@x.x"}`,
+        
+       });
+       
+    
 
       if (response.ok) {
         const data = await response.json();
         console.log("Login response");
         console.log(data);
+        //Αποθήκευση token και ρόλου χρήστη σε localstorage
         localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
         close();
         // Redirect to dashboard or home page
       } else {
-        errorM();
+        errorM("Login Failed");
         throw new Error("Login failed");
       }
     } catch (error) {
       console.error(error);
     }
+    
   };
 
   return (
@@ -92,13 +107,13 @@ function Login(props) {
       <div className="login-box module-login">
         <form>
           <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            className="login-input"
-            onChange={(e) => setUsername(e.target.value)}
-          />
+            <input
+              type="username"
+              id="username"
+              name="username"
+              className="login-input"
+              onChange={(e) => setUsername(e.target.value)}
+            />  
           <br />
           <label htmlFor="password">Password:</label>
           <input
