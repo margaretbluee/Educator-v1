@@ -122,7 +122,7 @@ function Modules(props) {
 
     setIsLoading(true);
     fetchModules(0);
-  }, [limit, offset, props.stars, props.priceRange, props.type, props.difficulty, searchQuery, titleSearchQuery, descriptionSearchQuery, trigger]);
+  }, [limit, offset, props.stars, props.priceRange, props.type, props.difficulty, trigger]);
 
   useEffect(() => {
     let retryCount = 0;
