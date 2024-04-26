@@ -27,14 +27,19 @@ function Modules(props) {
   const [descriptionSearchQuery, setDescriptionSearchQuery] = useState("");
   const [moduleIds, setModuleIds] = useState();
   const [isEnrolled, setIsEnrolled] = useState({});
+  const [trigger, setTrigger] = useState(false);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      fetchModules();
+      setTrigger(!trigger);
     }
+  }
+
+  const triggerSearch = () => {
+    setTrigger(!trigger);
   }
 
   useEffect(() => {
@@ -44,84 +49,80 @@ function Modules(props) {
     }
   }, [pages, activeIndex]);
 
-  async function fetchModules() {
-    
-    let query ="";
-    let titleQuery = "";
-    let descriptionQuery = "";
-    if(searchQuery.trim().length > 0){
-      query = "(" + searchQuery +")"
-    }
-    if (titleSearchQuery.trim().length > 0) {
-      let words = titleSearchQuery.split(" ");
-      for (let i = 0; i < words.length; i++) 
-        titleQuery += `Name:${words[i]} AND `;
-      
-      titleQuery = titleQuery.slice(0, -5);
-      console.log(titleQuery)
-      if (query.length > 0)
-        query += " AND " + titleQuery;
-      else 
-        query += titleQuery;
-    }
-    if (descriptionSearchQuery.trim().length > 0) {
-      if (titleQuery.length > 0 || query.trim().length > 0)
-        query += " AND "
-      let words = descriptionSearchQuery.split(" ");
-
-      for (let i = 0; i < words.length; i++) 
-        descriptionQuery += `Description:${words[i]} AND `;
-      
-      descriptionQuery = descriptionQuery.slice(0, -5);
-      query += descriptionQuery;
-    }
-    console.log(query);
-    let retryCount = 0;
-    const maxRetries = 3;
-    try {
-      const response = await Promise.race([
-        fetch(
-          `/api/module/filtered/${limit}/${offset}
-          /?ModuleTypeId=${props.type}
-          &DifficultyId=${props.difficulty}
-          &price=${props.priceRange[0]},${props.priceRange[1]}
-          &Rating=${props.stars[0]},${props.stars[1]}
-          &SearchQuery=${query}`
-        ),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Timeout")), 5000)
-        ),
-      ]);
-      const data = await response.json();
-      setCount(data.count);
-      setModules(data.modules);
-      setModuleIds(data.modules.map((module) => module.id));
-      setPages(Math.ceil(data.count / limit));
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      if (retryCount < maxRetries) {
-        retryCount++;
-        console.log(`Retrying fetch... Attempt ${retryCount}`);
-        fetchModules();
-      } else {
-        console.error(`Failed to fetch modules after ${maxRetries} attempts`);
-        setFailedToLoad(true);
-      }
-    }
-  }
 
   useEffect(() => {
+
+    async function fetchModules(retryCount = 0) {
+      
+        let query ="";
+        let titleQuery = "";
+        let descriptionQuery = "";
+        if(searchQuery.trim().length > 0){
+          query = "(" + searchQuery +")"
+        }
+        if (titleSearchQuery.trim().length > 0) {
+          let words = titleSearchQuery.split(" ");
+          for (let i = 0; i < words.length; i++) 
+            titleQuery += `Name:${words[i]} AND `;
+          
+          titleQuery = titleQuery.slice(0, -5);
+          console.log(titleQuery)
+          if (query.length > 0)
+            query += " AND " + titleQuery;
+          else 
+            query += titleQuery;
+        }
+        if (descriptionSearchQuery.trim().length > 0) {
+          if (titleQuery.length > 0 || query.trim().length > 0)
+            query += " AND "
+          let words = descriptionSearchQuery.split(" ");
+
+          for (let i = 0; i < words.length; i++) 
+            descriptionQuery += `Description:${words[i]} AND `;
+          
+          descriptionQuery = descriptionQuery.slice(0, -5);
+          query += descriptionQuery;
+        }
+        console.log(query);
+        const maxRetries = 3;
+        try {
+          const response = await Promise.race([
+            fetch(
+              `/api/module/filtered/${limit}/${offset}
+              /?ModuleTypeId=${props.type}
+              &DifficultyId=${props.difficulty}
+              &price=${props.priceRange[0]},${props.priceRange[1]}
+              &Rating=${props.stars[0]},${props.stars[1]}
+              &SearchQuery=${query}`
+            ),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Timeout")), 5000)
+            ),
+          ]);
+          const data = await response.json();
+          setCount(data.count);
+          setModules(data.modules);
+          setModuleIds(data.modules.map((module) => module.id));
+          setPages(Math.ceil(data.count / limit));
+          setIsLoading(false);
+        } catch (error) {
+          
+          console.error(error);
+          if (retryCount < maxRetries) {
+            console.log(retryCount);
+            retryCount++;
+            console.log(`Retrying fetch... Attempt ${retryCount}`);
+            fetchModules(retryCount);
+          } else {
+            console.error(`Failed to fetch modules after ${maxRetries} attempts`);
+            setFailedToLoad(true);
+          }
+        }
+      }
+
     setIsLoading(true);
-    fetchModules();
-  }, [
-    limit,
-    offset,
-    props.stars,
-    props.priceRange,
-    props.type,
-    props.difficulty,
-  ]);
+    fetchModules(0);
+  }, [limit, offset, props.stars, props.priceRange, props.type, props.difficulty, searchQuery, titleSearchQuery, descriptionSearchQuery, trigger]);
 
   useEffect(() => {
     let retryCount = 0;
@@ -256,7 +257,7 @@ function Modules(props) {
             className="search-query-submit"
             type="submit"
             name="searchQuerySubmit"
-            onClick={fetchModules}
+            onClick={triggerSearch}
           >Search
             <svg viewBox="0 0 24 24">
               <path
