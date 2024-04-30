@@ -11,6 +11,7 @@ using Lucene.Net.Search;
 
 using Lucene.Net.Store;
 using Lucene.Net.Util;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Nest;
 using Field = Lucene.Net.Documents.Field;
@@ -60,12 +61,12 @@ namespace ADOPSE.Repositories
             using var analyzer = new StandardAnalyzer(LuceneVersion); // Use StandardAnalyzer for text fields
 
             // MultiFieldQueryParser Setup:
-            var multiFieldQueryParser = new Lucene.Net.QueryParsers.Classic.MultiFieldQueryParser(LuceneVersion, new[] { "Id", "Name", "Description" }, analyzer);
+            var multiFieldQueryParser = new Lucene.Net.QueryParsers.Classic.MultiFieldQueryParser(LuceneVersion, new[] { "Id", "Name", "Description", "Category" }, analyzer);
 
             // Query Parsing:
             Query query = multiFieldQueryParser.Parse(searchQuery);
             ///
-            BooleanQuery aggregateQuery = new() {  { query, Occur.MUST }  };
+            BooleanQuery aggregateQuery = new() { { query, Occur.MUST } };
 
             // Search Execution:
             var topDocs = searcher.Search(aggregateQuery, int.MaxValue);
@@ -112,14 +113,21 @@ namespace ADOPSE.Repositories
 
             // Get data from the database
             var modules = GetModulesFromDatabase();
+            var subcategories = _aspNetCoreNTierDbContext.SubCategory.Include(s => s.parent).ToList();
+
             foreach (var module in modules)
             {
+                SubCategory subCategory = subcategories.FirstOrDefault(s => s.Id == module.SubCategoryId);
+                Category parent = subCategory.parent;
+                string categoryName = parent.Name;
+
                 var document = new Document
                 {
                     // Add fields to the document
                     new Int32Field("Id", module.Id, Field.Store.YES) ,
                     new TextField("Name", module.Name, Field.Store.YES),
-                    new TextField("Description", module.Description, Field.Store.YES)
+                    new TextField("Description", module.Description, Field.Store.YES),
+                    new TextField("Category", categoryName, Field.Store.YES)
                 };
                 // Add fields to the document
                 document.Add(new Field("Id", module.Id.ToString(), Field.Store.YES, Field.Index.NO));
@@ -209,13 +217,13 @@ namespace ADOPSE.Repositories
             // return searchResults;
         }
 
-            private IEnumerable<Module> GetModulesFromDatabase()
-            {
+        private IEnumerable<Module> GetModulesFromDatabase()
+        {
 
-                var modules = _aspNetCoreNTierDbContext.Module.ToList();
-                return modules;
-            }
+            var modules = _aspNetCoreNTierDbContext.Module.ToList();
+            return modules;
+        }
 
-        
+
     }
 }
