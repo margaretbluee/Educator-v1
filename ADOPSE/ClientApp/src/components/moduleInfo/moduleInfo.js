@@ -18,6 +18,7 @@ function ModuleInfo() {
   const [moduleId] = useState(
     parseInt(new URLSearchParams(location.search).get("id")) || 1
   );
+  const [query] = useState(new URLSearchParams(location.search).get("query"))
   const [module, setModule] = useState({}); // module info
   const [isLoading, setIsLoading] = useState(true);
   const [failedToLoad, setFailedToLoad] = useState(false);
@@ -86,6 +87,24 @@ function ModuleInfo() {
   //     },
   //   });
   // };
+
+  function highlightWords() { 
+    const contentDiv = document.getElementsByClassName('subtitle')[0];
+    const searchText = query
+    const content = contentDiv.textContent;
+    contentDiv.innerHTML = content;
+
+    if (searchText !== '') {
+      const regex = new RegExp('(' + searchText + ')', 'gi');
+      const highlightedContent = content.replace(regex, '<span class="highlight">$1</span>');
+      contentDiv.innerHTML = highlightedContent;
+    }
+  }
+
+  useEffect(() => {
+    if(document.getElementsByClassName('subtitle')[0])
+    highlightWords();
+  }, [module])
 
   useEffect(() => {
     let retryCount = 0;
@@ -163,38 +182,38 @@ function ModuleInfo() {
       "Authorization",
       `Bearer ${localStorage.getItem("token")}`
     );
-    
+
     var requestOptions = {
       method: "PUT",
       headers: myHeaders,
       redirect: "follow",
     };
-    
+
     setisLoadingCreateCalendar(true);
     fetch(`/api/module/${moduleId}/googleCalendarId`, requestOptions)
-    .then((response) => {
-            if (response.ok) {
-              console.log(response)
-                return response.json();
-            }
-        })        
-        .then((result) => {
-          setisLoadingCreateCalendar(false);
-            if (result) {
-                // calendarCreationSuccesed();
-                alert("Calendar successfuly created");
-            } else {
-                alert("Calendar creation failed");
-            }                
-        })
-        .catch((  error) => {
-          setisLoadingCreateCalendar(false)
-          console.log("error", error);
-          error();
-        })
-        .finally(
-        );
-    };
+      .then((response) => {
+        if (response.ok) {
+          console.log(response)
+          return response.json();
+        }
+      })
+      .then((result) => {
+        setisLoadingCreateCalendar(false);
+        if (result) {
+          // calendarCreationSuccesed();
+          alert("Calendar successfuly created");
+        } else {
+          alert("Calendar creation failed");
+        }
+      })
+      .catch((error) => {
+        setisLoadingCreateCalendar(false)
+        console.log("error", error);
+        error();
+      })
+      .finally(
+    );
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -307,7 +326,7 @@ function ModuleInfo() {
           </div>
         </div>
         {hasJWT() && (
-          <div className="course-second">            
+          <div className="course-second">
             <button
               className="buy-now-button"
               onClick={handleEnrollClick}
@@ -315,14 +334,14 @@ function ModuleInfo() {
             >
               {!isEnrolled ? "Enroll" : "Enrolled"}
             </button>
-            <button            
-              className = "create-callendar-button"
-              onClick= {handleCreateCalendarClick}
+            <button
+              className="create-callendar-button"
+              onClick={handleCreateCalendarClick}
               disabled={isLoadingCreateCalendar}
             >
               {!isLoadingCreateCalendar ? "Create Calendar" : "Creating Calendar"}
             </button>
-          </div>                    
+          </div>
         )}
       </div>
       <div className="upcoming-events">

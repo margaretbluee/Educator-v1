@@ -53,23 +53,24 @@ function Modules(props) {
   useEffect(() => {
 
     async function fetchModules(retryCount = 0) {
-      
-        let query ="";
-        let titleQuery = "";
-        let descriptionQuery = "";
-        if(searchQuery.trim().length > 0){
-          query = "(" + searchQuery +")"
+
+      let query = "";
+      let titleQuery = "";
+      let descriptionQuery = "";
+      if (trigger) {
+        if (searchQuery.trim().length > 0) {
+          query = "(" + searchQuery + ")"
         }
         if (titleSearchQuery.trim().length > 0) {
           let words = titleSearchQuery.split(" ");
-          for (let i = 0; i < words.length; i++) 
+          for (let i = 0; i < words.length; i++)
             titleQuery += `Name:${words[i]} AND `;
-          
+
           titleQuery = titleQuery.slice(0, -5);
           console.log(titleQuery)
           if (query.length > 0)
             query += " AND " + titleQuery;
-          else 
+          else
             query += titleQuery;
         }
         if (descriptionSearchQuery.trim().length > 0) {
@@ -77,48 +78,49 @@ function Modules(props) {
             query += " AND "
           let words = descriptionSearchQuery.split(" ");
 
-          for (let i = 0; i < words.length; i++) 
+          for (let i = 0; i < words.length; i++)
             descriptionQuery += `Description:${words[i]} AND `;
-          
+
           descriptionQuery = descriptionQuery.slice(0, -5);
           query += descriptionQuery;
         }
-        console.log(query);
-        const maxRetries = 3;
-        try {
-          const response = await Promise.race([
-            fetch(
-              `/api/module/filtered/${limit}/${offset}
+      }
+      console.log(query);
+      const maxRetries = 3;
+      try {
+        const response = await Promise.race([
+          fetch(
+            `/api/module/filtered/${limit}/${offset}
               /?ModuleTypeId=${props.type}
               &DifficultyId=${props.difficulty}
               &price=${props.priceRange[0]},${props.priceRange[1]}
               &Rating=${props.stars[0]},${props.stars[1]}
               &SearchQuery=${query}`
-            ),
-            new Promise((_, reject) =>
-              setTimeout(() => reject(new Error("Timeout")), 5000)
-            ),
-          ]);
-          const data = await response.json();
-          setCount(data.count);
-          setModules(data.modules);
-          setModuleIds(data.modules.map((module) => module.id));
-          setPages(Math.ceil(data.count / limit));
-          setIsLoading(false);
-        } catch (error) {
-          
-          console.error(error);
-          if (retryCount < maxRetries) {
-            console.log(retryCount);
-            retryCount++;
-            console.log(`Retrying fetch... Attempt ${retryCount}`);
-            fetchModules(retryCount);
-          } else {
-            console.error(`Failed to fetch modules after ${maxRetries} attempts`);
-            setFailedToLoad(true);
-          }
+          ),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 5000)
+          ),
+        ]);
+        const data = await response.json();
+        setCount(data.count);
+        setModules(data.modules);
+        setModuleIds(data.modules.map((module) => module.id));
+        setPages(Math.ceil(data.count / limit));
+        setIsLoading(false);
+      } catch (error) {
+
+        console.error(error);
+        if (retryCount < maxRetries) {
+          console.log(retryCount);
+          retryCount++;
+          console.log(`Retrying fetch... Attempt ${retryCount}`);
+          fetchModules(retryCount);
+        } else {
+          console.error(`Failed to fetch modules after ${maxRetries} attempts`);
+          setFailedToLoad(true);
         }
       }
+    }
 
     setIsLoading(true);
     fetchModules(0);
@@ -268,7 +270,7 @@ function Modules(props) {
           </button>
         </div>
         <div className="search-options">
-          <button onClick={()=> {setAdvancedSearchToggle(!advancedSearchToggle); setDescriptionSearchQuery(""); setTitleSearchQuery("");}}>Advanced Search</button>
+          <button onClick={() => { setAdvancedSearchToggle(!advancedSearchToggle); setDescriptionSearchQuery(""); setTitleSearchQuery(""); }}>Advanced Search</button>
         </div>
         {(advancedSearchToggle) && <div className="extra-search-bar">
           <label>
@@ -282,7 +284,7 @@ function Modules(props) {
             value={titleSearchQuery}
             onChange={(e) => setTitleSearchQuery(e.target.value)}
             onKeyDown={handleKeyPress} />
-        </div>} 
+        </div>}
         {(advancedSearchToggle) && <div className="extra-search-bar">
           <label>
             Search in description
@@ -297,7 +299,7 @@ function Modules(props) {
             onKeyDown={handleKeyPress}
           />
         </div>}
-        
+
       </div>
       {modules && <div className="result-count">
         <span>Total Modules Found: {count}</span>
@@ -322,12 +324,14 @@ function Modules(props) {
                   school={module.name}
                   subject={module.name}
                   subject_type={module.moduleTypeName}
+                  description={module.description}
                   difficulty={module.difficultyName}
                   rating={module.rating}
                   enrolled={module.price}
                   price={module.price}
                   isEnrolled={isEnrolled[module.id]}
                   isLoadingEnrolled={isLoadingEnrolled}
+                  searchQuery={searchQuery}
                 />
               ))}
             </div>

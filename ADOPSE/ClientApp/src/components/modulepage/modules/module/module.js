@@ -12,7 +12,6 @@ function Module(props) {
 
   const [messageApi, contextHolder] = message.useMessage();
   const [isEnrolled, setIsEnrolled] = useState(true);
-
   useEffect(() => {
     if (props.isEnrolled === undefined) return;
     setIsEnrolled(props.isEnrolled);
@@ -39,7 +38,7 @@ function Module(props) {
   };
 
   const handleGoToModule = () => {
-    navigate(`/module?id=${props.id}`);
+    navigate(`/module?id=${props.id}&query=${props.searchQuery}`);
   };
 
   const handleEnrollClick = (event) => {
@@ -78,6 +77,7 @@ function Module(props) {
         error();
       });
   };
+ 
 
   return (
     <div className="module" onClick={handleGoToModule}>
@@ -95,7 +95,7 @@ function Module(props) {
             <p className="subject-text">{props.subject}</p>
           </div>
         </div>
-
+        <div className="desc-tooltip-container"><span className="desc-tooltip">{props.description}</span></div>
         {/* <p className="event-subtype">{props.subject_type}</p> */}
         <p className="subtype">{props.subject_type}</p>
         <div className="difficulty">
