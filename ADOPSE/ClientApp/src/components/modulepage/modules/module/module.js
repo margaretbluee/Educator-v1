@@ -12,6 +12,7 @@ function Module(props) {
 
   const [messageApi, contextHolder] = message.useMessage();
   const [isEnrolled, setIsEnrolled] = useState(true);
+
   useEffect(() => {
     if (props.isEnrolled === undefined) return;
     setIsEnrolled(props.isEnrolled);
@@ -38,7 +39,7 @@ function Module(props) {
   };
 
   const handleGoToModule = () => {
-    navigate(`/module?id=${props.id}&query=${props.searchQuery}`);
+    navigate(`/module?id=${props.id}&query=${props.query}`);
   };
 
   const handleEnrollClick = (event) => {

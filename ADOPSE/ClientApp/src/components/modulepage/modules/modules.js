@@ -49,9 +49,7 @@ function Modules(props) {
     }
   }, [pages, activeIndex]);
 
-
   useEffect(() => {
-
     async function fetchModules(retryCount = 0) {
 
       let query = "";
@@ -121,7 +119,6 @@ function Modules(props) {
         }
       }
     }
-
     setIsLoading(true);
     fetchModules(0);
   }, [limit, offset, props.stars, props.priceRange, props.type, props.difficulty, trigger]);
@@ -331,7 +328,7 @@ function Modules(props) {
                   price={module.price}
                   isEnrolled={isEnrolled[module.id]}
                   isLoadingEnrolled={isLoadingEnrolled}
-                  searchQuery={searchQuery}
+                  query={searchQuery + " " + titleSearchQuery + " " + descriptionSearchQuery}
                 />
               ))}
             </div>

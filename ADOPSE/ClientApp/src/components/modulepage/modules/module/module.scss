@@ -202,7 +202,7 @@ $module-width: 320px * 1.2;
   box-shadow: 3px 3px 5px black;
   background-color: rgba(255, 140, 0, 0.80);
   height: 90px;
-  width: 325px;
+  width: 100%;
   font-size: 0.9rem !important;
   font-weight: bold;
   padding: 10px;
@@ -219,6 +219,6 @@ $module-width: 320px * 1.2;
 .module:hover .desc-tooltip-container{
 
   visibility: visible;
-  transition-delay: 0.5s;
+  transition-delay: 0.3s;
   z-index: 1;
 }

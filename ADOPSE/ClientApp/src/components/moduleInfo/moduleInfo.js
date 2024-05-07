@@ -90,14 +90,16 @@ function ModuleInfo() {
 
   function highlightWords() { 
     const contentDiv = document.getElementsByClassName('subtitle')[0];
-    const searchText = query
+    const searchText = query.split(" ");
     const content = contentDiv.textContent;
     contentDiv.innerHTML = content;
 
-    if (searchText !== '') {
-      const regex = new RegExp('(' + searchText + ')', 'gi');
-      const highlightedContent = content.replace(regex, '<span class="highlight">$1</span>');
+    if (query !== '') {
+      for(let i = 0; i < searchText.length; i++){
+      const regex = new RegExp('( ' + searchText[i] + ' )', 'gi');
+      const highlightedContent = contentDiv.innerHTML.replace(regex, '<span class="highlight">$1</span>');
       contentDiv.innerHTML = highlightedContent;
+      }
     }
   }
 
