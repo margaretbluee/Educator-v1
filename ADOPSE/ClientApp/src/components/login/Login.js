@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Login.scss";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +7,21 @@ import { message } from "antd";
 function Login(props) {
   //const [email, setEmail] = useState(""); 
   const [username, setUsername] = useState("");
-  
+  const [rememberMe, setRememberMe] = useState(false); 
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    const storedPassword = localStorage.getItem("password");
+    const storedRememberMe = localStorage.getItem("rememberMe");
+  
+    if (storedRememberMe && storedUsername && storedPassword) {
+      setUsername(storedUsername);
+      setPassword(storedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const key = "updatable";
 
@@ -88,6 +100,19 @@ function Login(props) {
         //Αποθήκευση token και ρόλου χρήστη σε localstorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.role);
+
+
+        if (rememberMe) {
+          localStorage.setItem("username", username);
+          localStorage.setItem("password", password);
+          localStorage.setItem("rememberMe", rememberMe);
+        } else {
+          localStorage.removeItem("username");
+          localStorage.removeItem("password");
+          localStorage.removeItem("rememberMe");
+        }
+
+        
         close();
         // Redirect to dashboard or home page
       } else {
@@ -112,6 +137,7 @@ function Login(props) {
               id="username"
               name="username"
               className="login-input"
+              value={username} 
               onChange={(e) => setUsername(e.target.value)}
             />  
           <br />
@@ -121,12 +147,18 @@ function Login(props) {
             id="password"
             name="password"
             className="login-input"
+            value={password} 
             onChange={(e) => setPassword(e.target.value)}
           />
           <br />
           <div className="login-options">
             <label>
-              <input type="checkbox" name="rememberMe" /> Remember me
+              <input
+                type="checkbox"
+                name="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />{" "} Remember me
             </label>
             <a href="/login" className="forgot-password-link">
               Forgot your password?

@@ -116,7 +116,8 @@ function UsersList() {
     return (
         <div className="screen">
             {userRole === 'Admin' && <button className='editrolesbtn' onClick={handleEditRoles}>Edit Roles</button>}
-            <h2 className='titleprofile'>Here is your information</h2>
+            <h2 className='titlehello'>Hello {userRole},{userData.username}</h2>
+            <h3 className='titleprofile'>Here is your information</h3>
             <div className="userform">
                 <form className='profileform'>
                     <label htmlFor="username">Username:</label>

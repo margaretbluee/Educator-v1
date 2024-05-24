@@ -24,3 +24,89 @@
     margin-top: 50px;
    
   }
+
+  .searchRoles{
+    width: 13%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px ;
+    box-shadow: none;
+    transition: border-color 0.3s ease;
+    margin-left: 45%;
+    margin-top: 15px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  
+
+  .totalusers{
+    display: flex;
+    flex-direction: row;
+    margin-left: 90%;
+  }
+
+  .paginationroles {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .paginationr .page-item {
+    display:inline-block;
+  }
+  
+  .paginationr .page-item .pages-link  {
+    padding: 8px 12px;
+    margin: 0px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .paginationr .page-item:first-child .pages-link {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
+  
+  .paginationr .page-item:last-child .pages-link {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+  }
+  
+  .paginationr .page-item.active .pages-link,
+  .paginationr .page-item .pages-link:hover {
+    background-color: darkorange;
+    color: white;
+    border-color: darkorange;
+  }
+  .page-item.active .pages-link {
+    background-color:  darkorange;
+    color: #fff;
+  }
+  
+  .page-item[disabled] .pages-link {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  .ellipsis {
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    color: #000;
+  }
+
+  .numofusers{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding-left: 10px;
+  }
+  .usersperpage{
+    font-size: 20px;
+  }
