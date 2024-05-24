@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
+using ADOPSE.Data;
 using ADOPSE.Models;
 using ADOPSE.Services.IServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +15,13 @@ public class EnrolledController : ControllerBase
 {
     private readonly ILogger<EnrolledController> _logger;
     private readonly IEnrolledService _enrolledService;
+    private readonly IModuleService _moduleService;
 
-    public EnrolledController(ILogger<EnrolledController> logger, IEnrolledService enrolledService)
+    public EnrolledController(ILogger<EnrolledController> logger, IEnrolledService enrolledService, IModuleService moduleService)
     {
         _logger = logger;
         _enrolledService = enrolledService;
+        _moduleService = moduleService;
     }
 
     [Authorize]
@@ -27,6 +31,47 @@ public class EnrolledController : ControllerBase
         int studentId = GetClaimedStudentId();
         return _enrolledService.GetEnrolmentsById(studentId);
     }
+
+
+    //[Authorize(Roles = "Student")]
+    [Authorize]
+    [HttpGet("getEnrollments")]
+    public IEnumerable<object> GetEnrollmentsByUser()
+    {
+        bool authorized = false;
+        int studentId = GetClaimedStudentId();
+        if(studentId == -1)
+        {
+            Unauthorized(new { authorized });
+        }
+        else
+        {
+            //string role = _aspNetCoreNTierDbContext.USERS.Where(x => x.Id == studentId).Select(x => x.Role).SingleOrDefault();
+            //if (role!=null && !role.Equals("Student"))
+            //{
+            //    _logger.LogInformation("User does not have access to student's area. Current user role is : " + role);
+            //}
+            //else
+            //{
+            //    _logger.LogInformation("Continue. Current user role is : " + role);
+            //}
+        }
+        return _enrolledService.GetEnrolmentsByUserId(studentId);
+    }
+
+    //[Authorize(Roles = "Student")]
+    [HttpPut("{moduleId}/updateCheckboxState")]
+    public IActionResult updateCheckboxState(int moduleId)
+    {
+        int studentId = GetClaimedStudentId();
+        if(studentId == -1)
+        {
+            return Unauthorized(new { studentId });
+        }
+        var updatedEnrol = _enrolledService.UpdateEnrolmentCheckboxState(studentId, moduleId);
+        return updatedEnrol is NotFoundResult ? NotFound("The enrolment with moduleId = '" + moduleId + "' for specific student does not exist") : Ok(updatedEnrol);
+    }
+
 
     [Authorize]
     [HttpPost("{moduleId}")]

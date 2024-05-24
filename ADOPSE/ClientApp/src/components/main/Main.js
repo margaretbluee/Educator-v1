@@ -5,6 +5,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { hasJWT } from "../authentication/authentication";
 import girl from "./girl.png";
+import info from "./info.png"
 import { useNavigate } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
@@ -24,6 +25,7 @@ function convertStringToDate(str) {
 
 const MainPage = () => {
   const [events, setEvents] = useState([]);
+  const [checkboxes, setCheckboxes] = useState([]);
   const navigate = useNavigate();
   const calendarContainerRef = useRef(null);
   const [calendarHeight, setCalendarHeight] = useState(0);
@@ -41,6 +43,7 @@ const MainPage = () => {
       redirect: "follow",
     };
 
+    setTimeout(() => {
     fetch("/api/calendar/", requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -59,11 +62,51 @@ const MainPage = () => {
         setEvents(listaEvents);
       })
       .catch((error) => console.log("error", error));
-  }, []);
+    }, 80);
+}, [checkboxes]);
 
   const handleJoinFree = () => {
     navigate("/register");
   };
+
+  useEffect(() => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+      "Authorization", `Bearer ${localStorage.getItem("token")}`
+    );
+    
+    var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+    };
+    
+    fetch("/api/enrolled/getEnrollments", requestOptions)
+      .then((response) => 
+        // {
+        // if (!response.ok) {
+        //       throw new Error("Could not fetch resource")
+        //   }
+          response.json()
+      // }
+    )
+      .then((result) => {
+        let moduleList = [];      
+        console.log("Set Checkboxes " + result);
+        result.forEach((moduleItem) => {
+          moduleList.push({
+            id: moduleItem.id,
+            name: moduleItem.name,
+            isChecked: moduleItem.isChecked
+          });
+        });
+        moduleList.sort((a, b) => a.name > b.name ? 1 : -1); // list modules in moduleList by module name attribute      
+        setCheckboxes(moduleList);
+       })
+      .catch((error) => console.error(error));    
+    }, []);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -84,61 +127,134 @@ const MainPage = () => {
 
    
 
-    async function FetchAllEventsFromGoogleAndSync() {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append(
-            "Authorization", `Bearer ${localStorage.getItem("token")}`
-        );
+  async function FetchAllEventsFromGoogleAndSync() {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append(
+          "Authorization", `Bearer ${localStorage.getItem("token")}`
+      );
+     var requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow",
+      };    
+      
+      let eventList = await fetch("/api/calendar/fetchAndSync", requestOptions)
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error("Could not fetch resource")
+              }
+              return response.json()
+          })
+          .then(data => {
+              console.log(data)
+              return data;
+          })
+          .catch((error) => {
+              console.log("error", error)
+          });
+     console.log(eventList);
+     alert("Synchronized as well as posible! Thanks for your services.");
+ }
 
-        var requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow",
-        };    
-        
-        let eventList = await fetch("/api/calendar/fetchAndSync", requestOptions)
-            .then(response => {                
-                if (!response.ok) {
-                    throw new Error("Could not fetch resource")
-                }
-                return response.json()                
-            })
-            .then(data => {                
-                console.log(data)
-                return data;                          
-            })
-            .catch((error) => {
-                console.log("error", error)
-            });
+ const handleCheckboxState = async (moduleId) => {
+    const newCheckboxes = [...checkboxes];
+    const index = newCheckboxes.findIndex(checkbox => checkbox.id === moduleId);
+    // console.log("moduleId (index) of checkbox change: "+index);
+    // console.log("Before checkbox state change");
+    // console.log(newCheckboxes[index]);
+    newCheckboxes[index].isChecked = !newCheckboxes[index].isChecked;
+    // console.log("After checkbox state change")
+    // console.log(newCheckboxes[index]);
+    setCheckboxes(newCheckboxes);
 
-        console.log(eventList);        
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+      
+      var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      redirect: "follow",
+      };
 
-        alert("Synchronized as well as posible! Thanks for your services.");
+      await fetch(`/api/enrolled/${moduleId}/updateCheckboxState`, requestOptions)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error("Could not update checkbox state")
+          }
+          console.log(response.json)
+          response.json()
+      })
+      .then(data => {
+          console.log(data)
+          return data
+      })
+      .catch((error) => {
+          console.log("error", error)
+      });
 
-    }
+  };  
+
+  
 
   return (
     <div className="main-page">
       {hasJWT() ? (
-        <div ref={calendarContainerRef}>
-          <h1 className="heading">Welcome to Educator!</h1>
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: calendarHeight }}
-          />
+        <div>
+          <div className="left-panel" ref={calendarContainerRef}>
+            <h1 className="heading">Welcome to Educator!</h1>
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: calendarHeight }}
+            />
+          </div>
+          <div className="right-panel">
+            {/* <button className="sidebar-button">Sidebar Button</button> */}
+            <h4>My Modules</h4>
+            <span style={{display: "block"}}>
+            <div className="dropdown-info">              
+            <img src={info} placeholder="info" ></img>
+              <div className="dropdown-info-content">
+                <p>Check which modules you want to show on calendar</p>
+              </div>
+            </div>
+            </span>
+            <div className="module-list">            
+               {checkboxes.map((checkbox, index) => (                
+                <label key={checkbox.id} className="module-list-container">
+                  <input
+                  style={{paddingLeft: 5, cursor: "pointer"}}
+                  type="checkbox"
+                  className="checkbox"
+                  checked={checkbox.isChecked}
+                  onChange={() => handleCheckboxState(checkbox.id)}
+                  // onMouseOver={() => 
+                  //   <div className="dropdown-info-content">
+                  //     <p>{checkbox.name}</p>
+                  //   </div>
+                  // }
+                  >
+                  </input>
+                  {checkbox.name}
+                </label>
+              ))}
+            </div>
+          </div>
           <div className="down-section">
-          <>
+            <>
               <button
               className="fetchAndSync-button"
               onClick={() => FetchAllEventsFromGoogleAndSync()}> Fetch And Sync</button>
-          </>
+            </>
           </div>   
         </div>
-        
       ) : (
         <main className="app-main">
           <div className="left-section">
