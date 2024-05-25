@@ -83,13 +83,8 @@ const MainPage = () => {
     };
     
     fetch("/api/enrolled/getEnrollments", requestOptions)
-      .then((response) => 
-        // {
-        // if (!response.ok) {
-        //       throw new Error("Could not fetch resource")
-        //   }
+      .then((response) =>         
           response.json()
-      // }
     )
       .then((result) => {
         let moduleList = [];      
@@ -101,7 +96,7 @@ const MainPage = () => {
             isChecked: moduleItem.isChecked
           });
         });
-        moduleList.sort((a, b) => a.name > b.name ? 1 : -1); // list modules in moduleList by module name attribute      
+        moduleList.sort((a, b) => a.name > b.name ? 1 : -1); // sort list modules in moduleList by module name attribute      
         setCheckboxes(moduleList);
        })
       .catch((error) => console.error(error));    
@@ -160,12 +155,7 @@ const MainPage = () => {
  const handleCheckboxState = async (moduleId) => {
     const newCheckboxes = [...checkboxes];
     const index = newCheckboxes.findIndex(checkbox => checkbox.id === moduleId);
-    // console.log("moduleId (index) of checkbox change: "+index);
-    // console.log("Before checkbox state change");
-    // console.log(newCheckboxes[index]);
     newCheckboxes[index].isChecked = !newCheckboxes[index].isChecked;
-    // console.log("After checkbox state change")
-    // console.log(newCheckboxes[index]);
     setCheckboxes(newCheckboxes);
 
       var myHeaders = new Headers();
@@ -198,7 +188,6 @@ const MainPage = () => {
       });
 
   };  
-
   
 
   return (
@@ -216,11 +205,10 @@ const MainPage = () => {
             />
           </div>
           <div className="right-panel">
-            {/* <button className="sidebar-button">Sidebar Button</button> */}
             <h4>My Modules</h4>
             <span style={{display: "block"}}>
             <div className="dropdown-info">              
-            <img src={info} placeholder="info" ></img>
+            <img src={info} placeholder="info" alt="girl" ></img>
               <div className="dropdown-info-content">
                 <p>Check which modules you want to show on calendar</p>
               </div>
@@ -235,11 +223,6 @@ const MainPage = () => {
                   className="checkbox"
                   checked={checkbox.isChecked}
                   onChange={() => handleCheckboxState(checkbox.id)}
-                  // onMouseOver={() => 
-                  //   <div className="dropdown-info-content">
-                  //     <p>{checkbox.name}</p>
-                  //   </div>
-                  // }
                   >
                   </input>
                   {checkbox.name}
