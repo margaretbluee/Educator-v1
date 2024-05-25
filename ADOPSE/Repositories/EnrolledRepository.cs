@@ -1,6 +1,8 @@
 ﻿using ADOPSE.Data;
 using ADOPSE.Models;
 using ADOPSE.Repositories.IRepositories;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ADOPSE.Repositories;
@@ -21,10 +23,21 @@ public class EnrolledRepository : IEnrolledRepository
 
     public IEnumerable<Module> GetEnrolmentsById(int studentId)
     {
-        var enrollments = _aspNetCoreNTierDbContext.Enrolled.FromSql($"select * from Enrolled where studentId = {studentId}").Select(r => r.Module.Id).ToList();
-        enrollments.ForEach(x => _logger.LogInformation($"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Repository list {x}"));
-        //return _aspNetCoreNTierDbContext.Module.FromSql($"select * from Module").ToList();
+        //var enrollments = _aspNetCoreNTierDbContext.Enrolled.FromSql($"select * from Enrolled where studentId = {studentId}").Select(r => r.Module.Id).ToList();
+        var enrollments = _aspNetCoreNTierDbContext.Enrolled.Where(r=> r.UsersId == studentId).Select(r => r.Module.Id).ToList();
+        enrollments.ForEach(x => _logger.LogInformation($"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Repository list {x}"));        
         return _aspNetCoreNTierDbContext.Module.Where(x => enrollments.Contains(x.Id)).ToList();
+    }
+
+    public IEnumerable<object> GetEnrolmentsByUserId(int studentId)
+    {
+        var enrollments = _aspNetCoreNTierDbContext.Enrolled
+            .Include(e => e.Module)
+            .Where(e => e.UsersId == studentId)
+            .Select(e => new { e.Module.Id, e.Module.Name, e.IsChecked }).ToList();
+
+        enrollments.ForEach(x => _logger.LogInformation($"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Repository list {x}"));
+        return enrollments;
     }
 
     public bool isEnrolled(int studentId, int moduleId)
@@ -50,10 +63,6 @@ public class EnrolledRepository : IEnrolledRepository
         return enrollments;
     }
 
-
-
-
-
     public void AddEnrolment(int studentId, int moduleId)
     {
         _aspNetCoreNTierDbContext.Enrolled.Add(
@@ -65,6 +74,19 @@ public class EnrolledRepository : IEnrolledRepository
         );
 
         _aspNetCoreNTierDbContext.SaveChanges();
+    }
+
+    public Enrolled UpdateEnrolmentCheckboxState(int studentId, int moduleId)
+    {
+        var enrol = _aspNetCoreNTierDbContext.Enrolled.Where(e => e.UsersId == studentId && e.ModuleId == moduleId).Single();
+        enrol.IsChecked = !enrol.IsChecked;
+        _aspNetCoreNTierDbContext.SaveChanges();
+        return enrol;
+    }
+
+    public bool EnrolmentExist(int studentId, int moduleId)
+    {
+        return _aspNetCoreNTierDbContext.Enrolled.Any(e => e.UsersId == studentId && e.ModuleId == moduleId);
     }
 
     public IQueryable<Module> QueryEnrolledFiltered(Dictionary<string, string> dic, int studentId)

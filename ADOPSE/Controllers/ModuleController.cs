@@ -14,7 +14,6 @@ public class ModuleController : ControllerBase
     private readonly ILogger<ModuleController> _logger;
     private readonly IModuleService _moduleService;
     private readonly IElasticClient _elasticClient;
-    private readonly IModuleRepository _moduleRepository;
     private readonly ILuceneRepository _luceneRepository;
     private readonly ICalendarService _googleCalendarService;
 
@@ -208,7 +207,7 @@ public class ModuleController : ControllerBase
         var isEmpty = _moduleService.IsGoogleCalendarIdEmpty(moduleId);
         if (!isEmpty)
         {
-            return BadRequest(new { message = $"Module with id '{moduleId}' arleady has a its own calendar!" });
+            return BadRequest(new { message = $"Module with id '{moduleId}' already has a its own calendar!" });
         }
 
         var module = _moduleService.GetModuleById(moduleId);
@@ -219,7 +218,7 @@ public class ModuleController : ControllerBase
             googleCalendarId = _googleCalendarService.CreateCalendar(summaryText, descriptionText);
         }catch(Google.GoogleApiException ex){
            // Console.WriteLine("We lost access to google calendar api due to request limit, " + ex.Message);
-            return BadRequest(new { message = "An error occurred while accessing Google API. Please try again later" });
+            return BadRequest(new { message = "An error occurred while accessing Google API. Please try again later"});
         }
 
         var updatedModule = _moduleService.UpdateGoogleCalendarIdOfModuleByModuleId(moduleId, googleCalendarId);

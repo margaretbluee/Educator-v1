@@ -126,7 +126,7 @@ public class EventService : IEventService
     public IEnumerable<Event> GetEventsByStudentId(int UserId)
     {
         List<Enrolled> enrolled =
-            _aspNetCoreNTierDbContext.Enrolled.Where(x => x.USERS.Id == UserId).Include(y => y.Module).ToList();
+            _aspNetCoreNTierDbContext.Enrolled.Where(x => x.USERS.Id == UserId &&  x.IsChecked == true).Include(y => y.Module).ToList();
 
         List<int> enrolledModuleIds = new List<int>();
 

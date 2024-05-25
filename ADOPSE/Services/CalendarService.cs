@@ -181,8 +181,8 @@ namespace ADOPSE.Services
 
             var newCalendar = new Calendar
             {
-                Summary = summary,
-                Description = descr
+                Summary = summary,            
+                Description = descr.Substring(0, Math.Min(descr.Length, 200)) // Google Calendar description character limit: 200 characters
             };
 
             Calendar newCalendarResult = service.Calendars.Insert(newCalendar).Execute();

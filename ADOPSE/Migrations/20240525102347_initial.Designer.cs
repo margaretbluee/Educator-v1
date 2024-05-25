@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADOPSE.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240425222245_Initial")]
-    partial class Initial
+    [Migration("20240525102347_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,9 @@ namespace ADOPSE.Migrations
 
                     b.Property<string>("EventId")
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsChecked")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("ModuleId")
                         .HasColumnType("int");

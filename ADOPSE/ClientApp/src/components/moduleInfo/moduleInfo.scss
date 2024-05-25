@@ -1,6 +1,6 @@
 .module-info {
-  margin: 0 auto;
-  padding: 20px;
+    margin: 0 auto;
+    padding: 20px;
 
   .title {
     font-size: 24px;
@@ -26,133 +26,164 @@
     text-align: left;
     font-weight: bold;
     font-size: 20px;
-
+  }
     .name {
       cursor: pointer;
       color: darkorange;
       font-size: 25px;
     }
-  }
 
-  .course-details {
-    display: flex;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    height: 40px;
-  }
+    .subtitle {
+        font-size: 18px;
+        margin-top: 5px;
+        text-align: left;
+        font-weight: bold;
+    }
 
-  .course-first {
-    background-color: darkorange;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 20px;
-    border-radius: 20px 0 0 20px;
-  }
+    .teacher {
+        margin-top: 15px;
+        text-align: left;
+        font-weight: bold;
+        font-size: 20px;
 
-  .course-first.full-border {
-    border-radius: 20px;
-  }
+        .name {
+            cursor: pointer;
+            color: darkorange;
+            font-size: 25px;
+        }
+    }
 
-  .course-second {
-    margin-left: 5px;
-  }
+    .course-details {
+        display: flex;
+        margin-top: 100px;
+        margin-bottom: 100px;
+        height: 40px;
+    }
 
-  .course-info {
-    display: flex;
-    margin-right: 20px;
-    font-weight: bold;
-  }
+    .course-first {
+        background-color: darkorange;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 20px;
+        border-radius: 20px 0 0 20px;
+    }
 
-  .icon {
-    display: inline-block;
-    margin-right: 5px;
-  }
+    .course-first.full-border {
+        border-radius: 20px;
+    }
 
-  .buy-now-button {
-    background-color: darkorange;
-    color: #fff;
-    border: none;
-    padding-right: 25px;
-    padding-left: 20px;
-    border-radius: 0 0 0 0;
-    font-weight: bold;
-    height: 40px;
-    cursor: pointer;
-  }
+    .course-second {
+        margin-left: 5px;
+    }
 
-  .buy-now-button:disabled {
-    background-color: rgb(209 207 207);
-    color: white;
-    cursor: default;
-  }
+    .course-info {
+        display: flex;
+        margin-right: 20px;
+        font-weight: bold;
+    }
 
-  
-  .create-callendar-button{
-    background-color: rgb(255, 140, 0);
-    color: #fff;
-    border: none;
-    padding-right: 25px;
-    padding-left: 20px;
-    border-radius: 0 20px 20px 0;
-    border-left: 4px solid #ff950b;    
-    font-weight: bold;
-    height: 40px;
-    cursor: pointer
-  }
+    .icon {
+        display: inline-block;
+        margin-right: 5px;
+    }
 
-  .create-callendar-button:disabled{
-    background-color: rgb(209 207 207);
-    color: white;
-    cursor: default
-  }
-  
+    .buy-now-button {
+        background-color: darkorange;
+        color: #fff;
+        border: none;
+        padding-right: 25px;
+        padding-left: 20px;
+        border-radius: 0 0 0 0;
+        font-weight: bold;
+        height: 40px;
+        cursor: pointer;
+    }
 
-  .upcoming-events {
-    margin-top: 30px;
-  }
+    .buy-now-button-student {
+        background-color: darkorange;
+        color: #fff;
+        border: none;
+        padding-right: 25px;
+        padding-left: 20px;
+        border-radius: 0 20px 20px 0;
+        font-weight: bold;
+        height: 40px;
+        cursor: pointer;
+    }
 
-  .upcoming-events h2 {
-    color: #000;
-    text-align: left;
-  }
+    .buy-now-button:disabled {
+        background-color: rgb(209 207 207);
+        color: white;
+        cursor: default;
+    }
 
-  /* Events */
 
-  .event-slider {
-    display: flex;
-    overflow-x: auto;
-    margin-top: 10px;
-    padding: 10px;
-  }
+    .create-callendar-button {
+        background-color: rgb(255, 140, 0);
+        color: #fff;
+        border: none;
+        padding-right: 25px;
+        padding-left: 20px;
+        border-radius: 0 20px 20px 0;
+        border-left: 4px solid #ff950b;
+        font-weight: bold;
+        height: 40px;
+        cursor: pointer
+    }
 
-  .slider-card-container {
-    display: flex;
-  }
+    .create-callendar-button:disabled {
+        background-color: rgb(209 207 207);
+        color: white;
+        cursor: default
+    }
 
-  .slider-card {
-    flex: 0 0 auto;
-    min-width: 200px;
-    padding: 10px;
-    background-color: darkorange;
-    margin-right: 10px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100px;
-  }
 
-  .event-date {
-    font-weight: bold;
-  }
+    .upcoming-events {
+        margin-top: 30px;
+    }
 
-  .orange-br {
-    content: "";
-    display: block;
-    height: 2px;
-    background-color: #000;
-    margin-top: 0.5em; /* Customize the margin as needed */
-  }
+    .upcoming-events h2 {
+        color: #000;
+        text-align: left;
+    }
+    /* Events */
+
+    .event-slider {
+        display: flex;
+        overflow-x: auto;
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    .slider-card-container {
+        display: flex;
+    }
+
+    .slider-card {
+        flex: 0 0 auto;
+        min-width: 200px;
+        padding: 10px;
+        background-color: darkorange;
+        margin-right: 10px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100px;
+    }
+
+    .event-date {
+        font-weight: bold;
+    }
+
+    .orange-br {
+        content: "";
+        display: block;
+        height: 2px;
+        background-color: #000;
+        margin-top: 0.5em; /* Customize the margin as needed */
+    }
+    
 }

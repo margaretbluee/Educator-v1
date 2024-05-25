@@ -57,6 +57,9 @@ namespace ADOPSE.Migrations
                     b.Property<string>("EventId")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsChecked")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("ModuleId")
                         .HasColumnType("int");
 
