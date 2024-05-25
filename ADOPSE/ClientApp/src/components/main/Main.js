@@ -5,7 +5,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { hasJWT } from "../authentication/authentication";
 import girl from "./girl.png";
-import info from "./info.png"
+//import info from "./info.png"
 import { useNavigate } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
@@ -207,12 +207,12 @@ const MainPage = () => {
           <div className="right-panel">
             <h4>My Modules</h4>
             <span style={{display: "block"}}>
-            <div className="dropdown-info">              
+            {/* <div className="dropdown-info">              
             <img src={info} placeholder="info" alt="girl" ></img>
               <div className="dropdown-info-content">
                 <p>Check which modules you want to show on calendar</p>
               </div>
-            </div>
+            </div> */}
             </span>
             <div className="module-list">            
                {checkboxes.map((checkbox, index) => (                
