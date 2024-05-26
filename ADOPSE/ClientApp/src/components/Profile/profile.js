@@ -91,7 +91,7 @@ function UsersList() {
             });
             const data = await response.json();
             if (response.ok) {
-                message.success('User data updated successfully!');
+                message.success('User data updated successfully!',5);
             } else {
                 throw new Error(data.message || 'Something went wrong');
             }
