@@ -6,6 +6,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { hasJWT } from "../authentication/authentication";
 import girl from "./girl.png";
 import { useNavigate } from "react-router-dom";
+import './calendarStyle.scss';
 
 const localizer = momentLocalizer(moment);
 
@@ -49,6 +50,7 @@ const MainPage = () => {
         result.forEach((event) => {
           listaEvents.push({
             title: event.name,
+            desc: event.desc, 
             start: convertStringToDate(event.starts),
             end: convertStringToDate(event.ends),
           });

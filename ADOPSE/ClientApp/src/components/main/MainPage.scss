@@ -19,6 +19,32 @@
     margin-top: 20px;
   }
 
+  .left-panel {
+    width: 80%;
+    float: left;
+  }
+
+  /* Right panel */
+
+  .right-panel {
+    width: 20%;
+    background-color: rgb(28, 197, 99);
+    height: fit-content;
+    margin-top: 45px;
+    overflow: auto;
+    // float: right;
+  }
+
+.hh {
+  font-size: 800;
+  color:#ff7420;
+  align-items: center;
+  justify-items: center;
+  display: flex;
+}
+
+  
+
   /* Main - Second */
 
   .app-main {
@@ -68,8 +94,9 @@
     }
   }
 
-  .down-section{
+  .down-panel{
     height: 250px;
+    clear: both;
   }
 
   .fetchAndSync-button{

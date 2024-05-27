@@ -1,0 +1,42 @@
+.rbc-header{
+    color: white;
+    font-size: 14px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //overflow: auto;
+    height: 36px !important;
+    background: #ff8c00 !important; 
+}
+
+.rbc-allday-cell {
+    // padding-top: 15px;
+    display: inline-block;
+    padding-top: 15px;
+}
+
+
+// view:day time slot
+.rbc-time-view .rbc-time-slot  {
+    color: #74a4ce;
+}
+
+// view:month date cell
+.rbc-month-view .rbc-date-cell   {
+    color: #74a4ce;
+}
+
+
+// .rbc-time-slot{
+//     color: #6b3f01;
+//     z-index: 1;
+// }
+
+.rbc-time-header-cell .rbc-today{
+    background-color: #fcc77e !important;
+}
+
+.rbc-today{
+    background-color: #fcc77e20 !important;
+}
+
