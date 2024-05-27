@@ -1,6 +1,7 @@
 ﻿using ADOPSE.Models;
 using ADOPSE.Repositories.IRepositories;
 using ADOPSE.Services.IServices;
+using Google.Rpc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ADOPSE.Services;
@@ -18,7 +19,22 @@ public class EnrolledService : IEnrolledService
     {
         return _enrolledRepository.GetEnrolmentsById(studentId);
     }
+    
+    public IEnumerable<object> GetEnrolmentsByUserId(int studentId)
+    {        
+        return _enrolledRepository.GetEnrolmentsByUserId(studentId);
+    }
 
+    public IActionResult UpdateEnrolmentCheckboxState(int studentId, int moduleId)
+    {
+        var exists = _enrolledRepository.EnrolmentExist(studentId, moduleId);
+        if (!exists)
+        {
+            return new NotFoundResult();
+        }
+        var updateEnrolment = _enrolledRepository.UpdateEnrolmentCheckboxState(studentId, moduleId);
+        return new OkObjectResult(updateEnrolment);
+    }
 
     public bool isEnrolled(int studentId, int moduleId)
     {

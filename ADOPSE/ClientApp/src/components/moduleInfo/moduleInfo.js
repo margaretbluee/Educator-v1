@@ -14,6 +14,7 @@ import { hasJWT } from "../authentication/authentication";
 function ModuleInfo() {
   const location = useLocation();
   const navigate = useNavigate();
+  const userRole = localStorage.getItem("role");
 
   const [moduleId] = useState(
     parseInt(new URLSearchParams(location.search).get("id")) || 1
@@ -33,6 +34,7 @@ function ModuleInfo() {
   };
 
   const [messageApi, contextHolder] = message.useMessage();
+  const key = "updatable"
 
   const success = () => {
     messageApi.open({
@@ -47,45 +49,38 @@ function ModuleInfo() {
   const error = () => {
     messageApi.open({
       type: "error",
-      content: "error on enrollment",
+      content: "failed to enroll",
       style: {
         marginTop: "60px",
       },
     });
   };
 
-  //const calendarCreationLoading = () => {
-  //  messageApi.open({
-  //    type: "loading",
-  //    content: "Loading",
-  //    style: {
-  //      color: "darkorange",
-  //      marginTop: "60px",
-  //    },
-  //  });
-  //};
+  const errorCalendarM = (errorMessage) => {
+    messageApi.open({
+      key,
+      type: "error",
+      content: errorMessage,
+      duration: 3,
+      style: {
+        marginTop: "60px",
+        color: "red", 
+      },
+    });
+  };
 
-  // const calendarCreationFailed = () => {
-  //   messageApi.open({
-  //     type: "error",
-  //     content: "Calendar creation failed",
-  //     style: {
-  //       color: "red",
-  //       marginTop: "60px",
-  //     },
-  //   });
-  // };
-
-    // const calendarCreationSuccessed = () => {
-  //   messageApi.open({
-  //     type: "success",
-  //     content: "Calendar successfully created",
-  //     style: {
-  //       color: "lightgreen",
-  //       marginTop: "60px",
-  //     },
-  //   });
-  // };
+  const successCalendarM = () => {
+    messageApi.open({
+      key,
+      type: "success",
+      content: "success calendar creation",
+      duration: 2,
+      style: {
+        marginTop: "60px",
+        color: "red", 
+      },
+    });
+  };
 
   useEffect(() => {
     let retryCount = 0;
@@ -113,7 +108,6 @@ function ModuleInfo() {
           fetchIsEnrolled();
         } else {
           console.error(`Failed to fetch modules after ${maxRetries} attempts`);
-          // setFailedToLoad(true);
         }
       }
     }
@@ -172,28 +166,23 @@ function ModuleInfo() {
     
     setisLoadingCreateCalendar(true);
     fetch(`/api/module/${moduleId}/googleCalendarId`, requestOptions)
-    .then((response) => {
-            if (response.ok) {
-              console.log(response)
-                return response.json();
-            }
-        })        
-        .then((result) => {
-          setisLoadingCreateCalendar(false);
-            if (result) {
-                // calendarCreationSuccesed();
-                alert("Calendar successfuly created");
-            } else {
-                alert("Calendar creation failed");
-            }                
-        })
-        .catch((  error) => {
-          setisLoadingCreateCalendar(false)
-          console.log("error", error);
-          error();
-        })
-        .finally(
-        );
+    .then(async (response) => {
+      if(!response.ok){
+        const errorMessage = await response.text() || "Calendar creation failed";
+        throw new Error(errorMessage);
+      }            
+      console.log(response)
+      return response.json();
+      })        
+      .then((result) => {
+        setisLoadingCreateCalendar(false);
+        successCalendarM();          
+      })
+      .catch((  error) => {
+        setisLoadingCreateCalendar(false)
+        console.log("error", error);
+        errorCalendarM(error.message);
+      })      
     };
 
   useEffect(() => {
@@ -306,8 +295,8 @@ function ModuleInfo() {
             <div className="text">Price: {module.price}</div>
           </div>
         </div>
-        {hasJWT() && (
-          <div className="course-second">            
+        {hasJWT() && ( userRole === 'Admin') && (
+          <div className="course-second">
             <button
               className="buy-now-button"
               onClick={handleEnrollClick}
@@ -315,14 +304,25 @@ function ModuleInfo() {
             >
               {!isEnrolled ? "Enroll" : "Enrolled"}
             </button>
-            <button            
+            <button
               className = "create-callendar-button"
               onClick= {handleCreateCalendarClick}
               disabled={isLoadingCreateCalendar}
             >
               {!isLoadingCreateCalendar ? "Create Calendar" : "Creating Calendar"}
             </button>
-          </div>                    
+          </div>
+        )}
+        {hasJWT() && ( userRole === 'Student') && (
+          <div className="course-second">
+            <button
+              className="buy-now-button-student"
+              onClick={handleEnrollClick}
+              disabled={isEnrolled}
+            >
+              {!isEnrolled ? "Enroll" : "Enrolled"}
+            </button>
+          </div>
         )}
       </div>
       <div className="upcoming-events">
