@@ -55,7 +55,6 @@ function Modules(props) {
       let query = "";
       let titleQuery = "";
       let descriptionQuery = "";
-      if (trigger) {
         if (searchQuery.trim().length > 0) {
           query = "(" + searchQuery + ")"
         }
@@ -82,7 +81,6 @@ function Modules(props) {
           descriptionQuery = descriptionQuery.slice(0, -5);
           query += descriptionQuery;
         }
-      }
       console.log(query);
       let retryCount = 0;
       const maxRetries = 3;

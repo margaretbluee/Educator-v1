@@ -79,7 +79,11 @@ function Register(props) {
       return;
     }
 
-
+    const agreeToTerms = document.querySelector('input[name="agreeToTerms"]').checked;
+    if (!agreeToTerms) {
+      errorM("You must agree to the Terms of Service.");
+      return;
+    }
 
     if (password.length < 8) {
       errorM("Password must be at least 8 characters long.");

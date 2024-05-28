@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import "./calendarStyle.scss";
 import "./MainPage.scss";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -6,8 +7,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { hasJWT } from "../authentication/authentication";
 import girl from "./girl.png";
 import { useNavigate } from "react-router-dom";
-import "./calendarStyle.scss";
 import CustomToolbar from "./customToolbar";
+
 
 const localizer = momentLocalizer(moment);
 const userRole = localStorage.getItem("role");
