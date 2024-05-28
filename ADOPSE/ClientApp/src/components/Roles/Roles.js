@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { message } from "antd";
 import "./Roles.scss";
+import Paginatorr from "./rolespaginator";
 
 function UsersList() {
   const [users, setUsers] = useState([]);
@@ -27,7 +28,6 @@ function UsersList() {
 
     fetchUsers();
   }, []);
-  
 
   //Αλλαγή κατάστασης Suspend/UnSuspend
   const SuspendButton = async (e, userId) => {
@@ -58,7 +58,7 @@ function UsersList() {
         return user;
       }));
       
-      message.success(messageText, 3);
+      message.success(messageText, 5);
 
     } catch (error) {
       console.error('Error suspending user:', error);
@@ -103,7 +103,7 @@ function UsersList() {
         return user;
       }));
       
-      message.success('Role updated successfully!',3);
+      message.success('Role updated successfully!',5);
 
     } catch (error) {
       console.error('Error updating role:', error);
@@ -124,9 +124,7 @@ const filteredUsers = users.filter(user =>
   user.email.toLowerCase().includes(searchTerm.toLowerCase())
 );
 
-// Αν δεν υπάρχει καθόλου searchTerm, εμφάνισε όλους τους χρήστες
-//const usersToDisplay = searchTerm ? filteredUsers : users;
-const usersToDisplay = searchTerm ? filteredUsers : users;
+
   
 const [currentPage, setCurrentPage] = useState(1);
 
@@ -138,47 +136,14 @@ const handleNumberChange = (e) => {
   setUsersPerPage(newNumber);
   setCurrentPage(1); // Επαναφέρουμε την τρέχουσα σελίδα στην πρώτη όταν αλλάζει ο αριθμός των χρηστών ανά σελίδα
 };
+
+
 // Υπολογισμός του index του τελευταίου χρήστη σε κάθε σελίδα
 const indexOfLastUser = currentPage * usersPerPage;
 const indexOfFirstUser = indexOfLastUser - usersPerPage;
-const currentUsers = usersToDisplay.slice(indexOfFirstUser, indexOfLastUser);
+const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
-// Συνάρτηση για αλλαγή σελίδας
-const paginate = pageNumber => setCurrentPage(pageNumber); 
-const totalPages = Math.ceil(usersToDisplay.length / usersPerPage);
-const pageNumbers = [];
-  const maxPageNumbers = 4; // Ορίζουμε το μέγιστο αριθμό κουτιών που θα εμφανίζονται
-
-  if (totalPages <= maxPageNumbers) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    }
-  } else {
-    let startPage = Math.max(currentPage - Math.floor(maxPageNumbers / 2), 1);
-    let endPage = Math.min(startPage + maxPageNumbers - 1, totalPages);
-
-    if (endPage - startPage + 1 < maxPageNumbers) {
-      startPage = endPage - maxPageNumbers + 1;
-    }
-
-    if (startPage > 1) {
-      pageNumbers.push(1);
-      if (startPage > 2) {
-        pageNumbers.push('...');
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageNumbers.push('...');
-      }
-      pageNumbers.push(totalPages);
-    }
-  }
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -259,27 +224,11 @@ const pageNumbers = [];
         ))}
       </tbody>
     </table>
-    <div className='paginationroles'>
-      <ul className="paginationr">
-        <li className="page-item" onClick={() => currentPage > 1 && paginate(currentPage - 1)}>
-          <button className="pages-link" disabled={currentPage === 1}>Previous</button>
-        </li>
-        {pageNumbers.map(number =>
-          number === '...' ? (
-            <li key={number} className="page-item ellipsis">...</li>
-          ) : (
-            <li key={number} className={number === currentPage ? "page-item active" : "page-item"}>
-              <button onClick={() => paginate(number)} className="pages-link">
-                {number}
-              </button>
-            </li>
-           )
-        )}
-        <li className="page-item" onClick={() => currentPage < totalPages && paginate(currentPage + 1)}>
-          <button className="pages-link" disabled={currentPage === totalPages}>Next</button>
-        </li>
-      </ul>
-    </div>
+    <Paginatorr
+        activeIndex={currentPage}
+        setActiveIndex={setCurrentPage}
+        pageCount={totalPages}
+      />
   </div>
   );
 }
