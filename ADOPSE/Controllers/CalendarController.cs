@@ -26,7 +26,7 @@ public class CalendarController : ControllerBase
         _moduleService = moduleService;
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet("fetchAndSync")]
     public IActionResult FetchAndSync()
     {

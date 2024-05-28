@@ -1,0 +1,38 @@
+.calendar-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+
+    button{
+        padding: 5px;
+        font-size: medium;
+        border: 0.5px solid #d3d3d3;
+        border-radius: 0px;
+        color: black;      
+        padding: 7px;
+    }
+    
+    button:hover{
+        background-color: #0E65A3ce !important;
+        border: 0.5px solid #c5c5c5 !important; 
+        color: #fff !important; 
+    }
+    
+    .left-button {
+        border-radius: 12px 0 0 12px;
+        border-right: 1px solid #d3d3d3;
+    }
+
+    .right-button {
+        border-radius: 0 12px 12px 0 ;
+        border-left: 1px solid #d3d3d3;
+    }
+
+    .date-label {
+        font-weight: 500;
+        font-size: large;
+        text-decoration: underline;
+    }
+
+}
