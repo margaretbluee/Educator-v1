@@ -2,9 +2,11 @@ import React from "react";
 import "./footer.scss";
 
 const Footer = ({ footerRef = null }) => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className="footer" ref={footerRef}>
-      <p>Copyright © 2023</p>
+      <p>Copyright © {currentYear}</p>
     </div>
   );
 };
