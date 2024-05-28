@@ -113,7 +113,7 @@
         cursor: pointer;
     }
 
-    .buy-now-button:disabled {
+    .buy-now-button:disabled, .buy-now-button-student:disabled  {
         background-color: rgb(209 207 207);
         color: white;
         cursor: default;

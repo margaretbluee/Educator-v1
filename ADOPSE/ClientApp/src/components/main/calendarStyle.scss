@@ -1,0 +1,38 @@
+// React Big Calendar Container default classNames
+.rbc-header{
+    color: white;
+    font-size: 14px !important;
+    margin-bottom: 20px;
+    overflow-y: none;
+    align-items: center;
+    justify-content: center;
+    height: 36px !important;
+    background: #0E65A3ce !important; 
+}
+
+.rbc-allday-cell {
+    display: inline-block;
+}
+
+.rbc-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+// view:day time slot
+.rbc-time-view .rbc-time-slot  {
+    color: #74a4ce;
+}
+
+// view:month date cell
+.rbc-month-view .rbc-date-cell   {
+    color: #74a4ce;
+}
+
+.rbc-time-header-cell .rbc-today{
+    background-color: #7ecafc !important;
+}
+
+.rbc-today{
+    background-color: #f4fbff !important;
+}

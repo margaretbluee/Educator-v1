@@ -5,10 +5,12 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { hasJWT } from "../authentication/authentication";
 import girl from "./girl.png";
-//import info from "./info.png"
 import { useNavigate } from "react-router-dom";
+import "./calendarStyle.scss";
+import CustomToolbar from "./customToolbar";
 
 const localizer = momentLocalizer(moment);
+const userRole = localStorage.getItem("role");
 
 function convertStringToDate(str) {
   const dateParts = str.split("T")[0].split("-");
@@ -29,6 +31,12 @@ const MainPage = () => {
   const navigate = useNavigate();
   const calendarContainerRef = useRef(null);
   const [calendarHeight, setCalendarHeight] = useState(0);
+  const [isFetchAndSync, setIsFetchAndSync] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const toggleModuleList = () => {
+    setIsVisible(!isVisible)
+  };  
 
   useEffect(() => {
     var myHeaders = new Headers();
@@ -52,6 +60,7 @@ const MainPage = () => {
         result.forEach((event) => {
           listaEvents.push({
             title: event.name,
+            desc: event.desc, 
             start: convertStringToDate(event.starts),
             end: convertStringToDate(event.ends),
           });
@@ -123,33 +132,36 @@ const MainPage = () => {
    
 
   async function FetchAllEventsFromGoogleAndSync() {
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append(
-          "Authorization", `Bearer ${localStorage.getItem("token")}`
-      );
-     var requestOptions = {
-          method: "GET",
-          headers: myHeaders,
-          redirect: "follow",
-      };    
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append(
+        "Authorization", `Bearer ${localStorage.getItem("token")}`
+    );  
+    var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+    };    
       
-      let eventList = await fetch("/api/calendar/fetchAndSync", requestOptions)
-          .then(response => {
-              if (!response.ok) {
-                  throw new Error("Could not fetch resource")
-              }
-              return response.json()
-          })
-          .then(data => {
-              console.log(data)
-              return data;
-          })
-          .catch((error) => {
-              console.log("error", error)
-          });
-     console.log(eventList);
-     alert("Synchronized as well as posible! Thanks for your services.");
+    setIsFetchAndSync(true);
+    const eventList = await fetch("/api/calendar/fetchAndSync", requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Could not fetch resource")
+      }
+      return response.json()
+    })
+    .then(data => {
+      setIsFetchAndSync(false)
+      console.log(data)
+      return data;
+    })
+    .catch((error) => {
+      setIsFetchAndSync(false)
+      console.log("error", error)
+    });
+    console.log(eventList);
+    alert("Synchronized as well as posible! Thanks for your services.");
  }
 
  const handleCheckboxState = async (moduleId) => {
@@ -194,7 +206,7 @@ const MainPage = () => {
     <div className="main-page">
       {hasJWT() ? (
         <div>
-          <div className="left-panel" ref={calendarContainerRef}>
+          <div className="left-panel" ref={calendarContainerRef} style={{ width: isVisible ? '80%' : '100%'}}>
             <h1 className="heading">Welcome to Educator!</h1>
             <Calendar
               localizer={localizer}
@@ -202,22 +214,20 @@ const MainPage = () => {
               startAccessor="start"
               endAccessor="end"
               style={{ height: calendarHeight }}
+              max={moment("2024-05-05T23:00:00").toDate()}
+              min={moment("2024-05-05T08:00:00").toDate()}              
+              components={{
+                toolbar: (props) => <CustomToolbar {...props} toggleModuleList={toggleModuleList} />,
+              }}
             />
           </div>
-          <div className="right-panel">
+          {isVisible && <div className="right-panel">
             <h4>My Modules</h4>
-            <span style={{display: "block"}}>
-            {/* <div className="dropdown-info">              
-            <img src={info} placeholder="info" alt="girl" ></img>
-              <div className="dropdown-info-content">
-                <p>Check which modules you want to show on calendar</p>
-              </div>
-            </div> */}
-            </span>
             <div className="module-list">            
                {checkboxes.map((checkbox, index) => (                
                 <label key={checkbox.id} className="module-list-container">
                   <input
+                  
                   style={{paddingLeft: 5, cursor: "pointer"}}
                   type="checkbox"
                   className="checkbox"
@@ -230,14 +240,21 @@ const MainPage = () => {
               ))}
             </div>
           </div>
-          <div className="down-section">
+          }
+          {userRole === "Admin" && (
+            <div className="down-section">
             <>
               <button
-              className="fetchAndSync-button"
-              onClick={() => FetchAllEventsFromGoogleAndSync()}> Fetch And Sync</button>
+                className="fetchAndSync-button"
+                onClick={() => FetchAllEventsFromGoogleAndSync()}
+                disabled={isFetchAndSync}
+              > 
+                {!isFetchAndSync ? "Fetch And Sync" : "Fetching..."}
+              </button>
             </>
-          </div>   
-        </div>
+          </div>  
+          )}
+          </div>
       ) : (
         <main className="app-main">
           <div className="left-section">

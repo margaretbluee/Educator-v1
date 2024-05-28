@@ -4,7 +4,6 @@ import Login from "./components/login";
 import Register from "./components/register";
 import ModulePage from "./components/modulepage/";
 import MyModules from "./components/myModules";
-//import GoogleCalendar from "./components/googleCalendar";
 import ModuleInfo from "./components/moduleInfo";
 import Lecturer from "./components/Lecturer";
 import LecturersPage from "./components/LecturerPage";

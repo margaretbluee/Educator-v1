@@ -32,9 +32,7 @@ public class EnrolledController : ControllerBase
         return _enrolledService.GetEnrolmentsById(studentId);
     }
 
-
-    //[Authorize(Roles = "Student")]
-    [Authorize]
+    [Authorize]//(Roles = "Student")
     [HttpGet("getEnrollments")]
     public IEnumerable<object> GetEnrollmentsByUser()
     {
@@ -59,7 +57,7 @@ public class EnrolledController : ControllerBase
         return _enrolledService.GetEnrolmentsByUserId(studentId);
     }
 
-    //[Authorize(Roles = "Student")]
+    [Authorize]//(Roles = "Student")
     [HttpPut("{moduleId}/updateCheckboxState")]
     public IActionResult updateCheckboxState(int moduleId)
     {
@@ -83,6 +81,7 @@ public class EnrolledController : ControllerBase
         return Ok("Enrolment done");
     }
 
+    [Authorize]
     [HttpGet("isEnrolled/{moduleId}")]
     public IActionResult IsEnrolled(int moduleId)
     {
@@ -91,17 +90,16 @@ public class EnrolledController : ControllerBase
         int studentId = GetClaimedStudentId();
         if (studentId == -1)
         {
-
             return new JsonResult(response);
         }
         bool enrolled = _enrolledService.isEnrolled(studentId, moduleId);
-
         IsEnrolled = enrolled;
 
         response = new { IsEnrolled };
         return new JsonResult(response);
     }
 
+    [Authorize]
     [HttpPost("getIsEnrolled")]
     public IActionResult GetIsEnrolled([FromBody] EnrolledRequest request)
     {
@@ -111,9 +109,7 @@ public class EnrolledController : ControllerBase
         object IsEnrolled = null;
         if (studentId == -1 || moduleIds == null || moduleIds.Length == 0)
         {
-
             return new JsonResult(authorized);
-            // return Json(new { authorized = false });
         }
         IsEnrolled = _enrolledService.GetIsEnrolledById(studentId, moduleIds);
         authorized = true;

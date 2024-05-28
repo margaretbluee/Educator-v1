@@ -78,7 +78,7 @@ function ModuleInfo() {
       duration: 2,
       style: {
         marginTop: "60px",
-        color: "red", 
+        color: "green", 
       },
     });
   };
