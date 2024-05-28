@@ -136,7 +136,7 @@ namespace ADOPSE.Services
         private GoogleApisV3CalendarService GetCalendarService()
         {
             // Fill the filePath with yours path and name of service account credential
-            const string serviceAccountCredentialFilePath = ".\\serviceAccountCredential.json";
+            const string serviceAccountCredentialFilePath = "./serviceAccountCredential.json";
             const string regularGoogleAccount = "adopse2024@gmail.com";
 
             if (string.IsNullOrEmpty(serviceAccountCredentialFilePath))
