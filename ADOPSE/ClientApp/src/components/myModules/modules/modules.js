@@ -325,6 +325,7 @@ function Modules(props) {
                   school={module.name}
                   subject={module.name}
                   subject_type={module.moduleTypeName}
+                  description={module.description}
                   difficulty={module.difficultyName}
                   rating={module.rating}
                   enrolled={module.price}
