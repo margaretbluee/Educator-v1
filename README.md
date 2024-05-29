@@ -1,16 +1,8 @@
 # Educator
 
-## Project managment
-
-Excel link https://docs.google.com/spreadsheets/d/e/2PACX-1vT93u852ph-7iqtC3c3egdPGrvPUobJ9-Rr1zH8v_ZALWYN4kc3QLAd7xXMSJIrRt58jdQpHfaL7md2/pubhtml
-
-## Design
-
-Figma link https://www.figma.com/file/fmcABWXw3I2l3U2yDujE0t/Untitled?type=design&node-id=30%3A34&t=OAGMOEYWFVH8v3nK-1
-
 ## About
 
-It is a project developed by students from the International Hellenic University department of Information Technology and Electronic Systems Engineering, as part of a semester project on the subject Development of Integrated Information Systems. The application is about a system that allows students to enroll in subjects and track the events related to those subjects.
+Το έργο EDUCATOR αναπτύχθηκε στα πλαίσια του μαθήματος Ανάπτυξη Ολοκληρωμένων Πληροφοριακών Συστημάτων από φοιτητές του Τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του Διεθνούς Πανεπιστημίου Ελλάδος. Στόχος του έργου ήταν η αναβάθμιση μιας σύγχρονης πλατφόρμας εκπαίδευσης με δυνατότητες που θα προσέφεραν μια ολοκληρωμένη και εύχρηστη εφαρμογή για τη διαχείριση των εγγραφών των σπουδαστών, ενώ παράλληλα θα παρείχε προηγμένες λειτουργίες αναζήτησης και αυτοματοποιήσεων.
 
 ## Technologies
 
