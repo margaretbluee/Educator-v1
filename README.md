@@ -15,14 +15,91 @@
 | Front-end         | React js     |
 | Back-end          | ASP .NET     |
 
-## Υποχρεώσεις
 
-Ακολουθεί ένας πίνακας με τα μέλη της ομάδας και τις αρμοδιότητές τους
+# Στάδια της Διαδικασίας Υλοποίησης
 
-| Μέλη                                                                 | Αρμοδιότητα                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [@CelaniDe](https://github.com/CelaniDe) [@lej0hn](https://github.com/lej0hn) | The entirety of the backend system has been developed by them. To elaborate, they have taken responsibility for creating the SQL schema and ensuring that all data is prepared in a format that can be seamlessly imported into the database. Furthermore, they have established the connection between the .NET framework and the database, and have implemented a streamlined project structure for improved efficiency and organization.                                                                                                                                                                                                                        |
-| [@Xarhsvr](https://github.com/Xarhsvr)                                     | He performed a notable task of transforming the Figma User Interface into a set of React.js components while also imbuing them with the necessary functionality. Furthermore,h was the responsible for the completecreation of several vital pages, including the Dashboard, Login, Register, and Events pages. Additionally, they developed a navigation bar component that plays a crucial role in the user experience.                                                                                                                                                                                                                                          |
-| [@koseran](https://github.com/koseran)                                     | Kostas created the entire User Interface (UI) using the design tool Figma, in accordance with functional requirements. In order to enhance the quality of the design, he drew inspiration from other successful web applications and incorporated the knowledge gained into the design process. Additionally, he deliberately selected a specific color pattern for the UI to ensure cohesiveness and aesthetic appeal.                                                                                                                                                                                                                                            |
-| [@thankarezos](https://github.com/thankarezos)                             | He had a range of responsibilities in relation to the front-end component of the application. Specifically, he was tasked with organizing the folder structure to optimize the system's performance and efficiency. Additionally, he took charge of the development of critical components such as the menu filter and pagination features, which were essential for the smooth functioning of the application. Furthermore, he played a key role in deploying the application, ensuring that it was rolled out effectively and efficiently. To this end, he utilized his expertise in DevOps, utilizing Docker as a key tool for managing the deployment process. |
-| [@KostasAn](https://github.com/KostasAn)                                   | He undertook the task of crafting an entire web page for a professor, as per the specific design laid out in a previously established figma prototype. This was achieved by employing the React JS framework, which allowed for the efficient and effective creation of the desired page layout and functionality.                                                                                                                                                                                                                                                                                                                                                 |
+### Project Management και Οργάνωση Διαδικασιών:
+
+* Δημιουργία ενός οργανωμένου πλάνου εργασιών με σαφή καθορισμό στόχων και παραδοτέων.
+* Διαμοιρασμός αρμοδιοτήτων σε όλα τα μέλη της ομάδας.
+* Καθορισμός συγκεκριμένων ρόλων για την αποτελεσματική διαχείριση του έργου, όπως project manager, developers, testers, και dev/ops.
+
+### Συντονισμός και Έλεγχος της Εξέλιξης των Διαδικασιών:
+
+* Τακτική παρακολούθηση της προόδου των εργασιών μέσω εργαλείου διαχείρισης έργων (Notion).
+* Συστηματικός έλεγχος της ποιότητας του κώδικα και των παραδοτέων με τη χρήση εργαλείων ελέγχου εκδόσεων (Git) και συνεχούς ενσωμάτωσης (CI/CD).
+* Εφαρμογή πρακτικών Agile, όπως τα εβδομαδιαία meetings, για την διαρκή ενημέρωση της ομάδας και την αντιμετώπιση προβλημάτων.
+
+### Επιλογή Κατάλληλων Μέσων Επικοινωνίας:
+
+* Χρήση του Discord server για άμεση επικοινωνία και συνεργασία μεταξύ των μελών της ομάδας.
+* Εργαλεία επικοινωνίας όπως το Gmail για την ανταλλαγή πληροφοριών και το Google Meet για τις διαδικτυακές συναντήσεις.
+
+### Συστηματικά Επαναλαμβανόμενα Meeting:
+
+* Εβδομαδιαία meetings για την ενημέρωση σχετικά με την πρόοδο και τα προβλήματα που αντιμετωπίζονται.
+* Εβδομαδιαία sprint planning για τον προγραμματισμό των επόμενων βημάτων και την αξιολόγηση της προηγούμενης εργασίας.
+* Αντιμετώπιση έκτακτων προβλημάτων και επίλυση ζητημάτων που προκύπτουν.
+
+### Συνεχής Ενημέρωση και Επικοινωνία με την Ομάδα:
+
+* Διαρκής ενημέρωση όλων των μελών της ομάδας σχετικά με τις αλλαγές, τις βελτιώσεις και τις νέες προκλήσεις που προκύπτουν.
+* Ενεργή συμμετοχή όλων των μελών στις συζητήσεις και τις αποφάσεις που αφορούν την εξέλιξη του έργου.
+
+### Βάση Δεδομένων και διαχειριστικό περιβάλλον εφαρμογής:
+
+* Οι Developers της ομάδας web, ανέλαβαν τη διαχείριση των χρηστών από τη βάση.
+* Αναδιάταξη του πίνακα Students σε Users με πρόσθετα πεδία για τους ρόλους των χρηστών και την κατάσταση του λογαριασμού.
+* Υλοποίηση της διαχείρισης ρόλων και της κατάστασης λογαριασμού (suspend / unsuspend) από τους Admins.
+* Δημιουργία σελίδας Profile για την επεξεργασία των προσωπικών στοιχείων του χρήστη.
+
+### Frontend Επεκτάσεις:
+
+* Επέκταση της σελίδας modules με νέα UI elements, όπως tooltips, προβολή αριθμού και εύρους modules, highlight των keywords, και modal για επεξήγηση του Lucene query.
+* Προσθήκη extra search boxes για αναζήτηση βάσει τίτλου και περιγραφής με τη χρήση Lucene query.
+* Αφαίρεση πλεονάζοντος CSS κώδικα.
+
+### Backend Βελτιώσεις:
+
+* Indexing των modules κατά κατηγορία στο Lucene repository.
+* Φόρτωση του πίνακα USERS με dummy data μέσω του Mockaroo test data generator.
+
+### Γέμισμα Περιγραφών:
+
+* Χρήση του Google Search API και του Mistral AI για τον εμπλουτισμό των περιγραφών των μαθημάτων.
+* Παροχή περιγραφών στα ελληνικά και αγγλικά για βελτίωση της αναζήτησης.
+* Προσαρμογή περιγραφών για παρόμοια μαθήματα με μοναδικό περιεχόμενο.
+
+### Λειτουργικότητες Αναζήτησης (Lucene):
+
+* Απλή αναζήτηση επιστρέφει αποτελέσματα βάσει τίτλου ή περιγραφής.
+* Εξειδικευμένες αναζητήσεις βάσει ονόματος ή περιγραφής μαθήματος.
+* Χρήση operators (AND, OR) για συνδυαστικές αναζητήσεις.
+
+### Work Package Calendar:
+
+* Μεταφορά υλοποίησης calendar από frontend σε backend με Google Service Account.
+* Συγχρονισμός βάσης δεδομένων με το Google Calendar API χρησιμοποιώντας Scheduler (Quartz .NET) για διαρκή ενημέρωση.
+* Βελτιστοποίηση αποθήκευσης events στη βάση δεδομένων.
+* Διαφορετικά layouts ανάλογα με τον ρόλο του χρήστη.
+* Δημιουργία και διαγραφή calendars από administrators.
+* Οπτικοποίηση του calendar layout και επιλογή μαθημάτων για προβολή events.
+
+### Αντιμετώπιση Προβλημάτων:
+
+* Κατά τη διάρκεια του 2ου SPRINT, αντιμετωπίστηκε ο περιορισμός της Google στη δημιουργία νέων calendars.
+* Διαχείριση του περιορισμού μέσω προσωρινού admin account για την παρακολούθηση και δημιουργία events.
+
+### Μετάβαση σε Νέο Server:
+
+* Φιλοξενία της εφαρμογής σε server της Amazon από τον dev/ops της ομάδας.
+* Μετάβαση σε υπηρεσίες της MVPS.net για καλύτερη υποστήριξη RAM και αξιοπιστία.
+* Έκθεση του API για την ομάδα του Android και τεκμηρίωση των API calls.
+
+### Ασφάλεια και Αντιμετώπιση Επίθεσης:
+
+* Αντιμετώπιση ransomware attack με κλείσιμο των κενών ασφαλείας και επαναφορά της βάσης δεδομένων από backups.
+
+### Τελικές Δοκιμές και Επίλυση Bugs:
+
+* Καθημερινές δοκιμές και επίλυση των bugs στο staging stage μέχρι την επίτευξη του επιθυμητού αποτελέσματος.
