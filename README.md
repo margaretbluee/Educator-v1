@@ -1,25 +1,25 @@
 # Educator
 
-## About
+## Σχετικά με εμάς
 
 Το έργο EDUCATOR αναπτύχθηκε στα πλαίσια του μαθήματος Ανάπτυξη Ολοκληρωμένων Πληροφοριακών Συστημάτων από φοιτητές του Τμήματος Μηχανικών Πληροφορικής και Ηλεκτρονικών Συστημάτων του Διεθνούς Πανεπιστημίου Ελλάδος. Στόχος του έργου ήταν η αναβάθμιση μιας σύγχρονης πλατφόρμας εκπαίδευσης με δυνατότητες που θα προσέφεραν μια ολοκληρωμένη και εύχρηστη εφαρμογή για τη διαχείριση των εγγραφών των σπουδαστών, ενώ παράλληλα θα παρείχε προηγμένες λειτουργίες αναζήτησης και αυτοματοποιήσεων.
 
-## Technologies
+## Τεχνολογίες
 
-Our team has carefully evaluated and selected a range of cutting-edge technologies that are optimized to handle large-scale data, in order to ensure that our project is designed with scalability in mind. By leveraging these technologies, we can confidently build a system that can effectively manage and analyze complex data sets, enabling us to provide superior performance and maintain optimal efficiency as our data needs grow over time.
+Η ομάδα μας έχει επιλέξει και ενσωματώσει προσεκτικά μια σειρά από σύγχρονες τεχνολογίες που εγγυώνται την αξιοπιστία και την επεκτασιμότητα του συστήματός μας. Χρησιμοποιώντας πλατφόρμες και εργαλεία αιχμής, έχουμε διασφαλίσει ότι η εφαρμογή μας μπορεί να διαχειρίζεται με άνεση μεγάλα και πολύπλοκα σύνολα δεδομένων. Οι τεχνολογίες που επιλέξαμε είναι βελτιστοποιημένες για υψηλές επιδόσεις και μπορούν να κλιμακωθούν ανάλογα με τις αυξανόμενες απαιτήσεις χρήσης και δεδομένων. Με γνώμονα την αξιοπιστία, έχουμε ενσωματώσει μηχανισμούς ασφαλείας και ελέγχους που προστατεύουν τα δεδομένα και τη λειτουργία του συστήματος, εξασφαλίζοντας σταθερότητα και ανθεκτικότητα.
 
 | Part              | Technologies |
 | ----------------- | ------------ |
-| Project Managment | Jira         |
+| Project Managment | Notion       |
 | UX/UI             | Figma        |
 | Front-end         | React js     |
 | Back-end          | ASP .NET     |
 
-## Responsibilities
+## Υποχρεώσεις
 
-Below is a table listing the team members and their responsibilities
+Ακολουθεί ένας πίνακας με τα μέλη της ομάδας και τις αρμοδιότητές τους
 
-| Members                                                                 | Responsibilities                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Μέλη                                                                 | Αρμοδιότητα                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [@CelaniDe](https://github.com/CelaniDe) [@lej0hn](https://github.com/lej0hn) | The entirety of the backend system has been developed by them. To elaborate, they have taken responsibility for creating the SQL schema and ensuring that all data is prepared in a format that can be seamlessly imported into the database. Furthermore, they have established the connection between the .NET framework and the database, and have implemented a streamlined project structure for improved efficiency and organization.                                                                                                                                                                                                                        |
 | [@Xarhsvr](https://github.com/Xarhsvr)                                     | He performed a notable task of transforming the Figma User Interface into a set of React.js components while also imbuing them with the necessary functionality. Furthermore,h was the responsible for the completecreation of several vital pages, including the Dashboard, Login, Register, and Events pages. Additionally, they developed a navigation bar component that plays a crucial role in the user experience.                                                                                                                                                                                                                                          |
