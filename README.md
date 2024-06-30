@@ -1,1 +1,0 @@
-# Educator-v1
